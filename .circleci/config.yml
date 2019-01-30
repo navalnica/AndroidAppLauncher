@@ -29,9 +29,9 @@ jobs:
     - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
         path: app/build/test-results
         # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-      - run:
-          name: Build
-          command: ./gradlew assembleRelease
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: app/build/outputs/apk
-          destination: release
+    - run:
+        name: Build
+        command: ./gradlew assembleRelease
+    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+        path: app/build/outputs/apk
+        destination: release
