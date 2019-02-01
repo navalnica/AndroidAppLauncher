@@ -1,4 +1,4 @@
-package com.example.secondproject;
+package com.example.trafimau;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,16 +8,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.distribute.Distribute;
+
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String APP_CENTER_KEY = "837acbd8-490f-4613-8c34-8cadf9bd3268";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+
+        final TextView version = findViewById(R.id.version);
+        version.setText(BuildConfig.VERSION_NAME);
+
+        Fabric.with(this, new Crashlytics());
+        AppCenter.start(getApplication(), APP_CENTER_KEY, Distribute.class);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
