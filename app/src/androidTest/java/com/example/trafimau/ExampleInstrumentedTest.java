@@ -1,4 +1,4 @@
-package com.example.secondproject;
+package com.example.trafimau;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
