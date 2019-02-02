@@ -30,7 +30,7 @@ android {
     }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.helloworldapp"
+        applicationId "com.example.trafimau_app"
         minSdkVersion 22
         targetSdkVersion 28
         versionCode 103
