@@ -3,43 +3,79 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-    - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
-    - checkout
-    - restore_cache:
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-    #      - run:
-    #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-    #         command: sudo chmod +x ./gradlew
-    - run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
-    - save_cache:
-        paths:
-        - ~/.gradle
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-    - run:
-        name: Run Tests
-        command: ./gradlew lint test
-    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: app/build/reports
-        destination: reports
-    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-        path: app/build/test-results
-        # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-    - run:
-        name: Build
-        command: ./gradlew assembleRelease
-    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: app/build/outputs/apk
-        destination: release
-    - deploy:
-        name: Deploy APK.
-        command: |
-          echo "current branch: ${CIRCLE_BRANCH}"
-          if [ "${CIRCLE_BRANCH}" != "master" ]; then
-            echo "deploying app to Fabric..."
-            bash ./scripts/deploy-fabric.sh
-          fi
+      - checkout
+      - run:
+          name: PrintDirectoryInfo
+          command: |
+            echo 'current directory:'
+            pwd
+            echo "it's content:"
+            ls -al
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+  #      - run:
+  #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+  #         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Build
+          command: ./gradlew assembleRelease
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/outputs/apk
+          destination: release
+
+  test:
+    working_directory: ~/code
+      docker:
+        - image: circleci/android:api-28-alpha
+      environment:
+        JVM_OPTS: -Xmx3200m
+      steps:
+        - run:
+            name: Run Tests
+            command: ./gradlew lint test
+        - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+            path: app/build/reports
+            destination: reports
+        - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+            path: app/build/test-results
+              # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+
+  deploy:
+    working_directory: ~/code
+      docker:
+        - image: circleci/android:api-28-alpha
+      environment:
+        JVM_OPTS: -Xmx3200m
+      steps:
+        - deploy:
+            name: Deploy APK.
+            command: |
+              echo "current branch: ${CIRCLE_BRANCH}"
+              if [ "${CIRCLE_BRANCH}" != "master" ]; then
+                echo "deploying app to Fabric..."
+                bash ./scripts/deploy-fabric.sh
+              fi
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - test:
+          # maybe dependency is redundant
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
