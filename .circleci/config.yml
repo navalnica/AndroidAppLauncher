@@ -38,6 +38,8 @@ jobs:
     - deploy:
         name: Deploy APK.
         command: |
+          echo "current branch: ${CIRCLE_BRANCH}"
           if [ "${CIRCLE_BRANCH}" != "master" ]; then
+            echo "deploying app to Fabric..."
             bash ./scripts/deploy-fabric.sh
           fi
