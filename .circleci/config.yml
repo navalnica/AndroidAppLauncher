@@ -1,3 +1,5 @@
+version: 2
+
 # due to the immutability of caches
 # v1 prefix allows to regenerate cache by incrementing version
 
@@ -11,7 +13,6 @@
     paths:
       - ~/.gradle
 
-version: 2
 jobs:
   build:
     working_directory: ~/code
