@@ -1,3 +1,16 @@
+# due to the immutability of caches
+# v1 prefix allows to regenerate cache by incrementing version
+
+# Gradle cache aliases
+- &restore-gradle-cache
+    name: Restore Gradle cache
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "keystore.properties" }}
+- &save-gradle-cache
+    name: Save Gradle cache
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "keystore.properties" }}
+    paths:
+      - ~/.gradle
+
 version: 2
 jobs:
   build:
@@ -8,20 +21,11 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-          # due to the immutability of caches
-          # v1 prefix allows to regenerate cache by incrementing version
-          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-  #      - run:
-  #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-  #         command: sudo chmod +x ./gradlew
+      - restore_cache: *restore-gradle-cache
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - save_cache: *save-gradle-cache
       - run:
           name: Build
           command: ./gradlew assembleRelease
@@ -32,14 +36,6 @@ jobs:
           # store build results for downstream deploy job
           root: ./app
           paths: build # relative to root path
-      - run:
-        # TODO remove and decide whether to restore android-build-cache
-          name: Print ~/.android/build-cache content
-          command: |
-            if [[ -d ~/.android/build-cache ]]
-              then ls -al ~/.android/build-cache
-              else echo "no such directory"
-            fi
 
   test:
     working_directory: ~/code
@@ -49,10 +45,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-          # cache is available from build job
-          # no need to download .gradlew once more
-          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - restore_cache: *restore-gradle-cache
       - run:
           name: Run Tests
           # TODO split into separeate jobs / commands ?
@@ -66,6 +59,8 @@ jobs:
           path: app/build/test-results
             # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
       - run:
+          # how test results get under test-results folder?
+          # then they make up Test Summary
           name: PrintReportsDirContent
           command: ls -al app/build/reports
       - run:
@@ -80,10 +75,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-          # cache is available from build job
-          # no need to download .gradlew once more
-          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - restore_cache: *restore-gradle-cache
       - attach_workspace:
           at: app
       - run:
@@ -93,14 +85,6 @@ jobs:
             && -d ./app/build/intermediates ]]
               then echo "check passed"
               else echo "some files do not exist"
-            fi
-      - run:
-        # TODO remove and decide whether to restore android-build-cache
-          name: Print ~/.android/build-cache content
-          command: |
-            if [[ -d ~/.android/build-cache ]]
-              then ls -al ~/.android/build-cache
-              else echo "no such directory"
             fi
       - deploy:
           name: Deploy APK.
