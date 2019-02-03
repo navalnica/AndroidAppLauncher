@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run:
           name: Run Tests
-          # split into parallel test ?
+          # TODO split into parallel test ?
           # ./gradlew lint
           # ./ gradlew test
           command: ./gradlew lint test
@@ -45,8 +45,15 @@ jobs:
           path: app/build/reports
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          # TODO store results after paralleled test like in fan-in scheme?
           path: app/build/test-results
             # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+      - run:
+          name: PrintReportsDirContent
+          command: ls -al app/build/reports
+      - run:
+          name: PrintTestResultsDirContent
+          command: ls -al app/build/test-results
 
   deploy:
     working_directory: ~/code
@@ -60,7 +67,11 @@ jobs:
           name: CheckBuildArtifactsExistance
           command: |
             echo "folder app/build/outputs/apk:"
-            [ -d ./app/build/outputs/apk ] && echo "exists" || "does not exist"
+            if [ -d ./app/build/outputs/apk ]; then
+              echo "exists"
+            else
+              echo "does not exist"
+            fi
 
             echo
 
@@ -94,10 +105,10 @@ workflows:
     jobs:
       - build
       - test:
-          # maybe dependency is redundant
+          # TODO maybe dependency is redundant
           requires:
             - build
       - deploy:
-          # maybe need to pass or store build artifacts before deployment
+          # TODO maybe need to pass or store build artifacts before deployment
           requires:
             - test
