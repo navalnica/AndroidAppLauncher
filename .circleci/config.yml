@@ -26,12 +26,10 @@ jobs:
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/outputs/apk
           destination: release
-      - run:
-          name: CreateWorkspaceDir
-          command: mkdir workspace
       - persist_to_workspace:
-          root: app
-          paths: build
+          # store build results for downstream deploy job
+          root: ./app
+          paths: build # relative to root path
 
   test:
     working_directory: ~/code
@@ -43,7 +41,7 @@ jobs:
       - checkout
       - run:
           name: Run Tests
-          # TODO split into parallel test ?
+          # TODO split into separeate jobs / commands ?
           # ./gradlew lint
           # ./ gradlew test
           command: ./gradlew lint test
@@ -51,7 +49,6 @@ jobs:
           path: app/build/reports
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          # TODO store results after paralleled test like in fan-in scheme?
           path: app/build/test-results
             # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
       - run:
@@ -105,7 +102,8 @@ jobs:
             fi
       - deploy:
           name: Deploy APK.
-          command: bash ./scripts/deploy-fabric.sh # TODO try without bash
+          command: ./scripts/deploy-fabric.sh # bash <command> works
+#          command: ./gradlew crashlyticsUploadDistributionRelease
 
 workflows:
   version: 2
@@ -120,4 +118,4 @@ workflows:
             - test
           filters:
             branches:
-              ignore: master
+              ignore: master # change ignore -> master
