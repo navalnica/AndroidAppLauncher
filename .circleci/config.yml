@@ -32,7 +32,7 @@ jobs:
           # store build results for downstream deploy job
           root: ./app
           paths: build # relative to root path
-      -run:
+      - run:
         # TODO remove and decide whether to restore android-build-cache
         name: Print ~/.android/build-cache content
         command: |
@@ -94,7 +94,7 @@ jobs:
               then echo "check passed"
               else echo "some files do not exist"
             fi
-      -run:
+      - run:
         # TODO remove and decide whether to restore android-build-cache
         name: Print ~/.android/build-cache content
         command: |
