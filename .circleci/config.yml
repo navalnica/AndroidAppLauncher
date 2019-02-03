@@ -8,10 +8,10 @@ aliases:
 # v1 prefix allows to regenerate cache by incrementing version
 - &restore-gradle-cache
     name: Restore Gradle cache
-    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "keystore.properties" }}
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "app/keystore.properties" }}
 - &save-gradle-cache
     name: Save Gradle cache
-    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "keystore.properties" }}
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "app/keystore.properties" }}
     paths:
       - ~/.gradle
 
