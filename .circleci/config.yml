@@ -67,16 +67,18 @@ jobs:
           name: CheckBuildArtifactsExistance
           command: |
             echo "folder app/build/outputs/apk:"
-            if [ -d ./app/build/outputs/apk ]; then
-              echo "exists"
-            else
-              echo "does not exist"
+            if [ -d ./app/build/outputs/apk ]
+              then echo "exists"
+              else echo "does not exist"
             fi
 
             echo
 
             echo "folder app/build/outputs/apk/release/:"
-            [ -d ./app/build/outputs/apk/release/ ] && echo "exists" || "does not exist"
+            if [ -d ./app/build/outputs/apk/release/ ]
+              then echo "exists"
+              else echo "does not exist"
+            fi
 
             echo
 
@@ -89,7 +91,10 @@ jobs:
             echo
 
             echo "folder app/build/intermediates:"
-            [ -d ./app/build/intermediates ] && echo "exists" || echo "doesn't exit"
+            if [ -d ./app/build/intermediates ]
+             then echo "exists"
+             else echo "doesn't exit"
+            fi
       - deploy:
           name: Deploy APK.
           command: |
