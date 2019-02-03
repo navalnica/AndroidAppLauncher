@@ -9,7 +9,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          # due to the immutability of caches
+          # v1 prefix allows to regenerate cache by incrementing version
+          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
   #      - run:
   #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
   #         command: sudo chmod +x ./gradlew
@@ -19,7 +21,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Build
           command: ./gradlew assembleRelease
@@ -66,43 +68,21 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - restore_cache:
+          # TODO is it needed?
+          key: v1-jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - attach_workspace:
           at: app
       - run:
-          name: CheckBuildArtifactsExistance
+          name: Check some of build results existance
           command: |
-            echo "folder app/build/outputs/apk:"
-            if [ -d ./app/build/outputs/apk ]
-              then echo "exists"
-              else echo "doesn't exist"
-            fi
-
-            echo
-
-            echo "folder app/build/outputs/apk/release/:"
-            if [ -d ./app/build/outputs/apk/release/ ]
-              then echo "exists"
-              else echo "doesn't exist"
-            fi
-
-            echo
-
-            echo "file app/build/outputs/apk/release/app-release.apk:"
-            if [ -f ./app/build/outputs/apk/release/app-release.apk ]
-              then echo "exists"
-              else echo "doesn't exist"
-            fi
-
-            echo
-
-            echo "folder app/build/intermediates:"
-            if [ -d ./app/build/intermediates ]
-             then echo "exists"
-             else echo "doesn't exit"
+            if [[ -f ./app/build/outputs/apk/release/app-release.apk
+            && -d ./app/build/intermediates ]]
+              then echo "check passed"
+              else echo "some files do not exist"
             fi
       - deploy:
           name: Deploy APK.
-#          command: bash ./scripts/deploy-fabric.sh
           command: ./gradlew crashlyticsUploadDistributionRelease
 
 workflows:
@@ -112,10 +92,9 @@ workflows:
       - build
       - test
       - deploy:
-          # TODO maybe need to pass or store build artifacts before deployment
           requires:
             - build
             - test
           filters:
             branches:
-              ignore: master # change ignore -> master
+              ignore: master # TODO change ignore -> master
