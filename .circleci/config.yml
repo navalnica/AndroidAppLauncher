@@ -26,9 +26,12 @@ jobs:
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/outputs/apk
           destination: release
-      - store_artifacts:
-          # store build results for further deployment ?
-          path: app/build
+      - run:
+          name: CreateWorkspaceDir
+          command: mkdir workspace
+      - persist_to_workspace:
+          root: app
+          paths: build
 
   test:
     working_directory: ~/code
@@ -66,13 +69,15 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - attach_workspace:
+          at: app
       - run:
           name: CheckBuildArtifactsExistance
           command: |
             echo "folder app/build/outputs/apk:"
             if [ -d ./app/build/outputs/apk ]
               then echo "exists"
-              else echo "does not exist"
+              else echo "doesn't exist"
             fi
 
             echo
@@ -80,7 +85,7 @@ jobs:
             echo "folder app/build/outputs/apk/release/:"
             if [ -d ./app/build/outputs/apk/release/ ]
               then echo "exists"
-              else echo "does not exist"
+              else echo "doesn't exist"
             fi
 
             echo
@@ -88,7 +93,7 @@ jobs:
             echo "file app/build/outputs/apk/release/app-release.apk:"
             if [ -f ./app/build/outputs/apk/release/app-release.apk ]
               then echo "exists"
-              else echo "doen't exist"
+              else echo "doesn't exist"
             fi
 
             echo
@@ -100,12 +105,7 @@ jobs:
             fi
       - deploy:
           name: Deploy APK.
-          command: |
-            echo "current branch: ${CIRCLE_BRANCH}"
-            if [ "${CIRCLE_BRANCH}" != "master" ]; then
-              echo "deploying app to Fabric..."
-              bash ./scripts/deploy-fabric.sh
-            fi
+          command: bash ./scripts/deploy-fabric.sh # TODO try without bash
 
 workflows:
   version: 2
@@ -117,3 +117,7 @@ workflows:
           # TODO maybe need to pass or store build artifacts before deployment
           requires:
             - build
+            - test
+          filters:
+            branches:
+              ignore: master
