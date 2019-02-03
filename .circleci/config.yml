@@ -116,4 +116,4 @@ workflows:
       - deploy:
           # TODO maybe need to pass or store build artifacts before deployment
           requires:
-            - test
+            - build
