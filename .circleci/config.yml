@@ -26,6 +26,9 @@ jobs:
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/outputs/apk
           destination: release
+      - store_artifacts:
+          # store build results for further deployment ?
+          path: app/build
 
   test:
     working_directory: ~/code
@@ -109,10 +112,7 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      - test:
-          # TODO maybe dependency is redundant
-          requires:
-            - build
+      - test
       - deploy:
           # TODO maybe need to pass or store build artifacts before deployment
           requires:
