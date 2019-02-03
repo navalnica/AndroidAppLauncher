@@ -9,12 +9,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: PrintDirectoryInfo
-          command: |
-            echo 'current directory:'
-            pwd
-            echo "it's content:"
-            ls -al
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
   #      - run:
@@ -44,6 +38,9 @@ jobs:
       - checkout
       - run:
           name: Run Tests
+          # split into parallel test ?
+          # ./gradlew lint
+          # ./ gradlew test
           command: ./gradlew lint test
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
@@ -60,6 +57,29 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - run:
+          name: CheckBuildArtifactsExistance
+          command: |
+            echo "folder app/build/outputs/apk:"
+            [ -d ./app/build/outputs/apk ] && echo "exists" || "does not exist"
+
+            echo
+
+            echo "folder app/build/outputs/apk/release/:"
+            [ -d ./app/build/outputs/apk/release/ ] && echo "exists" || "does not exist"
+
+            echo
+
+            echo "file app/build/outputs/apk/release/app-release.apk:"
+            if [ -f ./app/build/outputs/apk/release/app-release.apk ]
+              then echo "exists"
+              else echo "doen't exist"
+            fi
+
+            echo
+
+            echo "folder app/build/intermediates:"
+            [ -d ./app/build/intermediates ] && echo "exists" || echo "doesn't exit"
       - deploy:
           name: Deploy APK.
           command: |
@@ -79,6 +99,6 @@ workflows:
           requires:
             - build
       - deploy:
-          # maybe need to pass build artifacts before deployment
+          # maybe need to pass or store build artifacts before deployment
           requires:
             - test
