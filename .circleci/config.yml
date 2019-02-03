@@ -102,8 +102,8 @@ jobs:
             fi
       - deploy:
           name: Deploy APK.
-          command: ./scripts/deploy-fabric.sh # bash <command> works
-#          command: ./gradlew crashlyticsUploadDistributionRelease
+#          command: bash ./scripts/deploy-fabric.sh
+          command: ./gradlew crashlyticsUploadDistributionRelease
 
 workflows:
   version: 2
