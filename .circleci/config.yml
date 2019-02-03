@@ -32,6 +32,13 @@ jobs:
           # store build results for downstream deploy job
           root: ./app
           paths: build # relative to root path
+      -run: # TODO remove and decide whether to restore android-build-cache
+        name: Print ~/.android/build-cache content
+        command: |
+        if [[ -d ~/.android/build-cache ]]
+        then ls -al ~/.android/build-cache
+        else echo "no such directory"
+        fi
 
   test:
     working_directory: ~/code
@@ -86,6 +93,13 @@ jobs:
               then echo "check passed"
               else echo "some files do not exist"
             fi
+      -run: # TODO remove and decide whether to restore android-build-cache
+        name: Print ~/.android/build-cache content
+        command: |
+        if [[ -d ~/.android/build-cache ]]
+          then ls -al ~/.android/build-cache
+          else echo "no such directory"
+        fi
       - deploy:
           name: Deploy APK.
           command: ./gradlew crashlyticsUploadDistributionRelease
