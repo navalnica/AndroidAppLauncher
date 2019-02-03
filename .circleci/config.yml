@@ -1,9 +1,11 @@
 version: 2
 
-# due to the immutability of caches
-# v1 prefix allows to regenerate cache by incrementing version
+aliases:
 
 # Gradle cache aliases
+
+# due to the immutability of caches
+# v1 prefix allows to regenerate cache by incrementing version
 - &restore-gradle-cache
     name: Restore Gradle cache
     key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "keystore.properties" }}
