@@ -47,6 +47,8 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
     parallelism: 2
+    # all code below runs in parallel containers
+    # but I need only test to run simultaneously
     steps:
       - checkout
       - restore_cache: *restore-gradle-cache
