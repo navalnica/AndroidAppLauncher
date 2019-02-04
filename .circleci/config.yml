@@ -55,7 +55,7 @@ jobs:
           command: ./gradlew lint
       - run:
           name: Run Unit Tests
-          command: command: ./gradlew test
+          command: ./gradlew test
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
