@@ -1,4 +1,4 @@
-package com.example.trafimau;
+package com.example.trafimau_app;
 
 import org.junit.Test;
 
