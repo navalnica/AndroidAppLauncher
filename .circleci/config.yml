@@ -16,6 +16,8 @@ aliases:
       - ~/.gradle
 
 jobs:
+
+
   build:
     working_directory: ~/code
     docker:
@@ -40,21 +42,16 @@ jobs:
           root: ./app
           paths: build # relative to root path
 
-  test:
+
+  unit tests:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-    parallelism: 2
-    # all code below runs in parallel containers
-    # but I need only test to run simultaneously
     steps:
       - checkout
       - restore_cache: *restore-gradle-cache
-      - run:
-          name: Run Built-in Lint
-          command: ./gradlew lint
       - run:
           name: Run Unit Tests
           command: ./gradlew test
@@ -63,48 +60,107 @@ jobs:
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
-      - run:
-          # how test results get under test-results folder?
-          # then they make up Test Summary
-          name: Print app/build/reports content
-          command: ls -al app/build/reports
-      - run:
-          name: Print app/build/test-results content
-          command: ls -al app/build/test-results
 
-  deploy:
+
+  static tests:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28-alpha
+    - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
-      - checkout
-      - restore_cache: *restore-gradle-cache
-      - attach_workspace:
-          at: app
-      - run:
-          name: Check some of build results existance
-          command: |
-            if [[ -f ./app/build/outputs/apk/release/app-release.apk
-            && -d ./app/build/intermediates ]]
-              then echo "check passed"
-              else echo "some files do not exist"
-            fi
-      - deploy:
-          name: Deploy APK.
-          command: ./gradlew crashlyticsUploadDistributionRelease
+    - checkout
+    - restore_cache: *restore-gradle-cache
+    - run:
+        name: Lint
+        command: ./gradlew lint
+    - run:
+        name: Checkstyle
+        command: ./gradlew checkstyle
+    - run:
+        name: Findbugs
+        command: ./gradlew androidFindbugs
+    - run:
+        name: PMD
+        command: ./gradlew androidPmd
+    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+        path: app/build/reports
+        destination: reports
+    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+        path: app/build/test-results
+
+
+  deploy to Fabric:
+    working_directory: ~/code
+    docker:
+    - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+    - checkout
+    - restore_cache: *restore-gradle-cache
+    - attach_workspace:
+        at: app
+    - run:
+        name: Check some of build results existance before deployment
+        command: |
+          if [[ -f ./app/build/outputs/apk/release/app-release.apk
+          && -d ./app/build/intermediates ]]
+            then echo "check passed"
+            else echo "some files do not exist"
+          fi
+    - deploy:
+        name: Deploy APK
+        command: ./gradlew crashlyticsUploadDistributionRelease
+
+
+  deploy to AppCenter:
+    working_directory: ~/code
+    # the curl package is not installed on Android image
+    # so we use another docker image
+    docker:
+      - image: circleci/node:chakracore-8-browsers-legacy
+    steps:
+    - checkout
+    - restore_cache: *restore-gradle-cache
+    - attach_workspace:
+        at: app
+    - run:
+        name: Check some of build results existance before deployment
+        command: |
+          if [[ -f ./app/build/outputs/apk/release/app-release.apk
+          && -d ./app/build/intermediates ]]
+            then echo "check passed"
+            else echo "some files do not exist"
+          fi
+    - deploy:
+        name: Deploy APK
+        command: bash scripts/uploadToAppCenter.sh
+
 
 workflows:
   version: 2
   build_test_deploy:
     jobs:
       - build
-      - test
-      - deploy:
+      - static tests
+      - unit tests
+      - deploy to Fabric:
           requires:
             - build
-            - test
+            - static tests
+            - unit tests
           filters:
             branches:
-              ignore: master # TODO change ignore -> master
+              # TODO change: feature -> dev (master)
+              only: feature
+      - deploy to AppCenter:
+          context: AppCenter
+          requires:
+          - build
+          - static tests
+          - unit tests
+          filters:
+            branches:
+              # TODO change: feature -> dev (master)
+              only: feature
