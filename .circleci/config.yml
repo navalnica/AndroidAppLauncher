@@ -17,6 +17,7 @@ aliases:
 
 jobs:
 
+
   build:
     working_directory: ~/code
     docker:
@@ -41,6 +42,7 @@ jobs:
           root: ./app
           paths: build # relative to root path
 
+
   unit tests:
     working_directory: ~/code
     docker:
@@ -58,13 +60,7 @@ jobs:
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
-      # TODO remove next two commands
-      - run:
-          name: Print app/build/reports content
-          command: ls -al app/build/reports
-      - run:
-          name: Print app/build/test-results content
-          command: ls -al app/build/test-results
+
 
   static tests:
     working_directory: ~/code
@@ -92,21 +88,39 @@ jobs:
         destination: reports
     - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
         path: app/build/test-results
-    # TODO remove next two commands
-    - run:
-        name: Print app/build/reports content
-        command: ls -al app/build/reports
-    - run:
-        name: Print app/build/test-results content
-        command: ls -al app/build/test-results
 
-  deploy:
+
+  deploy to Fabric:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28-alpha
+    - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
+    - checkout
+    - restore_cache: *restore-gradle-cache
+    - attach_workspace:
+        at: app
+    - run:
+        name: Check some of build results existance before deployment
+        command: |
+          if [[ -f ./app/build/outputs/apk/release/app-release.apk
+          && -d ./app/build/intermediates ]]
+            then echo "check passed"
+            else echo "some files do not exist"
+          fi
+    - deploy:
+        name: Deploy APK
+        command: ./gradlew crashlyticsUploadDistributionRelease
+
+
+  deploy to AppCenter:
+    working_directory: ~/code
+      docker:
+      # the curl package is not installed on Android image
+      # so we use another docker image
+        - image: circleci/node:chakracore-8-browsers-legacy
+      steps:
       - checkout
       - restore_cache: *restore-gradle-cache
       - attach_workspace:
@@ -120,8 +134,9 @@ jobs:
               else echo "some files do not exist"
             fi
       - deploy:
-          name: Deploy APK.
-          command: ./gradlew crashlyticsUploadDistributionRelease
+          name: Deploy APK
+          command: bash scripts/uploadToAppCenter.sh
+
 
 workflows:
   version: 2
@@ -130,11 +145,20 @@ workflows:
       - build
       - static tests
       - unit tests
-      - deploy:
+      - deploy to Fabric:
           requires:
             - build
             - static tests
             - unit tests
+          filters:
+            branches:
+              # TODO change: feature -> dev (master)
+              only: feature
+      - deploy to AppCenter:
+          requires:
+          - build
+          - static tests
+          - unit tests
           filters:
             branches:
               # TODO change: feature -> dev (master)
