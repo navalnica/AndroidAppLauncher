@@ -27,8 +27,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Test Context
-          command: echo "FOO: ${FOO}"
+          name: Foo Context Variable
+          command: echo ${FOO}
       - restore_cache: *restore-gradle-cache
       - run:
           name: Download Dependencies
