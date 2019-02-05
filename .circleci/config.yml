@@ -116,9 +116,9 @@ jobs:
 
   deploy to AppCenter:
     working_directory: ~/code
-      docker:
       # the curl package is not installed on Android image
       # so we use another docker image
+      docker:
         - image: circleci/node:chakracore-8-browsers-legacy
       steps:
       - checkout
