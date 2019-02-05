@@ -141,7 +141,7 @@ jobs:
           fi
     - deploy:
         name: Deploy APK
-        command: sudo bash scripts/uploadToAppCenter.sh
+        command: bash scripts/uploadToAppCenter.sh
 
 
 workflows:
