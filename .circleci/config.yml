@@ -28,7 +28,7 @@ jobs:
       - checkout
       - run:
           name: Foo Context Variable
-          command: echo ${FOO}
+          command: bash scripts/print_foo.sh
       - restore_cache: *restore-gradle-cache
       - run:
           name: Download Dependencies
