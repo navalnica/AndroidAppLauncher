@@ -1,4 +1,4 @@
-package com.example.trafimau;
+package com.example.trafimau_app;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

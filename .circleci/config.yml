@@ -1,45 +1,110 @@
 version: 2
+
+aliases:
+
+# Gradle cache aliases
+
+# due to the immutability of caches
+# v1 prefix allows to regenerate cache by incrementing version
+- &restore-gradle-cache
+    name: Restore Gradle cache
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "app/keystore.properties" }}
+- &save-gradle-cache
+    name: Save Gradle cache
+    key: v1-gradle-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "app/keystore.properties" }}
+    paths:
+      - ~/.gradle
+
 jobs:
   build:
     working_directory: ~/code
     docker:
-    - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
-    - checkout
-    - restore_cache:
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-    #      - run:
-    #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-    #         command: sudo chmod +x ./gradlew
-    - run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
-    - save_cache:
-        paths:
-        - ~/.gradle
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-    - run:
-        name: Run Tests
-        command: ./gradlew lint test
-    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: app/build/reports
-        destination: reports
-    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-        path: app/build/test-results
-        # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-    - run:
-        name: Build
-        command: ./gradlew assembleRelease
-    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: app/build/outputs/apk
-        destination: release
-    - deploy:
-        name: Deploy APK.
-        command: |
-          echo "current branch: ${CIRCLE_BRANCH}"
-          if [ "${CIRCLE_BRANCH}" != "master" ]; then
-            echo "deploying app to Fabric..."
-            bash ./scripts/deploy-fabric.sh
-          fi
+      - checkout
+      - restore_cache: *restore-gradle-cache
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache: *save-gradle-cache
+      - run:
+          name: Build
+          command: ./gradlew assembleRelease
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/outputs/apk
+          destination: release
+      - persist_to_workspace:
+          # store build results for downstream deploy job
+          root: ./app
+          paths: build # relative to root path
+
+  test:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    parallelism: 2
+    # all code below runs in parallel containers
+    # but I need only test to run simultaneously
+    steps:
+      - checkout
+      - restore_cache: *restore-gradle-cache
+      - run:
+          name: Run Built-in Lint
+          command: ./gradlew lint
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew test
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/reports
+          destination: reports
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
+      - run:
+          # how test results get under test-results folder?
+          # then they make up Test Summary
+          name: Print app/build/reports content
+          command: ls -al app/build/reports
+      - run:
+          name: Print app/build/test-results content
+          command: ls -al app/build/test-results
+
+  deploy:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache: *restore-gradle-cache
+      - attach_workspace:
+          at: app
+      - run:
+          name: Check some of build results existance
+          command: |
+            if [[ -f ./app/build/outputs/apk/release/app-release.apk
+            && -d ./app/build/intermediates ]]
+              then echo "check passed"
+              else echo "some files do not exist"
+            fi
+      - deploy:
+          name: Deploy APK.
+          command: ./gradlew crashlyticsUploadDistributionRelease
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - test
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              ignore: master # TODO change ignore -> master
