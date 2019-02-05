@@ -5,7 +5,8 @@ npm install -g appcenter-cli
 
 appcenter login --token $TOKEN
 
-appcenter distribute release --quiet -f $PATH_TO_APK \
+appcenter distribute release --disable-telemetry \
+    -f $PATH_TO_APK \
     -g dudes \
     --app yks72p/TrafimauApp  \
     -R $PATH_TO_RELEASE_NOTES
