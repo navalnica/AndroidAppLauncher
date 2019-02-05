@@ -1,6 +1,2 @@
-echo "FOO: ${FOO}"
-echo "FOO: $FOO"
-echo "local foo: ${FOO_LOCAL}"
+echo "context FOO: $FOO"
 echo "local foo: $FOO_LOCAL"
-echo "circle branch: ${CIRCLE_BRANCH}"
-echo "circle branch: $CIRCLE_BRANCH"

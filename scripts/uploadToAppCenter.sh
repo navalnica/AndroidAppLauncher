@@ -1,11 +1,11 @@
-PATH_TO_APK="../app/build/outputs/apk/release/app-release.apk"
+PATH_TO_APK="app/build/outputs/apk/release/app-release.apk"
 PATH_TO_RELEASE_NOTES="../config/release_notes.txt"
 
 sudo npm install -g appcenter-cli
 
-echo "local foo: ${FOO_LOCAL}"
+echo "context FOO: $FOO"
 echo "local foo: $FOO_LOCAL"
-echo "circle branch: ${CIRCLE_BRANCH}"
+echo "current dit: `pwd"
 
 appcenter login --disable-telemetry --token ${TOKEN_LOCAL}
 
