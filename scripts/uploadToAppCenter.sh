@@ -5,7 +5,7 @@ sudo npm install -g appcenter-cli
 
 echo "context FOO: $FOO"
 echo "local foo: $FOO_LOCAL"
-echo "current dit: `pwd"
+echo "current dit: `pwd`"
 
 appcenter login --disable-telemetry --token ${TOKEN_LOCAL}
 
