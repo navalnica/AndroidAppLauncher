@@ -1,9 +1,12 @@
-TOKEN="TESTING"
+PATH_TO_APK="../app/build/outputs/apk/release/app-release.apk"
+PATH_TO_RELEASE_NOTES="../config/release_notes.txt"
 
-UPLOADS_URL='https://appcenter.ms/users/yks72p/apps/TrafimauApp/release_uploads'
-HEADER="X-API-Token: $TOKEN"
+npm install -g appcenter-cli
 
-echo $HEADER
+appcenter login --token $TOKEN
 
-# curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header $HEADER $UPLOADS_URL
+appcenter distribute release -f $PATH_TO_APK \
+    -g dudes \
+    --app yks72p/TrafimauApp  \
+    -R $PATH_TO_RELEASE_NOTES
 
