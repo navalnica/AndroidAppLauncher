@@ -3,7 +3,7 @@ PATH_TO_RELEASE_NOTES="../config/release_notes.txt"
 
 npm install -g appcenter-cli
 
-appcenter login --token $TOKEN
+appcenter login --disable-telemetry --token ${TOKEN}
 
 appcenter distribute release --disable-telemetry \
     -f $PATH_TO_APK \
