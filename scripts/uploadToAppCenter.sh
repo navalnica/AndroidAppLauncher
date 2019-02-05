@@ -3,9 +3,9 @@ PATH_TO_RELEASE_NOTES="../config/release_notes.txt"
 
 npm install -g appcenter-cli
 
-echo "TOKEN: ${TOKEN}"
+echo "local foo: ${FOO_LOCAL}"
 
-appcenter login --disable-telemetry --token ${TOKEN}
+appcenter login --disable-telemetry --token ${TOKEN_LOCAL}
 
 appcenter distribute release --disable-telemetry \
     -f $PATH_TO_APK \
