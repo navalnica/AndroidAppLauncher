@@ -152,8 +152,7 @@ workflows:
             - unit tests
           filters:
             branches:
-              # TODO change: feature -> dev (master)
-              only: feature
+              only: master
       - deploy to AppCenter:
           context: AppCenter
           requires:
@@ -162,5 +161,6 @@ workflows:
           - unit tests
           filters:
             branches:
-              # TODO change: feature -> dev (master)
-              only: feature
+              only:
+              - master
+              - dev
