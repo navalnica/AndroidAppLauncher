@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/layoutPickerNextButton"
+        android:layout_margin ="@dimen/offset"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/layoutPickerStandardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            style="@style/layoutPickerModifiedRadioButton"
+            >
+
+            <RadioButton
+                android:id="@+id/layoutPickerStandardRadioButton"
+                android:text="@string/layoutPickerStandardText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/layoutPickerMain"
+                android:padding="@dimen/offset"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layoutPickerStandardDescription"
+                android:textSize="@dimen/layoutPickerSecondary"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPickerCompactBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/offset"
+            style="@style/layoutPickerModifiedRadioButton"
+            >
+
+            <RadioButton
+                android:id="@+id/layoutPickerCompactRadioButton"
+                android:text="@string/layoutPickerCompactText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/layoutPickerMain"
+                android:padding="@dimen/offset"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layoutPickerCompactDescription"
+                android:textSize="@dimen/layoutPickerSecondary"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/layoutPickerNextButton"
+        android:text="@string/buttonNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/offset"
+        android:layout_centerHorizontal="true"
+        android:theme="@style/ColoredButton" />
+
+</RelativeLayout>

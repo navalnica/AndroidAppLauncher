@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="@dimen/welcomeImage"
+            android:layout_height="@dimen/welcomeImage"
+            android:contentDescription="@string/authorImageContentDescription"
+            android:src="@drawable/author_circle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/applicationName"
+            android:textSize="@dimen/welcomeMain"
+            android:layout_marginTop="@dimen/offset" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/greeting"
+            android:textSize="@dimen/welcomeSecondary"
+            android:layout_marginTop="@dimen/offset" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/welcomePageStartNextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+
+        android:text="@string/buttonNext"
+        android:theme="@style/ColoredButton"
+        android:layout_marginBottom="@dimen/offset"/>
+
+</RelativeLayout>

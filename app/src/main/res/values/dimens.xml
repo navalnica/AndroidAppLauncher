@@ -1,3 +1,12 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="offset">18dp</dimen>
+
+    <dimen name="welcomeImage">166sp</dimen>
+    <dimen name="welcomeMain">22sp</dimen>
+    <dimen name="welcomeSecondary">18sp</dimen>
+
+    <dimen name="themePickerTextSize">27sp</dimen>
+    <dimen name="layoutPickerMain">22sp</dimen>
+    <dimen name="layoutPickerSecondary">16sp</dimen>
+
 </resources>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,8 +13,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- app crashes if you set these themes. log says that theme must be from AppCompat-->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="ColoredButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="layoutPickerModifiedRadioButton">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/background</item>
+        <item name="android:padding">@dimen/offset</item>
+    </style>
+
 
 </resources>
