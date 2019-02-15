@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LayoutPicker extends AppCompatActivity {
 
@@ -14,14 +15,14 @@ public class LayoutPicker extends AppCompatActivity {
         final RadioButton radioButton;
         final MyApplication.Layout layout;
 
-        public BindedLayout(RadioButton radioButton, MyApplication.Layout layout) {
+        BindedLayout(RadioButton radioButton, MyApplication.Layout layout) {
             this.radioButton = radioButton;
             this.layout = layout;
         }
     }
 
     private MyApplication app;
-    private ArrayList<BindedLayout> layouts;
+    private List<BindedLayout> layouts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,12 @@ public class LayoutPicker extends AppCompatActivity {
         });
     }
 
-    private void onRadioButtonClick(View v){
+    private void onRadioButtonClick(View v) {
         final int clickedRBId = v.getId();
-        for(BindedLayout bl : layouts){
-            if(bl.radioButton.getId() != clickedRBId){
+        for (BindedLayout bl : layouts) {
+            if (bl.radioButton.getId() != clickedRBId) {
                 bl.radioButton.setChecked(false);
-            }
-            else{
+            } else {
                 app.layout = bl.layout;
             }
         }

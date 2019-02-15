@@ -1,5 +1,5 @@
-# md_second_project
-temporary repo for android app
+# MDSAndroidApp1
+Android Launcher made for MDS
 
 CircleCI - [![CircleCI](https://circleci.com/gh/yks72p/MDSAndroidApp1/tree/dev.svg?style=svg)](https://circleci.com/gh/yks72p/MDSAndroidApp1/tree/dev)
 

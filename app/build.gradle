@@ -33,8 +33,8 @@ android {
         applicationId "com.example.trafimau_app"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 120
-        versionName "1.2.0"
+        versionCode 200
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -66,4 +66,57 @@ dependencies {
     def appCenterSdkVersion = '1.11.2'
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+}
+
+apply plugin: 'com.noveogroup.android.check'
+
+// Set configuration for Checkstyle, Findbugs, PMD.
+// If no configuration provided for those checkers
+// defaults will be set
+check {
+    skip false
+    abortOnError false
+
+//    Checkstyle causes java.lang.NoSuchFieldError: WHITESPACE
+//    so disable it.
+    checkstyle {
+        skip true
+        abortOnError true
+        report new File(project.buildDir, 'reports/checkstyle')
+    }
+
+    // configuration of FindBugs checker
+    findbugs {
+        skip false
+        abortOnError true
+        report new File(project.buildDir, 'reports/findbugs')
+    }
+
+    // configuration of PMD checker
+    pmd {
+        skip false
+        abortOnError true
+        report new File(project.buildDir, 'reports/pmd')
+    }
+}
+
+// use another plugin for Checkstyle
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+
+//    The Checkstyle plugin does not add the following tasks to the project:
+//    checkstyleMain
+//    checkstyleTest
+//    checkstyleSourceSet
+//    opposite to what is said in the docs
+//    https://docs.gradle.org/current/userguide/checkstyle_plugin.html
+
+    ignoreFailures = false
+    configFile file("${project.rootDir}/config/checkstyle/checkstyle_easy.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
 }

@@ -148,7 +148,6 @@ workflows:
       - deploy to Fabric:
           requires:
             - build
-            - static tests
             - unit tests
           filters:
             branches:
@@ -157,7 +156,6 @@ workflows:
           context: AppCenter
           requires:
           - build
-          - static tests
           - unit tests
           filters:
             branches:

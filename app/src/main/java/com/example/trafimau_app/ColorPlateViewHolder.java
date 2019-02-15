@@ -5,11 +5,11 @@ import android.view.View;
 
 class ColorPlateViewHolder extends RecyclerView.ViewHolder {
 
-    public ColorPlateViewHolder(View itemView){
+    ColorPlateViewHolder(View itemView){
         super(itemView);
     }
 
-    public void bind(int color) {
+    void bind(int color) {
         itemView.setBackgroundColor(color);
     }
 }

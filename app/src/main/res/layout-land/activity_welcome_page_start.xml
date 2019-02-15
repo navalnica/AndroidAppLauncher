@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/welcomeAuthorImage"
-            android:layout_width="@dimen/welcomeImage"
-            android:layout_height="@dimen/welcomeImage"
+            android:layout_width="@dimen/profileImage"
+            android:layout_height="@dimen/profileImage"
             android:contentDescription="@string/authorImageContentDescription"
             android:src="@drawable/author_circle" />
 
@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applicationName"
+                android:text="@string/app_name"
                 android:textSize="@dimen/welcomeMain" />
 
             <TextView

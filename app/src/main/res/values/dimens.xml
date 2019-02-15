@@ -1,7 +1,7 @@
 <resources>
     <dimen name="offset">18dp</dimen>
 
-    <dimen name="welcomeImage">166sp</dimen>
+    <dimen name="profileImage">166sp</dimen>
     <dimen name="welcomeMain">22sp</dimen>
     <dimen name="welcomeSecondary">18sp</dimen>
 

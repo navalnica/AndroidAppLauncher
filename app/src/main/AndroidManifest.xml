@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.trafimau_app">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,6 +12,9 @@
         android:roundIcon="@mipmap/ic_knight_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".WelcomePageStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +24,14 @@
         </activity>
         <activity android:name=".AppDescription" />
         <activity android:name=".ThemePicker" />
-        <activity android:name=".LayoutPicker"/>
-        <activity android:name=".Launcher" />
+        <activity android:name=".LayoutPicker" />
+        <activity android:name=".Launcher"
+            android:label="Launcher Activity"
+            android:parentActivityName=".MainActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8aeba7c3ec63adc1141616f33036329f545d13e4" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

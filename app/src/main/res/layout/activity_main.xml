@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/mainAuthorImage"
+        android:layout_width="@dimen/profileImage"
+        android:layout_height="@dimen/profileImage"
+        android:contentDescription="@string/authorImageContentDescription"
+        android:src="@drawable/author_circle"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/mainAuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/author"
+        android:textSize="@dimen/welcomeMain"
+        android:layout_below="@id/mainAuthorImage"
+        android:layout_marginTop="@dimen/offset"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/githubLink"
+        android:textSize="@dimen/welcomeSecondary"
+        android:layout_below="@id/mainAuthorName"
+        android:layout_marginTop="@dimen/offset"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

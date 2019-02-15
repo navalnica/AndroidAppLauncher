@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/appDescriptionImage"
-        android:layout_width="@dimen/welcomeImage"
-        android:layout_height="@dimen/welcomeImage"
+        android:layout_width="@dimen/profileImage"
+        android:layout_height="@dimen/profileImage"
         android:contentDescription="@string/githubImageContentDescription"
         android:src="@drawable/github_profile_image"
         android:layout_centerInParent="true"/>

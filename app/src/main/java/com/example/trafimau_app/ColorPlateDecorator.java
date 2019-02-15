@@ -8,7 +8,7 @@ import android.view.View;
 class ColorPlateDecorator extends RecyclerView.ItemDecoration {
     private final int offset;
 
-    public ColorPlateDecorator(int offset) {
+    ColorPlateDecorator(int offset) {
         this.offset = offset;
     }
 

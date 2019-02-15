@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">TrafimauApp</string>
-    <string name="applicationName">TrafimauApp</string>
+    <string name="app_name" translatable="false">TrafimauApp</string>
     <string name="applicationDescription">This is the app launcher made for MDS</string>
     <string name="greeting">Welcome!</string>
     <string name="authorImageContentDescription">Author image</string>
@@ -13,12 +12,12 @@
 
     <string name="layoutPickerCompactText">Compact Layout</string>
     <string name="layoutPickerStandardText">Standard Layout</string>
-    <string name="layoutPickerStandardDescription">
-        Portrait: 4 icons in a row
-        \nLandscape: 6 icons in a row
-    </string>
+    <string name="layoutPickerStandardDescription">Portrait: 4 icons in a row\nLandscape: 6 icons in a row</string>
     <string name="layoutPickerCompactDescription">
         Portrait: 5 icons in a row
         \nLandscape: 7 icons in a row
     </string>
+    <string name="author">Aliaksandr Trafimau</string>
+    <string name="githubLink" translatable="false">github.com/yks72p</string>
+    <string name="color">Color</string>
 </resources>

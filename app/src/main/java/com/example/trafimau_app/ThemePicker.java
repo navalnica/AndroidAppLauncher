@@ -1,14 +1,13 @@
 package com.example.trafimau_app;
 
 import android.content.Intent;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThemePicker extends AppCompatActivity {
 
@@ -16,14 +15,14 @@ public class ThemePicker extends AppCompatActivity {
         final RadioButton radioButton;
         final MyApplication.Theme theme;
 
-        public BindedTheme(RadioButton radioButton, MyApplication.Theme theme) {
+        BindedTheme(RadioButton radioButton, MyApplication.Theme theme) {
             this.radioButton = radioButton;
             this.theme = theme;
         }
     }
 
     private MyApplication app;
-    private ArrayList<BindedTheme> themes;
+    private List<BindedTheme> themes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
