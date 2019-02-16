@@ -87,7 +87,9 @@ jobs:
         path: app/build/reports
         destination: reports
     - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-        path: app/build/test-results
+#        old path
+#        path: app/build/test-results
+        path: app/build/reports
 
 
   deploy to Fabric:
