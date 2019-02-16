@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.example.trafimau_app.SquareItemView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="0dp">
-
-</com.example.trafimau_app.SquareItemView>

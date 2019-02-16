@@ -3,21 +3,15 @@ package com.example.trafimau_app;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class Launcher extends AppCompatActivity {
 
-    private final String logTag = "TOOLBAR";
     private MyApplication app;
 
     @Override
@@ -49,7 +43,7 @@ public class Launcher extends AppCompatActivity {
 
     private void configRecyclerView() {
         RecyclerView rv = findViewById(R.id.launcher_recyclerView);
-        rv.setAdapter(new ColorPlatesAdapter());
+        rv.setAdapter(new AppIconsAdapter());
 
         int gridSpanCount;
         if (getResources().getConfiguration().orientation
@@ -61,7 +55,7 @@ public class Launcher extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpanCount);
         rv.setLayoutManager(layoutManager);
 
-        int offset = getResources().getDimensionPixelOffset(R.dimen.offset);
-        rv.addItemDecoration(new ColorPlateDecorator(offset));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.recyclerViewIconsOffset);
+        rv.addItemDecoration(new AppIconsDecorator(offset));
     }
 }

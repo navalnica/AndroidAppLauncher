@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:clipToPadding="false"
-        android:padding="4dp">
+        android:padding="@dimen/recyclerViewIconsOffset">
 
     </android.support.v7.widget.RecyclerView>
 

@@ -22,6 +22,6 @@ public class MyApplication extends Application {
     }
 
     public Theme theme = Theme.LIGHT;
-    public Layout layout = Layout.COMPACT;
+    public Layout layout = Layout.STANDARD;
 
 }

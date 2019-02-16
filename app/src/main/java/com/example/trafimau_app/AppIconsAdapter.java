@@ -2,7 +2,6 @@ package com.example.trafimau_app;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,26 +13,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-class ColorPlatesAdapter extends RecyclerView.Adapter<ColorPlateViewHolder> {
+public class AppIconsAdapter extends RecyclerView.Adapter<AppIconViewHolder> {
 
     private final Map<Integer, Integer> colorMap = new HashMap<>();
     private final Random random = new Random();
 
     @NonNull
     @Override
-    public ColorPlateViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public AppIconViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).
-                inflate(R.layout.item_color_plate, viewGroup, false);
-        return new ColorPlateViewHolder(view);
+                inflate(R.layout.icon_view, viewGroup, false);
+        return new AppIconViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ColorPlateViewHolder colorPlateViewHolder, int i) {
+    public void onBindViewHolder(@NonNull AppIconViewHolder appIconViewHolder, int i) {
+        appIconViewHolder.bind(getColor(i));
 
-        colorPlateViewHolder.bind(getColor(i));
-
-        // display color plate color
-        colorPlateViewHolder.itemView.setOnLongClickListener(v -> {
+        appIconViewHolder.itemView.setOnLongClickListener(v -> {
             final String tag = "PLATES";
             Integer color = colorMap.get(i);
             if(color == null){
@@ -41,16 +38,20 @@ class ColorPlatesAdapter extends RecyclerView.Adapter<ColorPlateViewHolder> {
             }
             else{
                 int rgb = color & 0xffffff;
-                final String colorString = colorPlateViewHolder.itemView.
+                final String colorString = appIconViewHolder.itemView.
                         getContext().getString(R.string.color);
-                Toast.makeText(colorPlateViewHolder.itemView.getContext(),
+                Toast.makeText(appIconViewHolder.itemView.getContext(),
                         colorString + ": #" + Integer.toHexString(rgb), Toast.LENGTH_LONG)
                         .show();
             }
 
             return true;
         });
+    }
 
+    @Override
+    public int getItemCount() {
+        return 200;
     }
 
     private int getColor(int i) {
@@ -65,12 +66,4 @@ class ColorPlatesAdapter extends RecyclerView.Adapter<ColorPlateViewHolder> {
         }
         return color;
     }
-
-    @Override
-    public int getItemCount() {
-        return 200;
-    }
-
-
-
 }
