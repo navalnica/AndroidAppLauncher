@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,8 +13,53 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- app crashes if you set these themes. log says that theme must be from AppCompat-->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="layoutPickerRadioButtonBlock">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/background</item>
+        <item name="android:padding">@dimen/offset</item>
+    </style>
+
+    <style name="buttonNext">
+        <item name="android:text">@string/buttonNext</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_margin">@dimen/offset</item>
+    </style>
+
+    <style name="coloredAppCompatButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <style name="relativeCenteredTextViewWithTopOffset">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/offset</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    
+    <style name="themePickerRadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/themePickerText</item>
+        <item name="android:padding">@dimen/offset</item>
+    </style>
+
 </resources>
+
+ <!-- regular expression for fast conversion
+ (.*)="(.*)"
+ <item name="$1">$2</item>
+ -->

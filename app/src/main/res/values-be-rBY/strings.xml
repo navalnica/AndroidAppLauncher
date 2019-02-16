@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TrafimauApp</string>
+    <string name="applicationDescription">Гэта launcher, напісаны для MDS</string>
+    <string name="greeting">Вітаем!</string>
+    <string name="authorImageContentDescription">Выява аўтара</string>
+    <string name="githubImageContentDescription">Выява профіля Github</string>
+    <string name="buttonNext">Далей</string>
+    <string name="themePickerLight">Светлая тэма</string>
+    <string name="themePickerDark">Цёмная тэма</string>
+    <string name="layoutPickerCompactText">Шчыльны макет</string>
+    <string name="layoutPickerStandardText">Стандартны макет</string>
+    <string name="author">Аляксандр Трафімаў</string>
+    <string name="layoutPickerStandardDescription">Партрэтная: 4 іконкі ў шэрагу\nЛандшафтная: 6 іконак у шэрагу</string>
+    <string name="layoutPickerCompactDescription">Партрэтны: 5 іконкі ў шэрагу\nЛандшафтны: 7 іконак у шэрагу</string>
+    <string name="color">Колер</string>
+</resources>

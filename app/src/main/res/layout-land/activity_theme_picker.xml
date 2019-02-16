@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/themePickerRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/themePickerNextButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/offset"
+        android:baselineAligned="false">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background"
+            >
+
+            <RadioButton
+                android:id="@+id/themePickerLightThemeRadioButton"
+                android:text="@string/themePickerLight"
+                style="@style/themePickerRadioButton"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background"
+            android:layout_marginStart="@dimen/offset"
+            >
+
+            <RadioButton
+                android:id="@+id/themePickerDarkThemeRadioButton"
+                android:text="@string/themePickerDark"
+                style="@style/themePickerRadioButton"
+                />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/themePickerNextButton"
+        style="@style/buttonNext"
+        android:theme="@style/coloredAppCompatButton"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>
