@@ -1,12 +1,11 @@
 <resources>
     <dimen name="offset">18dp</dimen>
+    <dimen name="profileImage">166dp</dimen>
 
-    <dimen name="profileImage">166sp</dimen>
-    <dimen name="welcomeMain">22sp</dimen>
-    <dimen name="welcomeSecondary">18sp</dimen>
-
-    <dimen name="themePickerTextSize">27sp</dimen>
-    <dimen name="layoutPickerMain">22sp</dimen>
-    <dimen name="layoutPickerSecondary">16sp</dimen>
+    <dimen name="welcomeMainText">22sp</dimen>
+    <dimen name="welcomeSecondaryText">18sp</dimen>
+    <dimen name="themePickerText">27sp</dimen>
+    <dimen name="layoutPickerMainText">22sp</dimen>
+    <dimen name="layoutPickerSecondaryText">16sp</dimen>
 
 </resources>

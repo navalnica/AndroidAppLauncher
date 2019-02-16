@@ -15,21 +15,15 @@
 
     <TextView
         android:id="@+id/mainAuthorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/relativeCenteredTextViewWithTopOffset"
         android:text="@string/author"
-        android:textSize="@dimen/welcomeMain"
-        android:layout_below="@id/mainAuthorImage"
-        android:layout_marginTop="@dimen/offset"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="@dimen/welcomeMainText"
+        android:layout_below="@id/mainAuthorImage" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/relativeCenteredTextViewWithTopOffset"
         android:text="@string/githubLink"
-        android:textSize="@dimen/welcomeSecondary"
-        android:layout_below="@id/mainAuthorName"
-        android:layout_marginTop="@dimen/offset"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="@dimen/welcomeSecondaryText"
+        android:layout_below="@id/mainAuthorName" />
 
 </RelativeLayout>

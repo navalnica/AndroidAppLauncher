@@ -19,11 +19,9 @@
 
         <LinearLayout
             android:id="@+id/layoutPickerStandardBlock"
+            style="@style/layoutPickerRadioButtonBlock"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            style="@style/layoutPickerModifiedRadioButton"
             >
 
             <RadioButton
@@ -31,26 +29,24 @@
                 android:text="@string/layoutPickerStandardText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/layoutPickerMain"
+                android:textSize="@dimen/layoutPickerMainText"
                 android:padding="@dimen/offset"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/layoutPickerStandardDescription"
-                android:textSize="@dimen/layoutPickerSecondary"
+                android:textSize="@dimen/layoutPickerSecondaryText"
                 />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layoutPickerCompactBlock"
+            style="@style/layoutPickerRadioButtonBlock"
+            android:layout_marginStart="@dimen/offset"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="@dimen/offset"
-            style="@style/layoutPickerModifiedRadioButton"
             >
 
             <RadioButton
@@ -58,14 +54,14 @@
                 android:text="@string/layoutPickerCompactText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/layoutPickerMain"
+                android:textSize="@dimen/layoutPickerMainText"
                 android:padding="@dimen/offset"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/layoutPickerCompactDescription"
-                android:textSize="@dimen/layoutPickerSecondary"
+                android:textSize="@dimen/layoutPickerSecondaryText"
                 />
 
         </LinearLayout>
@@ -74,13 +70,8 @@
 
     <Button
         android:id="@+id/layoutPickerNextButton"
-        android:text="@string/buttonNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/offset"
-        android:layout_marginEnd="@dimen/offset"
-        android:layout_alignParentEnd="true"
-        android:theme="@style/ColoredButton" />
+        style="@style/buttonNext"
+        android:theme="@style/coloredAppCompatButton"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

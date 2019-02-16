@@ -22,12 +22,8 @@
 
             <RadioButton
                 android:id="@+id/themePickerLightThemeRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/themePickerLight"
-                android:textSize="@dimen/themePickerTextSize"
-                android:padding="@dimen/offset"
+                style="@style/themePickerRadioButton"
                 />
 
         </FrameLayout>
@@ -39,12 +35,8 @@
 
             <RadioButton
                 android:id="@+id/themePickerDarkThemeRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/themePickerDark"
-                android:textSize="@dimen/themePickerTextSize"
-                android:padding="@dimen/offset"
+                style="@style/themePickerRadioButton"
                 />
 
         </FrameLayout>
@@ -53,12 +45,7 @@
 
     <Button
         android:id="@+id/themePickerNextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/offset"
-        android:text="@string/buttonNext"
-        android:theme="@style/ColoredButton" />
+        style="@style/buttonNext"
+        android:theme="@style/coloredAppCompatButton"/>
 
 </RelativeLayout>
