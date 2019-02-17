@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LauncherActivity">
+    tools:context=".ListActivity">
 
     <include
-        android:id="@+id/launcherActivityToolbar"
+        android:id="@+id/listActivityToolbar"
         layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/launcherActivityRecyclerView"
+        android:id="@+id/listActivityRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/launcherActivityToolbar"
+        android:layout_below="@id/listActivityToolbar"
         android:clipToPadding="false"
-        android:padding="@dimen/recyclerViewOffset">
+        android:padding="@dimen/recyclerViewOffset" >
 
     </android.support.v7.widget.RecyclerView>
 

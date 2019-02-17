@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class Launcher extends AppCompatActivity {
+public class LauncherActivity extends AppCompatActivity {
 
     private MyApplication app;
 
@@ -20,8 +20,9 @@ public class Launcher extends AppCompatActivity {
         setContentView(R.layout.activity_launcher);
         app = (MyApplication) getApplicationContext();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.launcherActivityToolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -42,8 +43,8 @@ public class Launcher extends AppCompatActivity {
     }
 
     private void configRecyclerView() {
-        RecyclerView rv = findViewById(R.id.launcher_recyclerView);
-        rv.setAdapter(new AppIconsAdapter());
+        RecyclerView rv = findViewById(R.id.launcherActivityRecyclerView);
+        rv.setAdapter(new LauncherActivityAppAdapter());
 
         int gridSpanCount;
         if (getResources().getConfiguration().orientation
@@ -55,7 +56,7 @@ public class Launcher extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpanCount);
         rv.setLayoutManager(layoutManager);
 
-        int offset = getResources().getDimensionPixelOffset(R.dimen.recyclerViewIconsOffset);
-        rv.addItemDecoration(new AppIconsDecorator(offset));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.recyclerViewOffset);
+        rv.addItemDecoration(new LauncherActivityAppDecorator(offset));
     }
 }

@@ -5,18 +5,18 @@
     android:layout_height="wrap_content">
 
     <com.example.trafimau_app.SquareItemView
-        android:id="@+id/appIcon"
+        android:id="@+id/launcherActivityAppIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
     <TextView
-        android:id="@+id/appName"
+        android:id="@+id/launcherActivityAppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_below="@id/appIcon"
-        android:paddingTop="@dimen/recyclerViewIconsOffset"
+        android:layout_below="@id/launcherActivityAppIcon"
+        android:paddingTop="@dimen/recyclerViewOffset"
         />
 
 </RelativeLayout>

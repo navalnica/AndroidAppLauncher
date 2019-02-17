@@ -1,6 +1,6 @@
 <resources>
     <dimen name="offset">18dp</dimen>
-    <dimen name="recyclerViewIconsOffset">8dp</dimen>
+    <dimen name="recyclerViewOffset">8dp</dimen>
     <dimen name="profileImage">166dp</dimen>
 
     <dimen name="welcomeMainText">22sp</dimen>
@@ -8,5 +8,6 @@
     <dimen name="themePickerText">27sp</dimen>
     <dimen name="layoutPickerMainText">22sp</dimen>
     <dimen name="layoutPickerSecondaryText">16sp</dimen>
+    <dimen name="navHeaderHeight">192dp</dimen>
 
 </resources>

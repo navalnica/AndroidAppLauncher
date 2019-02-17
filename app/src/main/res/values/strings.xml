@@ -20,4 +20,9 @@
     <string name="author">Aliaksandr Trafimau</string>
     <string name="githubLink" translatable="false">github.com/yks72p</string>
     <string name="color">Color</string>
+    <string name="appIconContentDescription">application icon</string>
+    <string name="navListActivity">List Activity</string>
+    <string name="navLauncherActivity">Launcher Activity</string>
+    <string name="navSettings">Settings</string>
+    <string name="navAuthorProfile">Author Profile</string>
 </resources>

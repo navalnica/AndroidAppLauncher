@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/navAuthorProfile"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_launcher_activity"
+            android:icon="@drawable/ic_grid_on_black_24dp"
+            android:title="@string/navLauncherActivity" />
+        <item
+            android:id="@+id/nav_list_activity"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/navListActivity" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/navSettings" />
+    </group>
+
+</menu>

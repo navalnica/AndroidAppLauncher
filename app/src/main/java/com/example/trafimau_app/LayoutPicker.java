@@ -3,7 +3,6 @@ package com.example.trafimau_app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -44,7 +43,7 @@ public class LayoutPicker extends AppCompatActivity {
         standardLayoutRB.setChecked(true);
 
         findViewById(R.id.layoutPickerNextButton).setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), Launcher.class);
+            Intent intent = new Intent(v.getContext(), LauncherActivity.class);
             startActivity(intent);
 //                finish();
         });
