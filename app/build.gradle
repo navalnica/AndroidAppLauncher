@@ -20,6 +20,8 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    compileSdkVersion 28
+
     signingConfigs {
         config {
             keyAlias keystoreProperties['keyAlias']
@@ -28,7 +30,6 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.trafimau_app"
         minSdkVersion 22
@@ -51,6 +52,9 @@ android {
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -113,7 +117,7 @@ task checkstyle(type: Checkstyle) {
 //    opposite to what is said in the docs
 //    https://docs.gradle.org/current/userguide/checkstyle_plugin.html
 
-    ignoreFailures = false
+    ignoreFailures = true
     configFile file("${project.rootDir}/config/checkstyle/checkstyle_easy.xml")
     source 'src'
     include '**/*.java'
