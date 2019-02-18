@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-class ColorPlateDecorator extends RecyclerView.ItemDecoration {
+class LauncherActivityAppDecorator extends RecyclerView.ItemDecoration {
     private final int offset;
 
-    ColorPlateDecorator(int offset) {
+    LauncherActivityAppDecorator(int offset) {
         this.offset = offset;
     }
 

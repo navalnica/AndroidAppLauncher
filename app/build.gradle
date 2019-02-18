@@ -81,21 +81,21 @@ check {
 //    so disable it.
     checkstyle {
         skip true
-        abortOnError true
+        abortOnError false
         report new File(project.buildDir, 'reports/checkstyle')
     }
 
     // configuration of FindBugs checker
     findbugs {
         skip false
-        abortOnError true
+        abortOnError false
         report new File(project.buildDir, 'reports/findbugs')
     }
 
     // configuration of PMD checker
     pmd {
         skip false
-        abortOnError true
+        abortOnError false
         report new File(project.buildDir, 'reports/pmd')
     }
 }

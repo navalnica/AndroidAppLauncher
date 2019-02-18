@@ -29,7 +29,7 @@ public class LayoutPicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout_picker);
 
-        app = (MyApplication) getApplicationContext();
+        app = (MyApplication) getApplication();
 
         final RadioButton standardLayoutRB = findViewById(R.id.layoutPickerStandardRadioButton);
         final RadioButton compactLayoutRB = findViewById(R.id.layoutPickerCompactRadioButton);
@@ -43,7 +43,7 @@ public class LayoutPicker extends AppCompatActivity {
         standardLayoutRB.setChecked(true);
 
         findViewById(R.id.layoutPickerNextButton).setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), Launcher.class);
+            Intent intent = new Intent(v.getContext(), LauncherActivity.class);
             startActivity(intent);
 //                finish();
         });

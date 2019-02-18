@@ -29,7 +29,7 @@ public class ThemePicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_picker);
 
-        app = (MyApplication) getApplicationContext();
+        app = (MyApplication) getApplication();
 
         final RadioButton lightThemeRB = findViewById(R.id.themePickerLightThemeRadioButton);
         final RadioButton darkThemeRB = findViewById(R.id.themePickerDarkThemeRadioButton);

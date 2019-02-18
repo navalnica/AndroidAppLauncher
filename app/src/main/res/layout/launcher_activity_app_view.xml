@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.trafimau_app.SquareItemView
+        android:id="@+id/launcherActivityAppIcon"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/launcherActivityAppName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_below="@id/launcherActivityAppIcon"
+        android:paddingTop="@dimen/recyclerViewOffset"
+        />
+
+</RelativeLayout>

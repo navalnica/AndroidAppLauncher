@@ -12,26 +12,38 @@
         android:roundIcon="@mipmap/ic_knight_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".WelcomePageStart">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".MainActivity">
         </activity>
+
+        <activity android:name=".WelcomePageStart">
+        </activity>
+
         <activity android:name=".AppDescription" />
         <activity android:name=".ThemePicker" />
         <activity android:name=".LayoutPicker" />
-        <activity android:name=".Launcher"
+
+        <activity
+            android:name=".LauncherActivity"
             android:label="Launcher Activity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <activity
+            android:name=".ListActivity"
+            android:label="List Activity"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8aeba7c3ec63adc1141616f33036329f545d13e4" />
+
     </application>
 
 </manifest>
