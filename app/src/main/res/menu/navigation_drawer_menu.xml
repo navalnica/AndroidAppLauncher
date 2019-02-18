@@ -4,15 +4,15 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_launcher_activity"
+            android:id="@+id/navigationGridFragment"
             android:icon="@drawable/ic_grid_on_black_24dp"
             android:title="@string/navLauncherActivity" />
         <item
-            android:id="@+id/nav_list_activity"
+            android:id="@+id/navigationListFragment"
             android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="@string/navListActivity" />
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/navigationSettingsFragment"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/navSettings" />
     </group>

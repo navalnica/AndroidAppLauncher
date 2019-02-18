@@ -5,17 +5,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SquareItemView extends View {
+public class AppSquareView extends View {
 
-    public SquareItemView(Context context) {
+    public AppSquareView(Context context) {
         super(context);
     }
 
-    public SquareItemView(Context context, AttributeSet attrs) {
+    public AppSquareView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SquareItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AppSquareView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

@@ -6,9 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-public class ListActivityAppViewHolder extends RecyclerView.ViewHolder {
+public class ListFragmentViewHolder extends RecyclerView.ViewHolder {
 
-    public ListActivityAppViewHolder(@NonNull View itemView) {
+    public ListFragmentViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 

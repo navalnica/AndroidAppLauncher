@@ -17,21 +17,13 @@
             android:name=".MainActivity">
         </activity>
 
-        <activity android:name=".WelcomePageStart">
-        </activity>
-
+        <activity android:name=".WelcomePageStart" />
         <activity android:name=".AppDescription" />
         <activity android:name=".ThemePicker" />
         <activity android:name=".LayoutPicker" />
 
         <activity
             android:name=".LauncherActivity"
-            android:label="Launcher Activity"
-            android:parentActivityName=".MainActivity">
-        </activity>
-
-        <activity
-            android:name=".ListActivity"
             android:label="List Activity"
             android:parentActivityName=".MainActivity">
             <intent-filter>

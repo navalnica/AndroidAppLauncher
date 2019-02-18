@@ -5,17 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-class LauncherActivityAppViewHolder extends RecyclerView.ViewHolder {
+class GridFragmentViewHolder extends RecyclerView.ViewHolder {
 
-    LauncherActivityAppViewHolder(@NonNull View itemView) {
+    GridFragmentViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
     void bind(int color) {
-        itemView.findViewById(R.id.launcherActivityAppIcon).setBackgroundColor(color);
+        itemView.findViewById(R.id.gridFragmentAppIcon).setBackgroundColor(color);
         int rgb = color & 0xffffff;
         final String hexString = "#" + Integer.toHexString(rgb);
-        TextView appName = itemView.findViewById(R.id.launcherActivityAppName);
+        TextView appName = itemView.findViewById(R.id.gridFragmentAppName);
         appName.setText(hexString);
     }
 }

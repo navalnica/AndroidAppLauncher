@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-class LauncherActivityAppDecorator extends RecyclerView.ItemDecoration {
+class GridFragmentDecorator extends RecyclerView.ItemDecoration {
     private final int offset;
 
-    LauncherActivityAppDecorator(int offset) {
+    GridFragmentDecorator(int offset) {
         this.offset = offset;
     }
 

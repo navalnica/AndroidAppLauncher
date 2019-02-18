@@ -1,60 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainActivityDrawerLayout"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/mainActivityToolbar"
-            layout="@layout/toolbar" />
+        <ImageView
+            android:id="@+id/mainAuthorImage"
+            android:layout_width="@dimen/profileImage"
+            android:layout_height="@dimen/profileImage"
+            android:contentDescription="@string/authorImageContentDescription"
+            android:src="@drawable/author_circle" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/mainAuthorName"
+            style="@style/relativeCenteredTextViewWithTopOffset"
+            android:text="@string/author"
+            android:textSize="@dimen/welcomeMainText" />
 
-            <ImageView
-                android:id="@+id/mainAuthorImage"
-                android:layout_width="@dimen/profileImage"
-                android:layout_height="@dimen/profileImage"
-                android:contentDescription="@string/authorImageContentDescription"
-                android:src="@drawable/author_circle" />
+        <TextView
+            style="@style/relativeCenteredTextViewWithTopOffset"
+            android:text="@string/githubLink"
+            android:textSize="@dimen/welcomeSecondaryText" />
 
-            <TextView
-                android:id="@+id/mainAuthorName"
-                style="@style/relativeCenteredTextViewWithTopOffset"
-                android:text="@string/author"
-                android:textSize="@dimen/welcomeMainText" />
-
-            <TextView
-                style="@style/relativeCenteredTextViewWithTopOffset"
-                android:text="@string/githubLink"
-                android:textSize="@dimen/welcomeSecondaryText" />
-
-        </LinearLayout>
+    </LinearLayout>
 
 
-    </RelativeLayout>
-
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/mainActivityNavigationView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation_drawer_menu" />
-
-
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

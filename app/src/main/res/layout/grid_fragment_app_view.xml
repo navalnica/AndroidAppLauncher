@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.example.trafimau_app.SquareItemView
-        android:id="@+id/launcherActivityAppIcon"
+    <com.example.trafimau_app.AppSquareView
+        android:id="@+id/gridFragmentAppIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
     <TextView
-        android:id="@+id/launcherActivityAppName"
+        android:id="@+id/gridFragmentAppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_below="@id/launcherActivityAppIcon"
+        android:layout_below="@id/gridFragmentAppIcon"
         android:paddingTop="@dimen/recyclerViewOffset"
         />
 
