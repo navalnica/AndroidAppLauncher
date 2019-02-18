@@ -21,7 +21,8 @@ public class MyApplication extends Application {
         }
     }
 
-    public Theme theme = Theme.LIGHT;
-    public Layout layout = Layout.STANDARD;
+    Theme theme = Theme.LIGHT;
+    Layout layout = Layout.STANDARD;
+    DataModel dataModel = new DataModel();
 
 }

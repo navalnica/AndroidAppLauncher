@@ -29,7 +29,7 @@ public class LayoutPicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout_picker);
 
-        app = (MyApplication) getApplicationContext();
+        app = (MyApplication) getApplication();
 
         final RadioButton standardLayoutRB = findViewById(R.id.layoutPickerStandardRadioButton);
         final RadioButton compactLayoutRB = findViewById(R.id.layoutPickerCompactRadioButton);

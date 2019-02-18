@@ -18,7 +18,7 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        app = (MyApplication) getApplicationContext();
+        app = (MyApplication) getApplication();
 
         Toolbar toolbar = findViewById(R.id.launcherActivityToolbar);
         setSupportActionBar(toolbar);
@@ -44,7 +44,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void configRecyclerView() {
         RecyclerView rv = findViewById(R.id.launcherActivityRecyclerView);
-        rv.setAdapter(new LauncherActivityAppAdapter());
+        rv.setAdapter(new LauncherActivityAppAdapter(app.dataModel));
 
         int gridSpanCount;
         if (getResources().getConfiguration().orientation

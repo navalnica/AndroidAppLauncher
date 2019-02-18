@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
-        if(actionbar != null){
+        if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         }
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                     Intent intent;
 
-                    switch(menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.nav_launcher_activity:
                             intent = new Intent(this, LauncherActivity.class);
                             startActivity(intent);
@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         default:
                             // TODO: create Settings activity!
-                            Toast.makeText(this, "title: " + menuItem.getTitle(),
-                                    Toast.LENGTH_LONG).show();
+                            final String msg = "not implemented nav bar item with title: "
+                                    + menuItem.getTitle();
+                            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     }
 
                     return true;

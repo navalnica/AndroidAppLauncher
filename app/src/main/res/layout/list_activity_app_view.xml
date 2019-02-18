@@ -7,13 +7,15 @@
     android:padding="@dimen/recyclerViewOffset">
 
     <!--TODO: make icon round-->
-    <ImageView
+    <com.example.trafimau_app.AppCircleView
         android:id="@+id/listActivityAppIcon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="@dimen/recyclerViewOffset"
-        android:contentDescription="@string/appIconContentDescription"/>
+        android:contentDescription="@string/appIconContentDescription"
+        android:background="@drawable/app_circle_background"
+        />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,12 +27,14 @@
         <TextView
             android:id="@+id/listActivityAppName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="top" />
 
         <TextView
             android:id="@+id/listActivityAppDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="bottom"
             android:layout_marginTop="@dimen/recyclerViewOffset"/>
 
     </LinearLayout>

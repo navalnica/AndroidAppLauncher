@@ -1,5 +1,6 @@
 package com.example.trafimau_app;
 
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +13,9 @@ public class ListActivityAppViewHolder extends RecyclerView.ViewHolder {
     }
 
     void bind(int color, String itemDescription){
-        itemView.findViewById(R.id.listActivityAppIcon).setBackgroundColor(color);
+        View appIcon = itemView.findViewById(R.id.listActivityAppIcon);
+        GradientDrawable gradientDrawable = (GradientDrawable) appIcon.getBackground();
+        gradientDrawable.setColor(color);
 
         int rgb = color & 0xffffff;
         final String hexString = "#" + Integer.toHexString(rgb);

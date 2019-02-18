@@ -1,6 +1,8 @@
 package com.example.trafimau_app;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +13,17 @@ import android.view.MenuItem;
 
 public class ListActivity extends AppCompatActivity {
 
+    private MyApplication app;
+    private ListActivityAppAdapter listActivityAppAdapter;
+    private LinearLayoutManager layoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        MyApplication app = (MyApplication) getApplication();
+        listActivityAppAdapter = new ListActivityAppAdapter(app.dataModel);
 
         Toolbar toolbar = findViewById(R.id.listActivityToolbar);
         setSupportActionBar(toolbar);
@@ -23,6 +32,14 @@ public class ListActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        FloatingActionButton fab = findViewById(R.id.listActivityFab);
+        fab.setOnClickListener(view -> {
+            Snackbar.make(view, "FAB clicked", Snackbar.LENGTH_LONG).show();
+            app.dataModel.addRandomColorToFront();
+            listActivityAppAdapter.notifyDataSetChanged();
+            layoutManager.scrollToPosition(0);
+        });
 
         configRecyclerView();
     }
@@ -40,9 +57,8 @@ public class ListActivity extends AppCompatActivity {
 
     private void configRecyclerView() {
         RecyclerView rv = findViewById(R.id.listActivityRecyclerView);
-        rv.setAdapter(new ListActivityAppAdapter());
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rv.setAdapter(listActivityAppAdapter);
+        layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
     }
 }
