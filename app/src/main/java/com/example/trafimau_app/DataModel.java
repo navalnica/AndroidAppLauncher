@@ -11,7 +11,7 @@ class DataModel {
     private final int itemCount = 200;
     private final ArrayList<Integer> colors = new ArrayList<>();
 
-    DataModel(){
+    public DataModel(){
         for(int i = 0; i < itemCount; ++i){
             int color = generateColor();
             colors.add(color);
@@ -27,20 +27,15 @@ class DataModel {
         );
     }
 
-    int getItemCount(){
+    public int getItemCount(){
         return itemCount;
     }
 
-    Integer getColor(int position){
+    public Integer getColor(int position){
         if(position >= 0 && position < itemCount){
             return colors.get(position);
         }
         return null;
-    }
-
-    void addRandomColorToFront(){
-        Integer color = generateColor();
-        colors.add(0, color);
     }
 
 }

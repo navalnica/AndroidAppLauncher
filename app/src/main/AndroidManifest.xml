@@ -12,22 +12,18 @@
         android:roundIcon="@mipmap/ic_knight_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <activity
-            android:name=".MainActivity">
-        </activity>
-
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".WelcomePageStart" />
         <activity android:name=".AppDescription" />
         <activity android:name=".ThemePicker" />
         <activity android:name=".LayoutPicker" />
-
         <activity
             android:name=".LauncherActivity"
-            android:label="List Activity"
+            android:label="Launcher"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,7 +31,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8aeba7c3ec63adc1141616f33036329f545d13e4" />
-
     </application>
 
 </manifest>

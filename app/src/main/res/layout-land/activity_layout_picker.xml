@@ -26,7 +26,7 @@
 
             <RadioButton
                 android:id="@+id/layoutPickerStandardRadioButton"
-                android:text="@string/layoutPickerStandardText"
+                android:text="@string/layoutStandardName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/layoutPickerMainText"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/layoutPickerStandardDescription"
+                android:text="@string/layoutStandardDescription"
                 android:textSize="@dimen/layoutPickerSecondaryText"
                 />
 
@@ -51,7 +51,7 @@
 
             <RadioButton
                 android:id="@+id/layoutPickerCompactRadioButton"
-                android:text="@string/layoutPickerCompactText"
+                android:text="@string/layoutCompactName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/layoutPickerMainText"
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/layoutPickerCompactDescription"
+                android:text="@string/layoutCompactDescription"
                 android:textSize="@dimen/layoutPickerSecondaryText"
                 />
 

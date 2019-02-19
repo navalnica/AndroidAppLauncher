@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrafimauApp</string>
-    <string name="layoutPickerStandardDescription">Portret: 4 ikony z rzędu\nKrajobraz: 6 ikony z rzędu</string>
-    <string name="layoutPickerCompactDescription">Portret: 5 ikony z rzędu\nKrajobraz: 7 ikony z rzędu</string>
+    <string name="layoutStandardDescription">Portret: 4 ikony z rzędu\nKrajobraz: 6 ikony z rzędu</string>
+    <string name="layoutCompactDescription">Portret: 5 ikony z rzędu\nKrajobraz: 7 ikony z rzędu</string>
     <string name="author">Aliaksandr Trafimau</string>
-    <string name="layoutPickerStandardText">Standardowy układ</string>
-    <string name="layoutPickerCompactText">Gęsty układ</string>
+    <string name="layoutStandardName">Standardowy układ</string>
+    <string name="layoutCompactName">Gęsty układ</string>
     <string name="themePickerDark">Ciemny temat</string>
     <string name="themePickerLight">Jasny temat</string>
     <string name="buttonNext">Dalej</string>

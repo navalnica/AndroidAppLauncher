@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrafimauApp</string>
-    <string name="layoutPickerStandardDescription">Портретна: 4 іконки рядком\nЛандшафтна: 6 іконок рядком</string>
-    <string name="layoutPickerCompactDescription">Портретная: 5 іконки рядком\nЛандшафтна: 7 іконок рядком</string>
+    <string name="layoutStandardDescription">Портретна: 4 іконки рядком\nЛандшафтна: 6 іконок рядком</string>
+    <string name="layoutCompactDescription">Портретная: 5 іконки рядком\nЛандшафтна: 7 іконок рядком</string>
     <string name="author">Аляксандр Трафімаў</string>
-    <string name="layoutPickerStandardText">Стандартний макет</string>
-    <string name="layoutPickerCompactText">Щільний макет</string>
+    <string name="layoutStandardName">Стандартний макет</string>
+    <string name="layoutCompactName">Щільний макет</string>
     <string name="themePickerDark">Темна тема</string>
     <string name="themePickerLight">Світла тема</string>
     <string name="buttonNext">Далі</string>

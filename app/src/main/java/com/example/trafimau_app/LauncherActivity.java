@@ -3,6 +3,7 @@ package com.example.trafimau_app;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 public class LauncherActivity extends AppCompatActivity {
 
-    private MyApplication app;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -22,12 +22,15 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-        MyApplication app = (MyApplication) getApplication();
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
 
         configureToolbar();
         configureNavigationDrawer();
-        inflateFragment(new ListFragment());
+
+        if(savedInstanceState == null){
+            inflateFragment(new ListFragment(), false);
+            setTitle(R.string.list_launcher);
+        }
     }
 
     // TODO : remove
@@ -62,12 +65,17 @@ public class LauncherActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.navigationGridFragment:
-                            inflateFragment(new GridFragment());
+                            inflateFragment(new GridFragment(), true);
+                            setTitle(R.string.grid_launcher);
                             break;
                         case R.id.navigationListFragment:
-                            inflateFragment(new ListFragment());
+                            inflateFragment(new ListFragment(), true);
+                            setTitle(R.string.list_launcher);
                             break;
                         case R.id.navigationSettingsFragment:
+                            inflateFragment(new SettingsFragment(), true);
+                            setTitle(R.string.settings);
+                            break;
                         default:
                             final String msg = menuItem.getTitle() + " fragment not implemented";
                             Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -76,14 +84,15 @@ public class LauncherActivity extends AppCompatActivity {
                 });
     }
 
-    private void inflateFragment(Fragment fragment) {
+    private void inflateFragment(Fragment fragment, boolean addToBackStack) {
         // TODO: do not add identical fragment. Maybe SingleTop model could help?
-        // TODO: do not add first fragment to BackStack
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager
+        FragmentTransaction transaction = fragmentManager
                 .beginTransaction()
-                .replace(R.id.launcherFragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+                .replace(R.id.launcherFragmentContainer, fragment);
+        if(addToBackStack){
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
     }
 }
