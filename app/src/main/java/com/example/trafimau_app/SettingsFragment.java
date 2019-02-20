@@ -1,21 +1,44 @@
 package com.example.trafimau_app;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 
 public class SettingsFragment
         extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private final String TAG = "settings";
+    private SharedPreferences sharedPreferences;
+
+    private String layoutListKey;
+    ListPreference layoutListPreference;
+    private String[] layoutDescriptions;
+
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
 
-        // TODO: set default values for settings
-        // TODO: summary is not saved after screen rotation
-        addPreferencesFromResource(R.xml.preferences_root);
+        addPreferencesFromResource(R.xml.preferences);
+
+        layoutDescriptions = getResources().getStringArray(R.array.layout_descriptions);
+
+        Activity activity = getActivity();
+        if(activity == null){
+            Log.d(TAG, "getActivity() returned null");
+            throw new NullPointerException();
+        }
+
+        layoutListKey = getResources().getString(R.string.keyLayoutListPreference);
+        layoutListPreference = (ListPreference) findPreference(layoutListKey);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        setSummaryForLayoutListPreference();
     }
 
     @Override
@@ -37,20 +60,22 @@ public class SettingsFragment
         Preference preference = findPreference(key);
 
         // update summary for layout picker
-        if (preference instanceof ListPreference &&
-                preference.getKey().equals(
-                        getResources().getString(R.string.keyLayoutListPreference))) {
-
-            String[] descriptions = getResources().getStringArray(R.array.layout_descriptions);
-
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
-            if (prefIndex >= 0) {
-                String summary = listPreference.getEntries()[prefIndex].toString()
-                        + ":\n\n" + descriptions[prefIndex];
-                preference.setSummary(summary);
-            }
-
+        if (key.equals(getResources().getString(R.string.keyLayoutListPreference))) {
+            setSummaryForLayoutListPreference();
         }
+    }
+
+    private void setSummaryForLayoutListPreference(){
+        int valueIndex = layoutListPreference.findIndexOfValue(
+                sharedPreferences.getString(layoutListKey, ""));
+
+        // TODO: move parameters initialization into Welcome Page!
+        if(valueIndex < 0){
+            valueIndex = 0;
+        }
+
+        CharSequence summary = layoutListPreference.getEntries()[valueIndex]
+                + ":\n\n" + layoutDescriptions[valueIndex];
+        layoutListPreference.setSummary(summary);
     }
 }

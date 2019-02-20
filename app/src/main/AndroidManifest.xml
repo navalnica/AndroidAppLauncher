@@ -12,15 +12,14 @@
         android:roundIcon="@mipmap/ic_knight_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".WelcomePage"></activity>
         <activity android:name=".WelcomePageStart" />
         <activity android:name=".AppDescription" />
         <activity android:name=".ThemePicker" />
         <activity android:name=".LayoutPicker" />
         <activity
             android:name=".LauncherActivity"
-            android:label="Launcher"
-            android:parentActivityName=".MainActivity">
+            android:label="Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

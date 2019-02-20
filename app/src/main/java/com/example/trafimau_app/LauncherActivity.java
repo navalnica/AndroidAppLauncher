@@ -1,5 +1,6 @@
 package com.example.trafimau_app;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,14 +9,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class LauncherActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private boolean initialFragmentInflated = false;
+    private Fragment initialFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,30 @@ public class LauncherActivity extends AppCompatActivity {
         configureNavigationDrawer();
 
         if(savedInstanceState == null){
-            inflateFragment(new ListFragment(), false);
-            setTitle(R.string.list_launcher);
+            // TODO: handle saved instance state
+
+            initialFragment = new ListFragment();
+            inflateFragment(initialFragment, false);
+            initialFragmentInflated = true;
+            if(initialFragment instanceof ListFragment){
+                setTitle(R.string.list_launcher);
+            }
+            else if (initialFragment instanceof GridFragment){
+                setTitle(R.string.grid_launcher);
+            }
         }
     }
 
-    // TODO : remove
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -56,6 +75,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void configureNavigationDrawer(){
         NavigationView navigationView = findViewById(R.id.navigationDrawer);
+
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     // set item as selected to persist highlight
@@ -76,22 +96,41 @@ public class LauncherActivity extends AppCompatActivity {
                             inflateFragment(new SettingsFragment(), true);
                             setTitle(R.string.settings);
                             break;
-                        default:
-                            final String msg = menuItem.getTitle() + " fragment not implemented";
-                            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     }
                     return true;
+                });
+
+        navigationView.getHeaderView(0).findViewById(R.id.navDrawerAuthorImage)
+                .setOnClickListener(view -> {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    inflateFragment(new ProfileFragment(), true);
                 });
     }
 
     private void inflateFragment(Fragment fragment, boolean addToBackStack) {
-        // TODO: do not add identical fragment. Maybe SingleTop model could help?
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        final int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        if(backStackEntryCount == 0 && initialFragmentInflated){
+            if(fragment.getClass().getSimpleName().equals(
+                    initialFragment.getClass().getSimpleName())){
+                return;
+            }
+        }
+        else if (backStackEntryCount > 0){
+            String topFragmentName = fragmentManager.getBackStackEntryAt(
+                    backStackEntryCount - 1).getName();
+            if(fragment.getClass().getSimpleName().equals(topFragmentName)){
+                return;
+            }
+        }
+
         FragmentTransaction transaction = fragmentManager
                 .beginTransaction()
                 .replace(R.id.launcherFragmentContainer, fragment);
         if(addToBackStack){
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(fragment.getClass().getSimpleName());
         }
         transaction.commit();
     }

@@ -2,6 +2,9 @@
     <dimen name="offset">18dp</dimen>
     <dimen name="recyclerViewOffset">8dp</dimen>
     <dimen name="profileImage">166dp</dimen>
+    <dimen name="navDrawerImage">90dp</dimen>
+
+    <dimen name="profileAppBarHeight">309dp</dimen>
 
     <dimen name="welcomeMainText">22sp</dimen>
     <dimen name="welcomeSecondaryText">18sp</dimen>

@@ -5,12 +5,21 @@
     android:background="?attr/colorPrimary"
     android:padding="@dimen/offset"
     android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom">
+
+    <ImageView
+        android:id="@+id/navDrawerAuthorImage"
+        android:layout_width="@dimen/navDrawerImage"
+        android:layout_height="@dimen/navDrawerImage"
+        android:src="@drawable/author_circle"
+        android:contentDescription="@string/authorImageContentDescription" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Navigation Drawer Title"
+        android:text="@string/author"
+        android:layout_marginTop="@dimen/offset"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>
