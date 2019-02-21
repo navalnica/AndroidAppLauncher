@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrafimauApp</string>
-    <string name="applicationDescription">Гэта launcher, напісаны для MDS</string>
+    <string name="appDescription">Гэта launcher, напісаны для MDS</string>
     <string name="greeting">Вітаем!</string>
     <string name="authorImageContentDescription">Выява аўтара</string>
     <string name="githubImageContentDescription">Выява профіля Github</string>
-    <string name="buttonNext">Далей</string>
+    <string name="buttonContinue">Далей</string>
     <string name="themePickerLight">Светлая тэма</string>
     <string name="themePickerDark">Цёмная тэма</string>
     <string name="layoutCompactName">Шчыльны макет</string>

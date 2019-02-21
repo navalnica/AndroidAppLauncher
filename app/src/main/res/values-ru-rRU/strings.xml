@@ -8,10 +8,10 @@
     <string name="layoutCompactName">Плотный макет</string>
     <string name="themePickerDark">Тёмная тема</string>
     <string name="themePickerLight">Светлая тема</string>
-    <string name="buttonNext">Далее</string>
+    <string name="buttonContinue">Далее</string>
     <string name="githubImageContentDescription">Изображение профиля Github</string>
     <string name="authorImageContentDescription">Изображение автора</string>
     <string name="greeting">Приветствуем!</string>
-    <string name="applicationDescription">Это launcher, написанный для MDS</string>
+    <string name="appDescription">Это launcher, написанный для MDS</string>
     <string name="color">Цвет</string>
 </resources>

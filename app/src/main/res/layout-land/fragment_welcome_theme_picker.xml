@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,16 +10,19 @@
         android:id="@+id/themePickerRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/themePickerNextButton"
+        android:layout_above="@id/themePickerContinueButton"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/offset"
-        android:orientation="vertical">
+        android:baselineAligned="false">
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:id="@+id/themePickerLightBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_block_background"
+            >
 
             <RadioButton
                 android:id="@+id/themePickerLightThemeRadioButton"
@@ -29,9 +33,13 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:id="@+id/themePickerDarkBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_block_background"
+            android:layout_marginStart="@dimen/offset"
+            >
 
             <RadioButton
                 android:id="@+id/themePickerDarkThemeRadioButton"
@@ -44,8 +52,9 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/themePickerNextButton"
-        style="@style/buttonNext"
-        android:theme="@style/coloredAppCompatButton"/>
+        android:id="@+id/themePickerContinueButton"
+        style="@style/buttonContinue"
+        android:theme="@style/coloredAppCompatButton"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

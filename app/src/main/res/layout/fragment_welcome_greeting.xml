@@ -11,12 +11,11 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <!--TODO: make resource from png icon file-->
         <ImageView
             android:layout_width="@dimen/profileImage"
             android:layout_height="@dimen/profileImage"
-            android:contentDescription="@string/authorImageContentDescription"
-            android:src="@drawable/author_circle" />
+            android:contentDescription="@string/appIconContentDescription"
+            android:src="@mipmap/ic_knight_round" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,11 +31,18 @@
             android:textSize="@dimen/welcomeSecondaryText"
             android:layout_marginTop="@dimen/offset" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appDescription"
+            android:textSize="@dimen/welcomeSecondaryText"
+            android:layout_marginTop="@dimen/offset" />
+
     </LinearLayout>
 
     <Button
-        android:id="@+id/welcomePageStartNextButton"
-        style="@style/buttonNext"
+        android:id="@+id/welcomeStartContinueButton"
+        style="@style/buttonContinue"
         android:theme="@style/coloredAppCompatButton" />
 
 </RelativeLayout>

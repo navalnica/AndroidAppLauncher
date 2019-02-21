@@ -1,16 +1,18 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.trafimau_app.DataModel;
+import com.example.trafimau_app.MyAppInfo;
+import com.example.trafimau_app.R;
+
 public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHolder> {
 
     private final DataModel dataModel;
-    final String LOG_TAG = "listAdapter";
 
     ListFragmentAdapter(DataModel dataModel) {
         this.dataModel = dataModel;
@@ -26,17 +28,15 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ListFragmentViewHolder viewHolder, int i) {
-        // TODO: check null collor
-        Integer color = dataModel.getColor(i);
-        if(color == null){
-            Log.d(LOG_TAG, "color at position " + i + " is null");
-            return;
-        }
-        viewHolder.bind(color, "Sample string");
+        final MyAppInfo appInfo = dataModel.apps.get(i);
+        viewHolder.bind(appInfo);
+        viewHolder.itemView.setOnClickListener(v -> viewHolder.itemView.getContext()
+                .startActivity(appInfo.launchIntent)
+        );
     }
 
     @Override
     public int getItemCount() {
-        return dataModel.getItemCount();
+        return dataModel.apps.size();
     }
 }

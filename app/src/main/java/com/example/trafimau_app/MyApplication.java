@@ -4,6 +4,8 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
+    public final static String LOG_TAG = "MyApp";
+
     public enum Theme {
         LIGHT, DARK
     }
@@ -21,8 +23,8 @@ public class MyApplication extends Application {
         }
     }
 
-    Theme theme = Theme.LIGHT;
-    Layout layout = Layout.STANDARD;
-    DataModel dataModel = new DataModel();
+    public Theme theme = Theme.LIGHT;
+    public Layout layout = Layout.STANDARD;
+    public DataModel dataModel = new DataModel();
 
 }

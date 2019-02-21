@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.trafimau_app.R;
 
 public class ProfileFragment extends Fragment {
 
@@ -49,6 +51,8 @@ public class ProfileFragment extends Fragment {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        // TODO: try to set another id for up button
+
         return rootView;
     }
 
@@ -62,6 +66,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO: currently action is catched in activity listener
         Log.d("profile", "onOptionsItemSelected");
         if (item.getItemId() == android.R.id.home) {
             activity.onBackPressed();

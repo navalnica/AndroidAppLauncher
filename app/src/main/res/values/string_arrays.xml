@@ -7,8 +7,8 @@
     </string-array>
 
     <string-array name="layout_entry_values">
-        <item>layout_standard</item>
-        <item>layout_compact</item>
+        <item>@string/layout_standard_value</item>
+        <item>@string/layout_compact_value</item>
     </string-array>
 
     <string-array name="layout_descriptions">

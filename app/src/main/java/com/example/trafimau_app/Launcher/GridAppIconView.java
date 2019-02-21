@@ -1,21 +1,19 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class AppSquareView extends View {
+public class GridAppIconView extends android.support.v7.widget.AppCompatImageView {
 
-    public AppSquareView(Context context) {
+    public GridAppIconView(Context context) {
         super(context);
     }
 
-    public AppSquareView(Context context, AttributeSet attrs) {
+    public GridAppIconView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AppSquareView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GridAppIconView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

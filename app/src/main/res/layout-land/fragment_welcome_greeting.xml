@@ -23,8 +23,8 @@
             android:id="@+id/welcomeAuthorImage"
             android:layout_width="@dimen/profileImage"
             android:layout_height="@dimen/profileImage"
-            android:contentDescription="@string/authorImageContentDescription"
-            android:src="@drawable/author_circle" />
+            android:contentDescription="@string/appIconContentDescription"
+            android:src="@mipmap/ic_knight_round" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,13 +46,20 @@
                 android:text="@string/greeting"
                 android:textSize="@dimen/welcomeSecondaryText" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appDescription"
+                android:textSize="@dimen/welcomeSecondaryText"
+                android:layout_marginTop="@dimen/offset" />
+
         </LinearLayout>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/welcomePageStartNextButton"
-        style="@style/buttonNext"
+        android:id="@+id/welcomeStartContinueButton"
+        style="@style/buttonContinue"
         android:theme="@style/coloredAppCompatButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

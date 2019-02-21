@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layoutPickerContinueButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/offset"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutPickerStandardBlock"
+            style="@style/layoutPickerRadioButtonBlock">
+
+            <RadioButton
+                android:id="@+id/layoutPickerStandardRadioButton"
+                style="@style/layoutPickerRadioButton"
+                android:text="@string/layoutStandardName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layoutStandardDescription"
+                android:textSize="@dimen/layoutPickerSecondaryText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPickerCompactBlock"
+            style="@style/layoutPickerRadioButtonBlock"
+            android:layout_marginTop="@dimen/offset">
+
+            <RadioButton
+                android:id="@+id/layoutPickerCompactRadioButton"
+                style="@style/layoutPickerRadioButton"
+                android:text="@string/layoutCompactName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/layoutCompactDescription"
+                android:textSize="@dimen/layoutPickerSecondaryText" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/layoutPickerContinueButton"
+        style="@style/buttonContinue"
+        android:text="@string/buttonFinish"
+        android:theme="@style/coloredAppCompatButton" />
+
+</RelativeLayout>

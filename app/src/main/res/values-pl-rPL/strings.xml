@@ -8,10 +8,10 @@
     <string name="layoutCompactName">Gęsty układ</string>
     <string name="themePickerDark">Ciemny temat</string>
     <string name="themePickerLight">Jasny temat</string>
-    <string name="buttonNext">Dalej</string>
+    <string name="buttonContinue">Dalej</string>
     <string name="githubImageContentDescription">Obraz profilu Github</string>
     <string name="authorImageContentDescription">Obraz twórca</string>
     <string name="greeting">Witamy!</string>
-    <string name="applicationDescription">Ten launcher, napisane dla MDS</string>
+    <string name="appDescription">Ten launcher, napisane dla MDS</string>
     <string name="color">Kolor</string>
 </resources>

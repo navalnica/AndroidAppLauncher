@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;

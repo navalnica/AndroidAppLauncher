@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.trafimau_app.MyApplication;
+import com.example.trafimau_app.R;
 
 public class ListFragment extends Fragment {
 
@@ -39,7 +42,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_launcher_list, container, false);
         configRecyclerView();
         return rootView;
     }

@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.Launcher;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -9,7 +9,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
-public class SettingsFragment
+import com.example.trafimau_app.R;
+
+public class PreferencesFragment
         extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 

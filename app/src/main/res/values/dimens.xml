@@ -12,5 +12,6 @@
     <dimen name="layoutPickerMainText">22sp</dimen>
     <dimen name="layoutPickerSecondaryText">16sp</dimen>
     <dimen name="navHeaderHeight">192dp</dimen>
+    <dimen name="launcherListAppLabel">18sp</dimen>
 
 </resources>
