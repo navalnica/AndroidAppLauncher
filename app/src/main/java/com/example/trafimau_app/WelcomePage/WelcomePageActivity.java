@@ -7,24 +7,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.example.trafimau_app.Launcher.LauncherActivity;
+import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 
 public class WelcomePageActivity extends AppCompatActivity implements
-        OnContinueButtonClickListener {
+        OnContinueButtonClickListener, ThemeChangedListener {
 
     private ViewPager viewPager;
     private int FRAGMENTS_COUNT = 4;
+    private MyApplication app;
 
-    // TODO: change other classes to Fragments
-    // TODO: add navigation with CONTINUE button click
-    // TODO: add current tabs with fragment titles
-    // TODO: change title for the last button ot FINISH
-    // TODO: add theme switching with night mode
-    // TODO: make the whole button block clickable. try to disable radio button and listen for layout
-    // TODO: store changes to preferences
+    // TODO: add tabs with fragment titles
     // TODO: check if WelcomePage should be launched
 
     @Override
@@ -32,8 +29,10 @@ public class WelcomePageActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
 
+        app = (MyApplication) getApplication();
+
         viewPager = findViewById(R.id.welcomePageViewPager);
-        final WelcomePageViewPagerAdapter adapter = new WelcomePageViewPagerAdapter(
+        WelcomePagerViewPagerAdapter adapter = new WelcomePagerViewPagerAdapter(
                 getSupportFragmentManager());
         viewPager.setAdapter(adapter);
     }
@@ -51,18 +50,25 @@ public class WelcomePageActivity extends AppCompatActivity implements
     @Override
     public void onContinueButtonClick(View view) {
         final int currentItem = viewPager.getCurrentItem();
-        if(currentItem < FRAGMENTS_COUNT - 1){
+        if (currentItem < FRAGMENTS_COUNT - 1) {
             viewPager.setCurrentItem(currentItem + 1);
-        }
-        else{
+        } else {
             Intent intent = new Intent(this, LauncherActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
-    private class WelcomePageViewPagerAdapter extends FragmentStatePagerAdapter {
-        public WelcomePageViewPagerAdapter(FragmentManager fm) {
+    @Override
+    public void resetTheme() {
+        Log.d(MyApplication.LOG_TAG, "WelcomePageActivity: resetTheme()");
+
+        app.syncAppTheme();
+        recreate();
+    }
+
+    private class WelcomePagerViewPagerAdapter extends FragmentStatePagerAdapter {
+        public WelcomePagerViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

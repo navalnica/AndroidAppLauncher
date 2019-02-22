@@ -3,22 +3,23 @@ package com.example.trafimau_app.Launcher;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 
 public class PreferencesFragment
         extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private final String TAG = "settings";
-    private SharedPreferences sharedPreferences;
 
-    private String layoutListKey;
+    private MyApplication app;
+
+    private String keyLayoutList;
     ListPreference layoutListPreference;
     private String[] layoutDescriptions;
 
@@ -32,14 +33,24 @@ public class PreferencesFragment
 
         Activity activity = getActivity();
         if(activity == null){
-            Log.d(TAG, "getActivity() returned null");
+            Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
             throw new NullPointerException();
         }
 
-        layoutListKey = getResources().getString(R.string.keyLayoutListPreference);
-        layoutListPreference = (ListPreference) findPreference(layoutListKey);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        app = (MyApplication) activity.getApplication();
 
+        keyLayoutList = getResources().getString(R.string.keyLayoutListPreference);
+        layoutListPreference = (ListPreference) findPreference(keyLayoutList);
+
+        initializeViews();
+    }
+
+    private void initializeViews() {
+        String keyDarkThemeSwitch = getResources().getString(R.string.keyDarkThemeSwitch);
+        SwitchPreference nightThemeToggle = (SwitchPreference) findPreference(keyDarkThemeSwitch);
+        nightThemeToggle.setChecked(app.isNighModeEnabled());
+
+        layoutListPreference.setValue(Boolean.toString(app.isCompactLayoutEnabled()));
         setSummaryForLayoutListPreference();
     }
 
@@ -61,20 +72,19 @@ public class PreferencesFragment
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
-        // update summary for layout picker
-        if (key.equals(getResources().getString(R.string.keyLayoutListPreference))) {
+        // update summary for currentLayout picker
+        if (key.equals(keyLayoutList)) {
+            final String value = layoutListPreference.getValue();
+            boolean compactModeEnabled = Boolean.valueOf(value);
+            app.setCompactLayoutEnabled(compactModeEnabled);
             setSummaryForLayoutListPreference();
         }
     }
 
     private void setSummaryForLayoutListPreference(){
         int valueIndex = layoutListPreference.findIndexOfValue(
-                sharedPreferences.getString(layoutListKey, ""));
-
-        // TODO: move parameters initialization into Welcome Page!
-        if(valueIndex < 0){
-            valueIndex = 0;
-        }
+                layoutListPreference.getValue()
+        );
 
         CharSequence summary = layoutListPreference.getEntries()[valueIndex]
                 + ":\n\n" + layoutDescriptions[valueIndex];

@@ -32,7 +32,7 @@ public class AppDescriptionFragment extends Fragment {
             continueButtonClickListener = (OnContinueButtonClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(
-                    context.toString() + OnContinueButtonClickListener.errorMessage);
+                    OnContinueButtonClickListener.getErrorMessage(context.toString()));
         }
     }
 }

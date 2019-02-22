@@ -1,11 +1,17 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Dark">
+        <!-- Customize your theme here. -->
+        <!--<item name="radioButtonBlockBorderColor">@color/colorPrimary</item>-->
+        <!--<item name="android:navigationColo">@color/colorPrimary</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">

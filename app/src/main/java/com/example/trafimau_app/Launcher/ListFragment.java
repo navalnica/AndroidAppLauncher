@@ -21,11 +21,8 @@ public class ListFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private View rootView;
 
-    final String TAG = "ListFragment";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO: maybe remove super invocation?
         super.onCreate(savedInstanceState);
 
         Activity activity = getActivity();
@@ -34,7 +31,7 @@ public class ListFragment extends Fragment {
             listFragmentAdapter = new ListFragmentAdapter(app.dataModel);
         }
         else{
-            Log.d(TAG, "getActivity() returned null");
+            Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
         }
     }
 

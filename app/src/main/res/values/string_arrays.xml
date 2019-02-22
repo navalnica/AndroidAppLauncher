@@ -6,9 +6,10 @@
         <item>@string/layoutCompactName</item>
     </string-array>
 
+    <!-- correspond to sharedPrefCompactLayoutEnabledKey -->
     <string-array name="layout_entry_values">
-        <item>@string/layout_standard_value</item>
-        <item>@string/layout_compact_value</item>
+        <item>false</item>
+        <item>true</item>
     </string-array>
 
     <string-array name="layout_descriptions">

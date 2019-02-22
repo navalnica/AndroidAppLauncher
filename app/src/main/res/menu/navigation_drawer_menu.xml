@@ -15,7 +15,7 @@
         <item
             android:id="@+id/navigationSettingsFragment"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/navSettings" />
+            android:title="@string/settings" />
     </group>
 
 </menu>

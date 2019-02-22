@@ -4,5 +4,7 @@ import android.view.View;
 
 public interface OnContinueButtonClickListener {
     void onContinueButtonClick(View view);
-    String errorMessage = " must implement OnContinueButtonClickListener";
+    static String getErrorMessage(String contextName){
+        return contextName + " must implement OnContinueButtonClickListener";
+    }
 }

@@ -38,7 +38,7 @@ public class GreetingFragment extends Fragment {
             continueButtonClickListener = (OnContinueButtonClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(
-                    context.toString() + " must implement OnArticleSelectedListener");
+                    OnContinueButtonClickListener.getErrorMessage(context.toString()));
         }
     }
 

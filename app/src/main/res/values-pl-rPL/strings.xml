@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrafimauApp</string>
     <string name="layoutStandardDescription">Portret: 4 ikony z rzędu\nKrajobraz: 6 ikony z rzędu</string>
     <string name="layoutCompactDescription">Portret: 5 ikony z rzędu\nKrajobraz: 7 ikony z rzędu</string>
     <string name="author">Aliaksandr Trafimau</string>
@@ -9,7 +8,6 @@
     <string name="themePickerDark">Ciemny temat</string>
     <string name="themePickerLight">Jasny temat</string>
     <string name="buttonContinue">Dalej</string>
-    <string name="githubImageContentDescription">Obraz profilu Github</string>
     <string name="authorImageContentDescription">Obraz twórca</string>
     <string name="greeting">Witamy!</string>
     <string name="appDescription">Ten launcher, napisane dla MDS</string>

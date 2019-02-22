@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appDescription">זהו מפעיל האפליקציות עבור MDS</string>
+    <string name="greeting">ברוך הבא!</string>
+    <string name="authorImageContentDescription">תמונה של מחבר</string>
+    <string name="buttonContinue">המשך</string>
+    <string name="themePickerLight">נושא בהיר</string>
+    <string name="themePickerDark">ערכת נושא כהה</string>
+    <string name="layoutCompactName">פריסה קומפקטית</string>
+    <string name="layoutStandardName">פריסה רגילה</string>
+    <string name="author">Aliaksandr Trafimau</string>
+    <string name="layoutStandardDescription">
+        דיוקן: 4 סמלים ברצף
+        \nנוף: 6 סמלים בשורה
+    </string>
+    <string name="layoutCompactDescription">
+        דיוקן: 5 סמלים ברצף
+        \nנוף: 7 סמלים בשורה
+    </string>
+    <string name="color">צבע</string>
+    <string name="buttonFinish">סיים</string>
+    <string name="appIconContentDescription">סמל היישום</string>
+    <string name="navListActivity">רשימה</string>
+    <string name="navLauncherActivity">רשת</string>
+    <string name="grid_launcher">משגר רשת</string>
+    <string name="list_launcher">מפעיל את המשגר</string>
+    <string name="settings">הגדרות</string>
+    <string name="appDescription1">כאן תוכל להפעיל יישומים אחרים המותקנים בטלפון שלך</string>
+    <string name="appDescription2">אתה יכול לעבור בין גריד ואת רשימת מצבי משגר ולהציג פרופיל מחברים או הגדרות מסך במגירה ניווט</string>
+    <string name="toggle_dark_theme">החלף נושא כהה</string>
+    <string name="layout">פריסה</string>
+    <string name="show_welcome_page_on_next_launch">הצג דף ברוכים הבאים על ההשקה הבאה</string>
+</resources>

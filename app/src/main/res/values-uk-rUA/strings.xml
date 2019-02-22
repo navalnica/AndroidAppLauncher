@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrafimauApp</string>
     <string name="layoutStandardDescription">Портретна: 4 іконки рядком\nЛандшафтна: 6 іконок рядком</string>
     <string name="layoutCompactDescription">Портретная: 5 іконки рядком\nЛандшафтна: 7 іконок рядком</string>
     <string name="author">Аляксандр Трафімаў</string>
@@ -9,7 +8,6 @@
     <string name="themePickerDark">Темна тема</string>
     <string name="themePickerLight">Світла тема</string>
     <string name="buttonContinue">Далі</string>
-    <string name="githubImageContentDescription">Зображення профілю Github</string>
     <string name="authorImageContentDescription">Зображення автора</string>
     <string name="greeting">Вітаємо!</string>
     <string name="appDescription">Це launcher, написаний для MDS</string>

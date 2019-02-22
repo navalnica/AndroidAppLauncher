@@ -22,8 +22,6 @@ public class GridFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private View rootView;
 
-    final String TAG = "GridFragment";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class GridFragment extends Fragment {
             gridFragmentAdapter = new GridFragmentAdapter(app.dataModel);
         }
         else{
-            Log.d(TAG, "getActivity() returned null");
+            Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
         }
     }
 
@@ -53,9 +51,9 @@ public class GridFragment extends Fragment {
         int gridSpanCount = 1;
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT) {
-            gridSpanCount = app.layout.portraitGridSpanCount;
+            gridSpanCount = app.currentLayout.portraitGridSpanCount;
         } else {
-            gridSpanCount = app.layout.landscapeGridSpanCount;
+            gridSpanCount = app.currentLayout.landscapeGridSpanCount;
         }
         layoutManager = new GridLayoutManager(rv.getContext(), gridSpanCount);
         rv.setLayoutManager(layoutManager);
