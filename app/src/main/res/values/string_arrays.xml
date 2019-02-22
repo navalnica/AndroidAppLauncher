@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="layout_entries">
+        <item>@string/layoutStandardName</item>
+        <item>@string/layoutCompactName</item>
+    </string-array>
+
+    <!-- correspond to sharedPrefCompactLayoutEnabledKey -->
+    <string-array name="layout_entry_values">
+        <item>false</item>
+        <item>true</item>
+    </string-array>
+
+    <string-array name="layout_descriptions">
+        <item>@string/layoutStandardDescription</item>
+        <item>@string/layoutCompactDescription</item>
+    </string-array>
+
+</resources>

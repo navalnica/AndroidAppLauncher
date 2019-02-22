@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keyDarkThemeSwitch" translatable="false">dark_theme_switch</string>
+    <string name="keyLayoutListPreference" translatable="false">layout_picker_list</string>
+    <string name="keyShowWelcomePageCheckbox" translatable="false">show_welcome_page_checkbox</string>
+</resources>

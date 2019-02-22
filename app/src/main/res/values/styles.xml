@@ -1,11 +1,17 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Dark">
+        <!-- Customize your theme here. -->
+        <!--<item name="radioButtonBlockBorderColor">@color/colorPrimary</item>-->
+        <!--<item name="android:navigationColo">@color/colorPrimary</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,23 +19,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- app crashes if you set these themes. log says that theme must be from AppCompat-->
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
 
-    <style name="layoutPickerRadioButtonBlock">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/radio_button_block_background</item>
-        <item name="android:padding">@dimen/offset</item>
-    </style>
-
-    <style name="buttonNext">
-        <item name="android:text">@string/buttonNext</item>
+    <style name="buttonContinue">
+        <item name="android:text">@string/buttonContinue</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentBottom">true</item>
@@ -41,19 +37,31 @@
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textColor">@color/white</item>
     </style>
-    
-    <style name="relativeCenteredTextViewWithTopOffset">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/offset</item>
-        <item name="android:layout_centerHorizontal">true</item>
-    </style>
-    
+
     <style name="themePickerRadioButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">@dimen/themePickerText</item>
+        <item name="android:padding">@dimen/offset</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="layoutPickerRadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/layoutPickerMainText</item>
+        <item name="android:padding">@dimen/offset</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="layoutPickerRadioButtonBlock">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/radio_button_block_background</item>
         <item name="android:padding">@dimen/offset</item>
     </style>
 

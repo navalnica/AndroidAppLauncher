@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrafimauApp</string>
-    <string name="applicationDescription">Гэта launcher, напісаны для MDS</string>
+    <string name="appDescription">Гэта launcher, напісаны для MDS</string>
     <string name="greeting">Вітаем!</string>
     <string name="authorImageContentDescription">Выява аўтара</string>
-    <string name="githubImageContentDescription">Выява профіля Github</string>
-    <string name="buttonNext">Далей</string>
+    <string name="buttonContinue">Далей</string>
     <string name="themePickerLight">Светлая тэма</string>
     <string name="themePickerDark">Цёмная тэма</string>
-    <string name="layoutPickerCompactText">Шчыльны макет</string>
-    <string name="layoutPickerStandardText">Стандартны макет</string>
+    <string name="layoutCompactName">Шчыльны макет</string>
+    <string name="layoutStandardName">Стандартны макет</string>
     <string name="author">Аляксандр Трафімаў</string>
-    <string name="layoutPickerStandardDescription">Партрэтная: 4 іконкі ў шэрагу\nЛандшафтная: 6 іконак у шэрагу</string>
-    <string name="layoutPickerCompactDescription">Партрэтны: 5 іконкі ў шэрагу\nЛандшафтны: 7 іконак у шэрагу</string>
+    <string name="layoutStandardDescription">Партрэтная: 4 іконкі ў шэрагу\nЛандшафтная: 6 іконак у шэрагу</string>
+    <string name="layoutCompactDescription">Партрэтны: 5 іконкі ў шэрагу\nЛандшафтны: 7 іконак у шэрагу</string>
     <string name="color">Колер</string>
+    <string name="buttonFinish">Скончыць</string>
+    <string name="appIconContentDescription">Выява дастасавання</string>
+    <string name="navListActivity">Спіс</string>
+    <string name="navLauncherActivity">Сетка</string>
+    <string name="grid_launcher">Сетка</string>
+    <string name="list_launcher">Спіс</string>
+    <string name="settings">Налады</string>
+    <string name="appDescription1">З дапамогай гэтай праграмы вы можаце запускаць іншыя ўсталяваныя дастасаванні</string>
+    <string name="appDescription2">Пераключацца паміж відамі асноўнага экрану (сетка і спіс) а таксама праглядзець налады і профіль аўтара можна праз бакавую шторку</string>
+    <string name="toggle_dark_theme">Пераключыць цёмную тэму</string>
+    <string name="layout">Макет</string>
+    <string name="show_welcome_page_on_next_launch">Паказаць Пачатковую старонку пра наступным запуску</string>
 </resources>

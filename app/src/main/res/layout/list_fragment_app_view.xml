@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/recyclerViewOffset">
+
+    <com.example.trafimau_app.Launcher.ListAppIconView
+        android:id="@+id/listFragmentAppIcon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_circle_background"
+        />
+
+    <TextView
+        android:id="@+id/listFragmentAppLabel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start|center"
+        android:layout_marginStart="@dimen/offset"
+        android:textSize="@dimen/launcherListAppLabel"/>
+
+
+</LinearLayout>

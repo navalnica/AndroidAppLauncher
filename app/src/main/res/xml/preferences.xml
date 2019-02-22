@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/keyDarkThemeSwitch"
+        android:summaryOff="@string/darkThemeDisabled"
+        android:summaryOn="@string/darkThemeEnabled"
+        android:title="@string/toggle_dark_theme"
+        />
+
+    <ListPreference
+        android:key="@string/keyLayoutListPreference"
+        android:title="@string/layout"
+        android:summary="@string/layoutStandardDescription"
+        android:dialogTitle="@string/layoutPickerDialogTitle"
+        android:entries="@array/layout_entries"
+        android:entryValues="@array/layout_entry_values"
+        android:negativeButtonText="@string/cancel"
+        />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/keyShowWelcomePageCheckbox"
+        android:title="@string/show_welcome_page_on_next_launch" />
+
+</PreferenceScreen>
