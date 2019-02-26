@@ -13,16 +13,16 @@ import android.view.View;
 import com.example.trafimau_app.Launcher.LauncherActivity;
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class WelcomePageActivity extends AppCompatActivity implements
-        OnContinueButtonClickListener, ThemeChangedListener {
+        OnContinueButtonClickListener {
 
     private ViewPager viewPager;
     private int FRAGMENTS_COUNT = 4;
     private MyApplication app;
 
     // TODO: add tabs with fragment titles
-    // TODO: check if WelcomePage should be launched
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +31,22 @@ public class WelcomePageActivity extends AppCompatActivity implements
 
         app = (MyApplication) getApplication();
 
+        if (app.isShowWelcomePage()) {
+            Log.d(MyApplication.LOG_TAG, "isShowWelcomePage: true");
+        } else {
+            Log.d(MyApplication.LOG_TAG, "isShowWelcomePage: false");
+            Log.d(MyApplication.LOG_TAG, "starting Launcher Activity");
+            Intent intent = new Intent(this, LauncherActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         viewPager = findViewById(R.id.welcomePageViewPager);
         WelcomePagerViewPagerAdapter adapter = new WelcomePagerViewPagerAdapter(
                 getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+
+        YandexMetrica.reportEvent("Showing Welcome Page");
     }
 
     @Override
@@ -53,18 +65,13 @@ public class WelcomePageActivity extends AppCompatActivity implements
         if (currentItem < FRAGMENTS_COUNT - 1) {
             viewPager.setCurrentItem(currentItem + 1);
         } else {
+            Log.d(MyApplication.LOG_TAG, "settings showWelcomePage to false");
+            app.setShowWelcomePage(false);
+
             Intent intent = new Intent(this, LauncherActivity.class);
             startActivity(intent);
             finish();
         }
-    }
-
-    @Override
-    public void resetTheme() {
-        Log.d(MyApplication.LOG_TAG, "WelcomePageActivity: resetTheme()");
-
-        app.syncAppTheme();
-        recreate();
     }
 
     private class WelcomePagerViewPagerAdapter extends FragmentStatePagerAdapter {

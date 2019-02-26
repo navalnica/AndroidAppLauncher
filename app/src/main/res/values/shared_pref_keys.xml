@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="showWelcomePageKey" translatable="false">SHOW_WELCOME_PAGE</string>
     <string name="sharedPrefNightModeEnabledKey" translatable="false">NIGHT_MODE_ENABLED</string>
     <string name="sharedPrefCompactLayoutEnabledKey" translatable="false">COMPACT_LAYOUT_ENABLED</string>
 </resources>

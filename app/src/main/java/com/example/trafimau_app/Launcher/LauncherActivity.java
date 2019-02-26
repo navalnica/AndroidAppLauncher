@@ -9,29 +9,25 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.distribute.Distribute;
+
+import java.util.Stack;
 
 public class LauncherActivity extends AppCompatActivity {
 
     private MyApplication app;
 
     private DrawerLayout drawerLayout;
-    private boolean initialFragmentInflated = false;
+    private NavigationView navigationView;
+    private boolean profileFragmentResumed = false;
     private Fragment initialFragment;
-
-    // TODO: move to the settings file?
-    private static final String APP_CENTER_KEY = "837acbd8-490f-4613-8c34-8cadf9bd3268";
+    private boolean initialFragmentInflated = false;
+    private final Stack<MenuItem> navMenuItemsStack = new Stack<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +35,19 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-        Fabric.with(this, new Crashlytics());
-        AppCenter.start(getApplication(), APP_CENTER_KEY, Distribute.class);
-
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
+        navigationView = findViewById(R.id.navigationDrawer);
+        navMenuItemsStack.push(navigationView.getCheckedItem());
 
         if (savedInstanceState == null) {
             initialFragment = new GridFragment();
             inflateFragment(initialFragment, false);
             initialFragmentInflated = true;
-            if (initialFragment instanceof ListFragment) {
-                setTitle(R.string.list_launcher);
-            } else if (initialFragment instanceof GridFragment) {
-                setTitle(R.string.grid_launcher);
+            if (initialFragment instanceof ListFragment ||
+                    initialFragment instanceof GridFragment) {
+                setTitle(R.string.launcherTitle);
             }
+            // TODO: handle title for Desktop fragment
         }
 
         configureToolbar();
@@ -64,6 +59,18 @@ public class LauncherActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.d(MyApplication.LOG_TAG, "LauncherActivity.onBackPressed");
+
+        if (!navMenuItemsStack.empty()) {
+            navMenuItemsStack.pop();
+            navMenuItemsStack.peek().setChecked(true);
+        }
+
+        if (profileFragmentResumed) {
+            // refresh flag
+            profileFragmentResumed = false;
+        }
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -73,9 +80,14 @@ public class LauncherActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(MyApplication.LOG_TAG, "LauncherActivity.onOptionsItemSelected");
         if (item.getItemId() == android.R.id.home) {
+            // use flag to choose whether to open drawer or not
+            if (profileFragmentResumed) {
+                profileFragmentResumed = false;
+                return super.onOptionsItemSelected(item);
+            }
             drawerLayout.openDrawer(GravityCompat.START);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,35 +104,38 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void configureNavigationDrawer() {
-        NavigationView navigationView = findViewById(R.id.navigationDrawer);
-
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
-                    // set item as selected to persist highlight
                     menuItem.setChecked(true);
-                    // close drawer when item is tapped
-                    drawerLayout.closeDrawers();
+                    navMenuItemsStack.push(menuItem);
 
                     switch (menuItem.getItemId()) {
-                        case R.id.navigationGridFragment:
+                        case R.id.navGridFragment:
                             inflateFragment(new GridFragment(), true);
-                            setTitle(R.string.grid_launcher);
+                            setTitle(R.string.launcherTitle);
                             break;
-                        case R.id.navigationListFragment:
+                        case R.id.navListFragment:
                             inflateFragment(new ListFragment(), true);
-                            setTitle(R.string.list_launcher);
+                            setTitle(R.string.launcherTitle);
                             break;
-                        case R.id.navigationSettingsFragment:
+                        case R.id.navDesktopFragment:
+                            // TODO
+                            throw new UnsupportedOperationException(
+                                    "Desktop fragment is not implemented yet");
+                        case R.id.navPreferencesFragment:
                             inflateFragment(new PreferencesFragment(), true);
                             setTitle(R.string.settings);
                             break;
                     }
+
+                    drawerLayout.closeDrawers();
                     return true;
                 });
 
         navigationView.getHeaderView(0).findViewById(R.id.navDrawerAuthorImage)
                 .setOnClickListener(view -> {
                     drawerLayout.closeDrawer(GravityCompat.START);
+                    profileFragmentResumed = true;
                     inflateFragment(new ProfileFragment(), true);
                 });
     }
@@ -130,12 +145,15 @@ public class LauncherActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         final int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        // check if new fragment is the same as the initial one
         if (backStackEntryCount == 0 && initialFragmentInflated) {
             if (fragment.getClass().getSimpleName().equals(
                     initialFragment.getClass().getSimpleName())) {
                 return;
             }
-        } else if (backStackEntryCount > 0) {
+        }
+        // check if new fragment is the same as previous
+        else if (backStackEntryCount > 0) {
             String topFragmentName = fragmentManager.getBackStackEntryAt(
                     backStackEntryCount - 1).getName();
             if (fragment.getClass().getSimpleName().equals(topFragmentName)) {

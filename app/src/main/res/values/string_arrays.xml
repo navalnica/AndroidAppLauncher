@@ -6,8 +6,8 @@
         <item>@string/layoutCompactName</item>
     </string-array>
 
-    <!-- correspond to sharedPrefCompactLayoutEnabledKey -->
-    <string-array name="layout_entry_values">
+    <!-- correspond to value of sharedPrefCompactLayoutEnabledKey -->
+    <string-array name="layout_compact_enabled_values">
         <item>false</item>
         <item>true</item>
     </string-array>

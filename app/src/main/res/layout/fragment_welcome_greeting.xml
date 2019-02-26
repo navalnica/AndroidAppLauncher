@@ -15,7 +15,7 @@
             android:layout_width="@dimen/profileImage"
             android:layout_height="@dimen/profileImage"
             android:contentDescription="@string/appIconContentDescription"
-            android:src="@mipmap/ic_knight_round" />
+            android:src="@drawable/github_profile_image" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
+import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -16,12 +17,17 @@ public class PreferencesFragment
         extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-
+    private Activity activity;
     private MyApplication app;
 
+    private String keyDarkThemeSwitch;
     private String keyLayoutList;
-    ListPreference layoutListPreference;
+    private String keyShowWelcomePageCheckbox;
+
+    private SwitchPreference darkThemeSwitch;
+    private ListPreference layoutListPreference;
     private String[] layoutDescriptions;
+    private CheckBoxPreference showWelcomePageCheckbox;
 
 
     @Override
@@ -31,27 +37,30 @@ public class PreferencesFragment
 
         layoutDescriptions = getResources().getStringArray(R.array.layout_descriptions);
 
-        Activity activity = getActivity();
+        activity = getActivity();
         if(activity == null){
-            Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
-            throw new NullPointerException();
+            final String msg = "PreferencesFragment: getActivity() returned null";
+            Log.d(MyApplication.LOG_TAG, msg);
+            throw new NullPointerException(msg);
         }
-
         app = (MyApplication) activity.getApplication();
 
-        keyLayoutList = getResources().getString(R.string.keyLayoutListPreference);
+        keyDarkThemeSwitch = getResources().getString(R.string.prefKeyDarkThemeSwitch);
+        keyLayoutList = getResources().getString(R.string.prefKeyLayoutListPreference);
+        keyShowWelcomePageCheckbox = getResources().getString(R.string.prefKeyShowWelcomePageCheckbox);
+
+        darkThemeSwitch = (SwitchPreference) findPreference(keyDarkThemeSwitch);
         layoutListPreference = (ListPreference) findPreference(keyLayoutList);
+        showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
 
         initializeViews();
     }
 
     private void initializeViews() {
-        String keyDarkThemeSwitch = getResources().getString(R.string.keyDarkThemeSwitch);
-        SwitchPreference nightThemeToggle = (SwitchPreference) findPreference(keyDarkThemeSwitch);
-        nightThemeToggle.setChecked(app.isNighModeEnabled());
-
+        darkThemeSwitch.setChecked(app.isNighModeEnabled());
         layoutListPreference.setValue(Boolean.toString(app.isCompactLayoutEnabled()));
         setSummaryForLayoutListPreference();
+        showWelcomePageCheckbox.setChecked(false);
     }
 
     @Override
@@ -78,7 +87,14 @@ public class PreferencesFragment
             boolean compactModeEnabled = Boolean.valueOf(value);
             app.setCompactLayoutEnabled(compactModeEnabled);
             setSummaryForLayoutListPreference();
+        } else if(key.equals(keyDarkThemeSwitch)){
+            app.setNightModeEnabled(darkThemeSwitch.isChecked());
+            activity.recreate();
+        } else if(key.equals(keyShowWelcomePageCheckbox)){
+            app.setShowWelcomePage(showWelcomePageCheckbox.isChecked());
         }
+
+
     }
 
     private void setSummaryForLayoutListPreference(){
