@@ -14,10 +14,8 @@
     <string name="color">Цвет</string>
     <string name="buttonFinish">Завершить</string>
     <string name="appIconContentDescription">Изображение приложения</string>
-    <string name="navListActivity">Список приложений</string>
-    <string name="navLauncherActivity">Сетка приложений</string>
-    <string name="grid_launcher">Сетка</string>
-    <string name="launcherTitle">Приложения</string>
+    <string name="listLauncher">Список приложений</string>
+    <string name="gridLauncher">Сетка приложений</string>
     <string name="settings">Настройки</string>
     <string name="appDescription1">С помощью этой программы вы можете запускать другие установленные приложения</string>
     <string name="appDescription2">Переключаться между видами основного экрана (сетка и список) а также просмотреть настройки и профиль автора можно через боковую шторку</string>

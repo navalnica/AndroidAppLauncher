@@ -24,10 +24,33 @@ public class LauncherActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private boolean profileFragmentResumed = false;
+    private boolean profileFragmentActive = false;
+
+    private String appsTitle;
+    private String settingsTitle;
+
+    // needed to avoid inflating the same fragment
     private Fragment initialFragment;
     private boolean initialFragmentInflated = false;
+
+    private AppsFragment curAppsFragment;
+    private int curAppsFragmentPageIndex;
+
+    private class FragmentsStackEntry {
+        public boolean isAppsFragment;
+        public AppsFragment fragment;
+        public int pageIndex;
+
+        public FragmentsStackEntry(boolean isAppsFragment, AppsFragment fragment, int pageIndex) {
+            this.isAppsFragment = isAppsFragment;
+            this.fragment = fragment;
+            this.pageIndex = pageIndex;
+        }
+    }
+
+    private final Stack<FragmentsStackEntry> fragmentsStack = new Stack<>();
     private final Stack<MenuItem> navMenuItemsStack = new Stack<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +62,16 @@ public class LauncherActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationDrawer);
         navMenuItemsStack.push(navigationView.getCheckedItem());
 
+        appsTitle = getString(R.string.applications);
+        settingsTitle = getString(R.string.settings);
+
         if (savedInstanceState == null) {
-            initialFragment = new GridFragment();
-            inflateFragment(initialFragment, false);
+            curAppsFragmentPageIndex = AppsFragment.Page.DESKTOP.ordinal();
+            curAppsFragment = AppsFragment.newInstance(curAppsFragmentPageIndex);
+            initialFragment = curAppsFragment;
+
+            inflateFragment(initialFragment, false, appsTitle);
             initialFragmentInflated = true;
-            if (initialFragment instanceof ListFragment ||
-                    initialFragment instanceof GridFragment) {
-                setTitle(R.string.launcherTitle);
-            }
-            // TODO: handle title for Desktop fragment
         }
 
         configureToolbar();
@@ -61,30 +85,52 @@ public class LauncherActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d(MyApplication.LOG_TAG, "LauncherActivity.onBackPressed");
 
+        // restore previously selected drawer item
         if (!navMenuItemsStack.empty()) {
             navMenuItemsStack.pop();
-            navMenuItemsStack.peek().setChecked(true);
+            if (!navMenuItemsStack.empty()) {
+                navMenuItemsStack.peek().setChecked(true);
+            }
         }
 
-        if (profileFragmentResumed) {
-            // refresh flag
-            profileFragmentResumed = false;
+        // refresh flag
+        if (profileFragmentActive) {
+            profileFragmentActive = false;
         }
 
+        // TODO: is it ok not to call super.onBackPressed() ?
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            return;
         }
+
+        if (fragmentsStack.size() > 1) {
+            FragmentsStackEntry top = fragmentsStack.pop();
+            FragmentsStackEntry newTopEntry = fragmentsStack.peek();
+            if (newTopEntry.isAppsFragment) {
+                curAppsFragment = newTopEntry.fragment;
+                curAppsFragmentPageIndex = newTopEntry.pageIndex;
+                curAppsFragment.setCurrentPage(curAppsFragmentPageIndex);
+            }
+            if (top.isAppsFragment && newTopEntry.isAppsFragment) {
+                // we have set previous page in ViewPager.
+                // no need to process backstack because we did not use it here.
+                // all info is stored in separate fragmentsStack
+                return;
+            }
+        }
+
+        super.onBackPressed();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(MyApplication.LOG_TAG, "LauncherActivity.onOptionsItemSelected");
         if (item.getItemId() == android.R.id.home) {
-            // use flag to choose whether to open drawer or not
-            if (profileFragmentResumed) {
-                profileFragmentResumed = false;
+            // if ProfileFragment is active than we do not need to open drawer
+            // just return to previous fragment
+            if (profileFragmentActive) {
+                profileFragmentActive = false;
                 return super.onOptionsItemSelected(item);
             }
             drawerLayout.openDrawer(GravityCompat.START);
@@ -104,30 +150,31 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void configureNavigationDrawer() {
+
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     menuItem.setChecked(true);
                     navMenuItemsStack.push(menuItem);
-
-                    switch (menuItem.getItemId()) {
-                        case R.id.navGridFragment:
-                            inflateFragment(new GridFragment(), true);
-                            setTitle(R.string.launcherTitle);
-                            break;
-                        case R.id.navListFragment:
-                            inflateFragment(new ListFragment(), true);
-                            setTitle(R.string.launcherTitle);
-                            break;
-                        case R.id.navDesktopFragment:
-                            // TODO
-                            throw new UnsupportedOperationException(
-                                    "Desktop fragment is not implemented yet");
-                        case R.id.navPreferencesFragment:
-                            inflateFragment(new PreferencesFragment(), true);
-                            setTitle(R.string.settings);
-                            break;
+                    if (menuItem.getItemId() == R.id.navPreferencesFragment) {
+                        inflateFragment(new PreferencesFragment(), true, settingsTitle);
+                    } else {
+                        Fragment appsFragment;
+                        AppsFragment.Page page;
+                        switch (menuItem.getItemId()) {
+                            case R.id.navDesktopFragment:
+                                page = AppsFragment.Page.DESKTOP;
+                                break;
+                            case R.id.navGridFragment:
+                                page = AppsFragment.Page.GRID;
+                                break;
+                            case R.id.navListFragment:
+                            default:
+                                page = AppsFragment.Page.LIST;
+                                break;
+                        }
+                        appsFragment = AppsFragment.newInstance(page.ordinal());
+                        inflateFragment(appsFragment, true, appsTitle);
                     }
-
                     drawerLayout.closeDrawers();
                     return true;
                 });
@@ -135,28 +182,37 @@ public class LauncherActivity extends AppCompatActivity {
         navigationView.getHeaderView(0).findViewById(R.id.navDrawerAuthorImage)
                 .setOnClickListener(view -> {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    profileFragmentResumed = true;
-                    inflateFragment(new ProfileFragment(), true);
+                    profileFragmentActive = true;
+                    inflateFragment(new ProfileFragment(), true, null);
                 });
     }
 
-    private void inflateFragment(Fragment fragment, boolean addToBackStack) {
-
+    private void inflateFragment(Fragment fragment, boolean addToBackStack, String title) {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         final int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        final String notInflatingMsg =
+                "LauncherActivity.inflateFragment: not inflating. fragment already exists";
+
         // check if new fragment is the same as the initial one
         if (backStackEntryCount == 0 && initialFragmentInflated) {
             if (fragment.getClass().getSimpleName().equals(
                     initialFragment.getClass().getSimpleName())) {
+
+                Log.d(MyApplication.LOG_TAG, notInflatingMsg);
+                pushToFragmentsStack(fragment, true);
                 return;
             }
         }
         // check if new fragment is the same as previous
         else if (backStackEntryCount > 0) {
-            String topFragmentName = fragmentManager.getBackStackEntryAt(
-                    backStackEntryCount - 1).getName();
+            final FragmentManager.BackStackEntry topFragment =
+                    fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
+            String topFragmentName = topFragment.getName();
             if (fragment.getClass().getSimpleName().equals(topFragmentName)) {
+
+                Log.d(MyApplication.LOG_TAG, notInflatingMsg);
+                pushToFragmentsStack(fragment, true);
                 return;
             }
         }
@@ -168,5 +224,36 @@ public class LauncherActivity extends AppCompatActivity {
             transaction.addToBackStack(fragment.getClass().getSimpleName());
         }
         transaction.commit();
+
+        pushToFragmentsStack(fragment, false);
+
+        if (title != null) {
+            setTitle(title);
+        }
+    }
+
+    private void pushToFragmentsStack(Fragment fragment, boolean updatingExistingView) {
+        if (fragment instanceof AppsFragment) {
+            final Bundle arguments = fragment.getArguments();
+            if (arguments != null) {
+                int newPageIndex = arguments.getInt(AppsFragment.ARG_APP_PAGE_INDEX);
+                if (updatingExistingView) {
+                    if (newPageIndex != curAppsFragmentPageIndex) {
+                        fragmentsStack.push(new FragmentsStackEntry(
+                                true, curAppsFragment, newPageIndex));
+
+                        curAppsFragmentPageIndex = newPageIndex;
+                        curAppsFragment.setCurrentPage(curAppsFragmentPageIndex);
+                    }
+                } else {
+                    fragmentsStack.push(new FragmentsStackEntry(
+                            true, (AppsFragment) fragment, newPageIndex));
+                    curAppsFragment = (AppsFragment) fragment;
+                    curAppsFragmentPageIndex = newPageIndex;
+                }
+            }
+        } else {
+            fragmentsStack.push(new FragmentsStackEntry(false, null, -1));
+        }
     }
 }

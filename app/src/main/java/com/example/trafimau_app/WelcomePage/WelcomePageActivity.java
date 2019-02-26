@@ -42,7 +42,7 @@ public class WelcomePageActivity extends AppCompatActivity implements
         }
 
         viewPager = findViewById(R.id.welcomePageViewPager);
-        WelcomePagerViewPagerAdapter adapter = new WelcomePagerViewPagerAdapter(
+        WelcomePageViewPagerAdapter adapter = new WelcomePageViewPagerAdapter(
                 getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
@@ -74,8 +74,8 @@ public class WelcomePageActivity extends AppCompatActivity implements
         }
     }
 
-    private class WelcomePagerViewPagerAdapter extends FragmentStatePagerAdapter {
-        public WelcomePagerViewPagerAdapter(FragmentManager fm) {
+    private class WelcomePageViewPagerAdapter extends FragmentStatePagerAdapter {
+        public WelcomePageViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

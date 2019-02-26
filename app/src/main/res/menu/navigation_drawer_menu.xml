@@ -4,17 +4,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navDesktopFragment"
+            android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/desktop" />
         <item
             android:id="@+id/navGridFragment"
-            android:checked="true"
             android:icon="@drawable/ic_grid_on_black_24dp"
-            android:title="@string/navLauncherActivity" />
+            android:title="@string/gridLauncher" />
         <item
             android:id="@+id/navListFragment"
             android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-            android:title="@string/navListActivity" />
+            android:title="@string/listLauncher" />
         <item
             android:id="@+id/navPreferencesFragment"
             android:icon="@drawable/ic_settings_black_24dp"
