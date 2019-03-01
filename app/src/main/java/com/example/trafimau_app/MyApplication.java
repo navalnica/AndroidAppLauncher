@@ -96,8 +96,6 @@ public class MyApplication extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
-        YandexMetrica.reportEvent("MyApplication: syncing app theme");
     }
 
     public boolean isShowWelcomePage() {
