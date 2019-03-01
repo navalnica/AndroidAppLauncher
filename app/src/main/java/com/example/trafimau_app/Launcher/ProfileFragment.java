@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Log.d(MyApplication.LOG_TAG, "ProfileFragment.onCreate");
-        YandexMetrica.reportEvent("authors profile is shown");
+        YandexMetrica.reportEvent("showing authors profile");
     }
 
     @Override

@@ -12,7 +12,7 @@
         android:layout_above="@id/themePickerContinueButton"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/offset"
+        android:layout_margin="@dimen/largeOffset"
         android:orientation="vertical">
 
         <FrameLayout

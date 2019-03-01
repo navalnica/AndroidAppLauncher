@@ -31,7 +31,7 @@ public class GridFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            gridFragmentAdapter = new GridFragmentAdapter(app.dataModel);
+            gridFragmentAdapter = new GridFragmentAdapter(app.appsDataModel);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
@@ -60,7 +60,7 @@ public class GridFragment extends Fragment {
         layoutManager = new GridLayoutManager(rv.getContext(), gridSpanCount);
         rv.setLayoutManager(layoutManager);
 
-        int offset = getResources().getDimensionPixelOffset(R.dimen.recyclerViewOffset);
+        int offset = getResources().getDimensionPixelOffset(R.dimen.smallOffset);
         rv.addItemDecoration(new GridFragmentDecorator(offset));
     }
 }

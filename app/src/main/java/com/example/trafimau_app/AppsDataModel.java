@@ -6,22 +6,25 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.yandex.metrica.YandexMetrica;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataModel {
+public class AppsDataModel {
 
-    public ArrayList<MyAppInfo> apps;
+    public final ArrayList<MyAppInfo> apps = new ArrayList<>();
 
-    public void syncWithInstalledAppsInfo(Context context) {
+    public void getInstalledAppsInfo(Context context) {
+
+        YandexMetrica.reportEvent("AppsDataModel: getting installed apps");
+
+        apps.clear();
 
         final PackageManager pm = context.getPackageManager();
 
         List<ApplicationInfo> installedApps = pm
                 .getInstalledApplications(PackageManager.GET_META_DATA);
-
-
-        apps = new ArrayList<>();
 
         for (ApplicationInfo ai : installedApps) {
             Intent intent = pm.getLaunchIntentForPackage(ai.packageName);
@@ -33,7 +36,7 @@ public class DataModel {
         }
     }
 
-    // TODO: remove methods
+    // TODO: remove method. it's needed to check total number of detected apps on device
     private void printLabels(List<String> labels) {
         Log.d(MyApplication.LOG_TAG, "labels:");
         for (String l : labels) {

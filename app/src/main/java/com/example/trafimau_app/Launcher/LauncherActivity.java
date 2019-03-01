@@ -78,7 +78,7 @@ public class LauncherActivity extends AppCompatActivity {
         configureNavigationDrawer();
 
         app = (MyApplication) getApplication();
-        app.dataModel.syncWithInstalledAppsInfo(this);
+        app.appsDataModel.getInstalledAppsInfo(this);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class LauncherActivity extends AppCompatActivity {
             if (top.isAppsFragment && newTopEntry.isAppsFragment) {
                 // we have set previous page in ViewPager.
                 // no need to process backstack because we did not use it here.
-                // all info is stored in separate fragmentsStack
+                // all sites is stored in separate fragmentsStack
                 return;
             }
         }

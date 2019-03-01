@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
+// TODO: com.microsoft.appcenter.http.HttpException: 401 - CorrelationId: ...
+// ReasonCode: AppSecretDenied
+
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
+
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
+import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
@@ -21,7 +25,8 @@ public class MyApplication extends Application {
 
     public final static String LOG_TAG = "MyApp";
 
-    public DataModel dataModel = new DataModel();
+    public AppsDataModel appsDataModel = new AppsDataModel();
+    public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
 
     private SharedPreferences sharedPreferences;
 
@@ -91,6 +96,8 @@ public class MyApplication extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        YandexMetrica.reportEvent("MyApplication: syncing app theme");
     }
 
     public boolean isShowWelcomePage() {
@@ -103,6 +110,9 @@ public class MyApplication extends Application {
                 .edit()
                 .putBoolean(showWelcomePageKey, showWelcomePage)
                 .apply();
+
+        Log.d(LOG_TAG, "showWelcomePage: " + value);
+        YandexMetrica.reportEvent("setting show welcome page on next run to " + value);
     }
 
     public boolean isNighModeEnabled() {
@@ -110,9 +120,6 @@ public class MyApplication extends Application {
     }
 
     public void setNightModeEnabled(boolean value) {
-        String msg = "Dark theme " + (value ? "enabled" : "disabled");
-        YandexMetrica.reportEvent(msg);
-
         nightModeEnabled = value;
         syncAppTheme();
 
@@ -120,6 +127,10 @@ public class MyApplication extends Application {
                 .edit()
                 .putBoolean(nightModeEnabledKey, value)
                 .apply();
+
+        String msg = "Dark theme " + (value ? "enabled" : "disabled");
+        Log.d(LOG_TAG, msg);
+        YandexMetrica.reportEvent(msg);
     }
 
     public boolean isCompactLayoutEnabled() {
@@ -128,11 +139,14 @@ public class MyApplication extends Application {
 
     public void setCompactLayoutEnabled(boolean value) {
         compactLayoutEnabled = value;
-        Log.d(MyApplication.LOG_TAG, "MyApplication: compactLayoutEnabled: " + compactLayoutEnabled);
         currentLayout = compactLayoutEnabled ? LayoutInfo.COMPACT : LayoutInfo.STANDARD;
         sharedPreferences
                 .edit()
                 .putBoolean(compactLayoutEnabledKey, compactLayoutEnabled)
                 .apply();
+
+        final String msg = "compactLayoutEnabled: " + compactLayoutEnabled;
+        Log.d(MyApplication.LOG_TAG, msg);
+        YandexMetrica.reportEvent(msg);
     }
 }

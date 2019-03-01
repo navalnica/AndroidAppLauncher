@@ -43,5 +43,8 @@
     <string name="cancel">Cancel</string>
     <string name="navDrawerOpened" translatable="false">nav opened</string>
     <string name="navDrawerClosed" translatable="false">nav closed</string>
+    <string name="add_new_item">Add new item</string>
+    <string name="sitename_hint" translatable="false">sitename.com</string>
+    <string name="enterTheSiteLink">Enter the site link</string>
 
 </resources>

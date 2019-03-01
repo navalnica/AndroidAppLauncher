@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class ThemePickerFragment extends Fragment {
 
@@ -33,6 +34,7 @@ public class ThemePickerFragment extends Fragment {
         if (activity == null) {
             final String msg = "ThemePickerFragment: getActivity() returned null";
             Log.d(MyApplication.LOG_TAG, msg);
+            YandexMetrica.reportEvent(msg);
             throw new NullPointerException(msg);
         }
         activity = getActivity();
@@ -77,6 +79,12 @@ public class ThemePickerFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        continueButtonClickListener = null;
+    }
+
     private void onRadioButtonBlockClick(View v, boolean darkThemeClicked) {
         Log.d(MyApplication.LOG_TAG, "ThemePickerFragment: onRadioButtonBlockClick");
 
@@ -91,6 +99,7 @@ public class ThemePickerFragment extends Fragment {
         app.setNightModeEnabled(nightModeEnabled);
         setRadioButtonsState();
 
+        YandexMetrica.reportEvent("Recreating WelcomePage Activity");
         activity.recreate();
     }
 

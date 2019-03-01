@@ -35,4 +35,10 @@ public class AppDescriptionFragment extends Fragment {
                     OnContinueButtonClickListener.getErrorMessage(context.toString()));
         }
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        continueButtonClickListener = null;
+    }
 }

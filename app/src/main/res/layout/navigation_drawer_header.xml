@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/navHeaderHeight"
     android:background="?attr/colorPrimary"
-    android:padding="@dimen/offset"
+    android:padding="@dimen/largeOffset"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom">
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/author"
-        android:layout_marginTop="@dimen/offset"
+        android:layout_marginTop="@dimen/largeOffset"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

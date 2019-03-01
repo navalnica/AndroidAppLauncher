@@ -11,7 +11,7 @@
         android:layout_above="@id/layoutPickerContinueButton"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/offset"
+        android:layout_margin="@dimen/largeOffset"
         android:orientation="vertical">
 
         <LinearLayout
@@ -34,7 +34,7 @@
         <LinearLayout
             android:id="@+id/layoutPickerCompactBlock"
             style="@style/layoutPickerRadioButtonBlock"
-            android:layout_marginTop="@dimen/offset">
+            android:layout_marginTop="@dimen/largeOffset">
 
             <RadioButton
                 android:id="@+id/layoutPickerCompactRadioButton"

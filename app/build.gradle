@@ -45,8 +45,8 @@ android {
 
             signingConfig signingConfigs.config
 
-//            ext.betaDistributionGroupAliases = 'mds2019'
-            ext.betaDistributionGroupAliases = 'dudes'
+            ext.betaDistributionGroupAliases = 'mds2019'
+//            ext.betaDistributionGroupAliases = 'dudes'
         }
     }
     compileOptions {
@@ -82,6 +82,9 @@ dependencies {
     implementation 'com.yandex.android:mobmetricalib:3.5.3'
     //  Play Install Referrer improves tracking of installation sources
     implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    // okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 }
 
 apply plugin: 'com.noveogroup.android.check'

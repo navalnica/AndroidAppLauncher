@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class PreferencesFragment
         extends PreferenceFragmentCompat
@@ -38,9 +39,10 @@ public class PreferencesFragment
         layoutDescriptions = getResources().getStringArray(R.array.layout_descriptions);
 
         activity = getActivity();
-        if(activity == null){
+        if (activity == null) {
             final String msg = "PreferencesFragment: getActivity() returned null";
             Log.d(MyApplication.LOG_TAG, msg);
+            YandexMetrica.reportEvent(msg);
             throw new NullPointerException(msg);
         }
         app = (MyApplication) activity.getApplication();
@@ -87,17 +89,17 @@ public class PreferencesFragment
             boolean compactModeEnabled = Boolean.valueOf(value);
             app.setCompactLayoutEnabled(compactModeEnabled);
             setSummaryForLayoutListPreference();
-        } else if(key.equals(keyDarkThemeSwitch)){
+        } else if (key.equals(keyDarkThemeSwitch)) {
             app.setNightModeEnabled(darkThemeSwitch.isChecked());
+            YandexMetrica.reportEvent("recreating Launcher Activity");
             activity.recreate();
-        } else if(key.equals(keyShowWelcomePageCheckbox)){
+        } else if (key.equals(keyShowWelcomePageCheckbox)) {
             app.setShowWelcomePage(showWelcomePageCheckbox.isChecked());
         }
 
-
     }
 
-    private void setSummaryForLayoutListPreference(){
+    private void setSummaryForLayoutListPreference() {
         int valueIndex = layoutListPreference.findIndexOfValue(
                 layoutListPreference.getValue()
         );

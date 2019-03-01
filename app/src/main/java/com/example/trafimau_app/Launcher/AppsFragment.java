@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class AppsFragment extends Fragment {
     public static final String ARG_APP_PAGE_INDEX = "page_index";
@@ -52,6 +53,8 @@ public class AppsFragment extends Fragment {
             int pageIndex = arguments.getInt(ARG_APP_PAGE_INDEX);
             viewPager.setCurrentItem(pageIndex);
         }
+
+        YandexMetrica.reportEvent("AppsFragment.onCreateView");
 
         return rootView;
     }

@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/offset"
+            android:layout_marginStart="@dimen/largeOffset"
             android:orientation="vertical">
 
             <TextView
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset"
+                android:layout_marginTop="@dimen/largeOffset"
                 android:text="@string/greeting"
                 android:textSize="@dimen/welcomeSecondaryText" />
 
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/appDescription"
                 android:textSize="@dimen/welcomeSecondaryText"
-                android:layout_marginTop="@dimen/offset" />
+                android:layout_marginTop="@dimen/largeOffset" />
 
         </LinearLayout>
 
