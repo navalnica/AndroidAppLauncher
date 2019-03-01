@@ -1,1 +1,1 @@
-dev: 3 task release. corrected version to 3.0.0
+dev: 3rd task release. fixed crash on v3.0.0
