@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:textAlignment="center"
             android:text="@string/appDescription2"
-            android:layout_marginTop="@dimen/offset"
+            android:layout_marginTop="@dimen/largeOffset"
             android:textSize="@dimen/welcomeSecondaryText" />
 
     </LinearLayout>

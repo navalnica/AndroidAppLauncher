@@ -12,12 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class ProfileFragment extends Fragment {
 
     private AppCompatActivity activity;
-    private ActionBar actionBar;
+    private ActionBar fragmentActionBar;
     private ActionBar activityActionBar;
 
     @Override
@@ -26,8 +28,14 @@ public class ProfileFragment extends Fragment {
 
         activity = (AppCompatActivity) getActivity();
         if (activity != null) {
-            actionBar = activity.getSupportActionBar();
+            fragmentActionBar = activity.getSupportActionBar();
         }
+
+        // enable support of current fragment toolbar events
+        setHasOptionsMenu(true);
+
+        Log.d(MyApplication.LOG_TAG, "ProfileFragment.onCreate");
+        YandexMetrica.reportEvent("showing authors profile");
     }
 
     @Override
@@ -36,38 +44,39 @@ public class ProfileFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        Toolbar toolbar = rootView.findViewById(R.id.profileToolbar);
 
         // hide old toolbar and save its instance
         activityActionBar = activity.getSupportActionBar();
-        if (activityActionBar != null){
+        if (activityActionBar != null) {
             activityActionBar.hide();
         }
 
         // set the new toolbar from CollapsingToolbarLayout
+        Toolbar toolbar = rootView.findViewById(R.id.profileToolbar);
         activity.setSupportActionBar(toolbar);
-        actionBar = activity.getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        fragmentActionBar = activity.getSupportActionBar();
 
-        // TODO: try to set another id for up button
+        if (fragmentActionBar != null) {
+            fragmentActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         return rootView;
     }
 
     @Override
     public void onStop() {
+        Log.d(MyApplication.LOG_TAG, "ProfileFragment.onStop");
+
         // set the old toolbar
         activity.setSupportActionBar(activity.findViewById(R.id.launcherToolbar));
         activityActionBar.show();
+        fragmentActionBar.hide();
         super.onStop();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO: currently action is catched in activity listener
-        Log.d("profile", "onOptionsItemSelected");
+        Log.d(MyApplication.LOG_TAG, "ProfileFragment.onOptionsItemSelected");
         if (item.getItemId() == android.R.id.home) {
             activity.onBackPressed();
             return true;

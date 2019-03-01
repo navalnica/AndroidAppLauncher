@@ -4,25 +4,25 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="@string/keyDarkThemeSwitch"
+        android:key="@string/prefKeyDarkThemeSwitch"
         android:summaryOff="@string/darkThemeDisabled"
         android:summaryOn="@string/darkThemeEnabled"
         android:title="@string/toggle_dark_theme"
         />
 
     <ListPreference
-        android:key="@string/keyLayoutListPreference"
+        android:key="@string/prefKeyLayoutListPreference"
         android:title="@string/layout"
         android:summary="@string/layoutStandardDescription"
         android:dialogTitle="@string/layoutPickerDialogTitle"
         android:entries="@array/layout_entries"
-        android:entryValues="@array/layout_entry_values"
+        android:entryValues="@array/layout_compact_enabled_values"
         android:negativeButtonText="@string/cancel"
         />
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="@string/keyShowWelcomePageCheckbox"
+        android:key="@string/prefKeyShowWelcomePageCheckbox"
         android:title="@string/show_welcome_page_on_next_launch" />
 
 </PreferenceScreen>

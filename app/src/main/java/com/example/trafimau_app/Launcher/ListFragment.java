@@ -28,7 +28,7 @@ public class ListFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            listFragmentAdapter = new ListFragmentAdapter(app.dataModel);
+            listFragmentAdapter = new ListFragmentAdapter(app.appsDataModel);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");

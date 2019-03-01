@@ -74,6 +74,12 @@ public class LayoutPickerFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        continueButtonClickListener = null;
+    }
+
     private void onRadioButtonBlockClick(View v, boolean compactLayoutClicked) {
         if (compactLayoutClicked == compactLayoutEnabled) {
             return;

@@ -13,7 +13,7 @@
         android:layout_above="@id/themePickerContinueButton"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/offset"
+        android:layout_margin="@dimen/largeOffset"
         android:baselineAligned="false">
 
         <FrameLayout
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radio_button_block_background"
-            android:layout_marginStart="@dimen/offset"
+            android:layout_marginStart="@dimen/largeOffset"
             >
 
             <RadioButton

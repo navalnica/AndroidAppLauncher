@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigationGridFragment"
-            android:icon="@drawable/ic_grid_on_black_24dp"
+            android:id="@+id/navDesktopFragment"
             android:checked="true"
-            android:title="@string/navLauncherActivity" />
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/desktop" />
         <item
-            android:id="@+id/navigationListFragment"
+            android:id="@+id/navGridFragment"
+            android:icon="@drawable/ic_grid_on_black_24dp"
+            android:title="@string/gridLauncher" />
+        <item
+            android:id="@+id/navListFragment"
             android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-            android:title="@string/navListActivity" />
+            android:title="@string/listLauncher" />
         <item
-            android:id="@+id/navigationSettingsFragment"
+            android:id="@+id/navPreferencesFragment"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/settings" />
     </group>

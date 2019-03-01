@@ -20,10 +20,8 @@
     <string name="color">צבע</string>
     <string name="buttonFinish">סיים</string>
     <string name="appIconContentDescription">סמל היישום</string>
-    <string name="navListActivity">רשימה</string>
-    <string name="navLauncherActivity">רשת</string>
-    <string name="grid_launcher">משגר רשת</string>
-    <string name="list_launcher">מפעיל את המשגר</string>
+    <string name="listLauncher">רשימה</string>
+    <string name="gridLauncher">רשת</string>
     <string name="settings">הגדרות</string>
     <string name="appDescription1">כאן תוכל להפעיל יישומים אחרים המותקנים בטלפון שלך</string>
     <string name="appDescription2">אתה יכול לעבור בין גריד ואת רשימת מצבי משגר ולהציג פרופיל מחברים או הגדרות מסך במגירה ניווט</string>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/desktopLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:id="@+id/desktopTable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="*">
+
+        <TableRow android:layout_weight="1">
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+
+            <include layout="@layout/desktop_item" />
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

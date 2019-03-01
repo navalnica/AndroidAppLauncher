@@ -3,6 +3,8 @@ package com.example.trafimau_app.Launcher;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,17 +31,17 @@ public class GridFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            gridFragmentAdapter = new GridFragmentAdapter(app.dataModel);
+            gridFragmentAdapter = new GridFragmentAdapter(app.appsDataModel);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =  inflater.inflate(R.layout.fragment_launcher_grid, container, false);
         configRecyclerView();
         return rootView;
@@ -58,7 +60,7 @@ public class GridFragment extends Fragment {
         layoutManager = new GridLayoutManager(rv.getContext(), gridSpanCount);
         rv.setLayoutManager(layoutManager);
 
-        int offset = getResources().getDimensionPixelOffset(R.dimen.recyclerViewOffset);
+        int offset = getResources().getDimensionPixelOffset(R.dimen.smallOffset);
         rv.addItemDecoration(new GridFragmentDecorator(offset));
     }
 }

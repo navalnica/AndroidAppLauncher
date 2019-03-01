@@ -14,13 +14,15 @@ import android.widget.RadioButton;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.yandex.metrica.YandexMetrica;
 
 public class ThemePickerFragment extends Fragment {
 
     private OnContinueButtonClickListener continueButtonClickListener;
-    private ThemeChangedListener themeChangedListener;
 
+    private Activity activity;
     private MyApplication app;
+
     private RadioButton lightThemeRB;
     private RadioButton darkThemeRB;
     private boolean nightModeEnabled = false;
@@ -28,10 +30,16 @@ public class ThemePickerFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Activity activity = getActivity();
-        if (activity != null) {
-            app = (MyApplication) getActivity().getApplication();
+        activity = getActivity();
+        if (activity == null) {
+            final String msg = "ThemePickerFragment: getActivity() returned null";
+            Log.d(MyApplication.LOG_TAG, msg);
+            YandexMetrica.reportEvent(msg);
+            throw new NullPointerException(msg);
         }
+        activity = getActivity();
+        app = (MyApplication) activity.getApplication();
+
         super.onCreate(savedInstanceState);
     }
 
@@ -69,29 +77,30 @@ public class ThemePickerFragment extends Fragment {
             throw new ClassCastException(
                     OnContinueButtonClickListener.getErrorMessage(context.toString()));
         }
-        try {
-            themeChangedListener = (ThemeChangedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(
-                    ThemeChangedListener.getErrorMessage(context.toString()));
-        }
     }
 
-    private void onRadioButtonBlockClick(View v, boolean nightThemeClicked) {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        continueButtonClickListener = null;
+    }
+
+    private void onRadioButtonBlockClick(View v, boolean darkThemeClicked) {
         Log.d(MyApplication.LOG_TAG, "ThemePickerFragment: onRadioButtonBlockClick");
 
-        if(nightThemeClicked == nightModeEnabled){
+        if(darkThemeClicked == nightModeEnabled){
             return;
         }
 
         Log.d(MyApplication.LOG_TAG,
                 "ThemePickerFragment.onRadioButtonBlockClick: changing night mode state");
 
-        nightModeEnabled = nightThemeClicked;
+        nightModeEnabled = darkThemeClicked;
         app.setNightModeEnabled(nightModeEnabled);
         setRadioButtonsState();
 
-        themeChangedListener.resetTheme();
+        YandexMetrica.reportEvent("Recreating WelcomePage Activity");
+        activity.recreate();
     }
 
     private void setRadioButtonsState() {

@@ -21,7 +21,7 @@ public class GridFragmentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(MyAppInfo appInfo) {
-        appIconView.setBackgroundDrawable(appInfo.icon);
+        appIconView.setBackground(appInfo.icon);
         appLabelView.setText(appInfo.label);
     }
 }

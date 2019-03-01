@@ -14,10 +14,8 @@
     <string name="color">Колер</string>
     <string name="buttonFinish">Скончыць</string>
     <string name="appIconContentDescription">Выява дастасавання</string>
-    <string name="navListActivity">Спіс</string>
-    <string name="navLauncherActivity">Сетка</string>
-    <string name="grid_launcher">Сетка</string>
-    <string name="list_launcher">Спіс</string>
+    <string name="listLauncher">Спіс дастасаванняў</string>
+    <string name="gridLauncher">Сетка</string>
     <string name="settings">Налады</string>
     <string name="appDescription1">З дапамогай гэтай праграмы вы можаце запускаць іншыя ўсталяваныя дастасаванні</string>
     <string name="appDescription2">Пераключацца паміж відамі асноўнага экрану (сетка і спіс) а таксама праглядзець налады і профіль аўтара можна праз бакавую шторку</string>
