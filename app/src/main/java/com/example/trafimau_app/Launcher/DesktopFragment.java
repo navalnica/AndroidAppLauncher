@@ -56,8 +56,6 @@ public class DesktopFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreate");
-
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) activity.getApplication();
@@ -68,8 +66,6 @@ public class DesktopFragment extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreateView");
 
         rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
 

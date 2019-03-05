@@ -60,7 +60,7 @@ public class AppsFragment extends Fragment {
     }
 
     public void setCurrentPage(int pageIndex) {
-        if(pageIndex < 0 || pageIndex > 3){
+        if(pageIndex < 0 || pageIndex >= 3){
             Log.d(MyApplication.LOG_TAG, "AppsFragment.setCurrentItem: page index is invalid");
             pageIndex = 0;
         }

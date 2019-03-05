@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.trafimau_app.AppsDataModel;
 import com.example.trafimau_app.MyAppInfo;
+import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 
 public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHolder> {
 
-    private final AppsDataModel appsDataModel;
+    private final MyApplication app;
 
-    ListFragmentAdapter(AppsDataModel appsDataModel) {
-        this.appsDataModel = appsDataModel;
+    ListFragmentAdapter(MyApplication app) {
+        this.app = app;
     }
 
     @NonNull
@@ -28,7 +28,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ListFragmentViewHolder viewHolder, int i) {
-        final MyAppInfo appInfo = appsDataModel.apps.get(i);
+        final MyAppInfo appInfo = app.getInstalledAppInfo(i);
         viewHolder.bind(appInfo);
         viewHolder.itemView.setOnClickListener(v -> viewHolder.itemView.getContext()
                 .startActivity(appInfo.launchIntent)
@@ -37,6 +37,6 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHo
 
     @Override
     public int getItemCount() {
-        return appsDataModel.apps.size();
+        return app.getInstalledAppsCount();
     }
 }

@@ -1,5 +1,10 @@
 package com.example.trafimau_app.Launcher;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -36,6 +41,34 @@ public class LauncherActivity extends AppCompatActivity {
     private AppsFragment curAppsFragment;
     private int curAppsFragmentPageIndex;
 
+    private BroadcastReceiver appsBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String action = intent.getAction();
+            Uri data = intent.getData();
+            if (action == null || data == null) {
+                String msg = "appsBroadcastReceiver.onReceive: intent action or dataString == null";
+                Log.e(MyApplication.LOG_TAG, msg);
+                throw new NullPointerException(msg);
+            }
+            String packageName = intent.getData().getSchemeSpecificPart();
+
+            Log.d(MyApplication.LOG_TAG,
+                    "appsBroadcastReceiver.onReceive: package: " + packageName
+                            + " action: " + action);
+
+            // TODO: do not recreate activity. consider using notifyDatasetChanged or LiveData
+            if (action.equals(Intent.ACTION_PACKAGE_REMOVED) ||
+                    action.equals(Intent.ACTION_PACKAGE_REPLACED)) {
+                app.deletePackageFromDB(packageName);
+                recreate();
+            } else if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
+                app.savePackageToDB(packageName);
+                recreate();
+            }
+        }
+    };
+
     private class FragmentsStackEntry {
         public boolean isAppsFragment;
         public AppsFragment fragment;
@@ -51,12 +84,13 @@ public class LauncherActivity extends AppCompatActivity {
     private final Stack<FragmentsStackEntry> fragmentsStack = new Stack<>();
     private final Stack<MenuItem> navMenuItemsStack = new Stack<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
+        app = (MyApplication) getApplication();
 
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
         navigationView = findViewById(R.id.navigationDrawer);
@@ -76,13 +110,35 @@ public class LauncherActivity extends AppCompatActivity {
 
         configureToolbar();
         configureNavigationDrawer();
+        initAppsBroadcastReceiver();
+    }
 
-        app = (MyApplication) getApplication();
-        app.appsDataModel.getInstalledAppsInfo(this);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(appsBroadcastReceiver);
+    }
+
+    private void initAppsBroadcastReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addDataScheme("package");
+        registerReceiver(appsBroadcastReceiver, intentFilter);
     }
 
     @Override
     public void onBackPressed() {
+
+        // TODO: try to simplify with
+//         override fun onSupportNavigateUp(): Boolean {
+//         if (supportFragmentManager.popBackStackImmediate()) {
+//             return true
+//         }
+//         return super.onSupportNavigateUp()
+//     }
+
         Log.d(MyApplication.LOG_TAG, "LauncherActivity.onBackPressed");
 
         // restore previously selected drawer item

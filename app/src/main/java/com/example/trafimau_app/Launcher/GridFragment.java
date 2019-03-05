@@ -21,7 +21,6 @@ public class GridFragment extends Fragment {
 
     private MyApplication app;
     private GridFragmentAdapter gridFragmentAdapter;
-    private LinearLayoutManager layoutManager;
     private View rootView;
 
     @Override
@@ -31,7 +30,7 @@ public class GridFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            gridFragmentAdapter = new GridFragmentAdapter(app.appsDataModel);
+            gridFragmentAdapter = new GridFragmentAdapter(app);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
@@ -57,7 +56,7 @@ public class GridFragment extends Fragment {
         } else {
             gridSpanCount = app.currentLayout.landscapeGridSpanCount;
         }
-        layoutManager = new GridLayoutManager(rv.getContext(), gridSpanCount);
+        LinearLayoutManager layoutManager = new GridLayoutManager(rv.getContext(), gridSpanCount);
         rv.setLayoutManager(layoutManager);
 
         int offset = getResources().getDimensionPixelOffset(R.dimen.smallOffset);

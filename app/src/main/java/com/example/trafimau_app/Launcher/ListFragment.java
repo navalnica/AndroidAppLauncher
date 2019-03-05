@@ -18,7 +18,6 @@ public class ListFragment extends Fragment {
 
     private MyApplication app;
     private ListFragmentAdapter listFragmentAdapter;
-    private LinearLayoutManager layoutManager;
     private View rootView;
 
     @Override
@@ -28,7 +27,7 @@ public class ListFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            listFragmentAdapter = new ListFragmentAdapter(app.appsDataModel);
+            listFragmentAdapter = new ListFragmentAdapter(app);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
@@ -47,7 +46,7 @@ public class ListFragment extends Fragment {
     private void configRecyclerView() {
         RecyclerView rv = rootView.findViewById(R.id.listFragmentRecyclerView);
         rv.setAdapter(listFragmentAdapter);
-        layoutManager = new LinearLayoutManager(rv.getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(rv.getContext());
         rv.setLayoutManager(layoutManager);
     }
 }
