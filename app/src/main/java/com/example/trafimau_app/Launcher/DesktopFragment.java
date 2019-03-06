@@ -43,7 +43,6 @@ public class DesktopFragment extends Fragment implements
         EnterSiteLinkDialog.EnterSiteLinkDialogListener {
 
     private MyApplication app;
-    private View rootView;
     private TableLayout tableLayout;
 
     // correspond to TableLayout in fragment_desktop.xml
@@ -67,7 +66,7 @@ public class DesktopFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
 
         tableLayout = rootView.findViewById(R.id.desktopTable);
         addListenersForTableItems(tableLayout);
@@ -86,6 +85,7 @@ public class DesktopFragment extends Fragment implements
     }
 
     private void loadSavedSites() {
+        // TODO: store data in DB
         for (Map.Entry<Integer, SiteInfo> entry : app.sitesDataModel.sites.entrySet()) {
             Integer ix = entry.getKey();
             SiteInfo info = entry.getValue();
@@ -186,7 +186,7 @@ public class DesktopFragment extends Fragment implements
                 new Callback() {
 
                     @Override
-                    public void onFailure(Call call, IOException e) {
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
                         final String msg = "site icon request for " + URL
                                 + " failed with exception: " + e.getMessage();
                         Log.d(MyApplication.LOG_TAG, msg);
@@ -198,7 +198,8 @@ public class DesktopFragment extends Fragment implements
                     }
 
                     @Override
-                    public void onResponse(Call call, final Response response) throws IOException {
+                    public void onResponse(@NonNull Call call, @NonNull final Response response)
+                            throws IOException {
                         if (!response.isSuccessful()) {
                             final String msg = "site icon request for " + URL
                                     + " resulted in unexpected code: " + response;

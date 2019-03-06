@@ -63,7 +63,7 @@ public class LauncherActivity extends AppCompatActivity {
                 app.deletePackageFromDB(packageName);
                 recreate();
             } else if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
-                app.savePackageToDB(packageName);
+                app.insertPackageToDB(packageName);
                 recreate();
             }
         }

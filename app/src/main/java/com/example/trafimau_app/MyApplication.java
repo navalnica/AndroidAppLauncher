@@ -25,7 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -76,19 +75,21 @@ public class MyApplication extends Application {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         getDataFromSharedPreferences();
         syncAppTheme();
-        initExternalTrackingServicies();
+        initExternalTrackingServices();
 
         pm = getPackageManager();
         initDatabase();
     }
 
     private void initDatabase() {
+
+        // TODO: move initialization to AppDatabase class
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "app-database-name")
                 .allowMainThreadQueries() // TODO: run operations in background
                 .build();
 
-        // TODO: comment
+        // uncomment to clear tables
 //        db.clearAllTables();
 
         scanInstalledApps();
@@ -120,7 +121,8 @@ public class MyApplication extends Application {
 
         // TODO: when app is deleted and Launcher is not launched
         // DB automatically removes corresponding AppEntity
-        // figure out why it's done
+        // figure out why it happens
+
         List<AppEntity> dbAppsList = db.appEntityDao().getAll();
         Log.d(LOG_TAG, " ");
         Log.d(LOG_TAG, "appsDB content:");
@@ -128,8 +130,8 @@ public class MyApplication extends Application {
             Log.d(LOG_TAG, e.toString());
         }
 
-        Map<String, AppEntity> dbAppsMap = AppEntity.getMapFromList(dbAppsList);
-        Map<String, MyAppInfo> scannedAppsMap = MyAppInfo.getMapFromList(installedApps);
+        Map<String, AppEntity> dbAppsMap = AppEntity.getPackageNameMapFromList(dbAppsList);
+        Map<String, MyAppInfo> scannedAppsMap = MyAppInfo.getPackageNameMapFromList(installedApps);
 
         Set<String> newPackages = new HashSet<>(scannedAppsMap.keySet());
         newPackages.removeAll(dbAppsMap.keySet());
@@ -137,7 +139,7 @@ public class MyApplication extends Application {
         Log.d(LOG_TAG, "MyApplication.updateAppsDB: new packages cnt: " + newPackages.size());
         for (String packageName : newPackages) {
             final MyAppInfo scannedAppInfo = scannedAppsMap.get(packageName);
-            final AppEntity entity = scannedAppInfo.getAppEntity();
+            final AppEntity entity = AppEntity.fromMyAppInfo(scannedAppInfo);
             db.appEntityDao().insert(entity);
             Log.d(LOG_TAG, "MyApplication.updateAppsDB: adding package to DB: "
                     + entity.packageName);
@@ -163,30 +165,32 @@ public class MyApplication extends Application {
                     dbAppsMap.get(packageName).launchedCount;
         }
 
-        // TODO: remove
-        dbAppsList = db.appEntityDao().getAll();
-        Log.d(LOG_TAG, " ");
-        Log.d(LOG_TAG, "updated appsDB content:");
-        for (AppEntity e : dbAppsList) {
-            Log.d(LOG_TAG, e.toString());
-        }
-        Log.d(LOG_TAG, "total cnt: " + dbAppsList.size());
-        Log.d(LOG_TAG, " ");
+//        // TODO: remove
+//        dbAppsList = db.appEntityDao().getAll();
+//        Log.d(LOG_TAG, " ");
+//        Log.d(LOG_TAG, "updated appsDB content:");
+//        for (AppEntity e : dbAppsList) {
+//            Log.d(LOG_TAG, e.toString());
+//        }
+//        Log.d(LOG_TAG, "total cnt: " + dbAppsList.size());
+//        Log.d(LOG_TAG, " ");
     }
 
-    public void savePackageToDB(@NonNull String packageName) {
+    public void insertPackageToDB(@NonNull String packageName) {
         try {
             final ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-            installedApps.add(new MyAppInfo(ai, pm));
-            db.appEntityDao().insert(new AppEntity(packageName, 0));
+            final MyAppInfo myAppInfo = new MyAppInfo(ai, pm);
+            installedApps.add(myAppInfo);
+            db.appEntityDao().insert(new AppEntity(packageName, myAppInfo.label,0));
         } catch (PackageManager.NameNotFoundException e) {
-            String msg = "MyApplication.savePackageToDB: packageName not found exception";
+            String msg = "MyApplication.insertPackageToDB: packageName not found exception";
             Log.e(LOG_TAG, msg);
         }
     }
 
     public void deletePackageFromDB(@NonNull String packageName) {
-        db.appEntityDao().delete(new AppEntity(packageName, 0));
+        AppEntity toDelete = db.appEntityDao().getAppByPackageName(packageName);
+        db.appEntityDao().delete(toDelete);
         for(int i = 0; i < installedApps.size(); ++i){
             if(installedApps.get(i).packageName.equals(packageName)){
                 installedApps.remove(i);
@@ -196,8 +200,9 @@ public class MyApplication extends Application {
     }
 
     public void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
-        AppEntity oldEntity = db.appEntityDao().getAppByPackageName(packageName);
-        db.appEntityDao().insert(new AppEntity(packageName, oldEntity.launchedCount + 1));
+        AppEntity toUpdate = db.appEntityDao().getAppByPackageName(packageName);
+        toUpdate.launchedCount++;
+        db.appEntityDao().update(toUpdate);
         if (installedAppsPosition < 0 || installedAppsPosition >= installedApps.size()) {
             final String msg = "MyApplication.increaseAppLaunchedCount: invalid installedAppsPosition passed";
             Log.e(LOG_TAG, msg);
@@ -219,7 +224,7 @@ public class MyApplication extends Application {
         return installedApps.get(i);
     }
 
-    private void initExternalTrackingServicies() {
+    private void initExternalTrackingServices() {
         Fabric.with(this, new Crashlytics());
 
         AppCenter.start(this, APP_CENTER_KEY, Distribute.class);

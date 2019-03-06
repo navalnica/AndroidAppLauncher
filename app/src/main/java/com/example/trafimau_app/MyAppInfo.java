@@ -5,13 +5,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
-import com.example.trafimau_app.db.AppEntity;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyAppInfo{
+public class MyAppInfo {
     public final String packageName;
     public final Drawable icon;
     public final Intent launchIntent;
@@ -26,13 +24,9 @@ public class MyAppInfo{
         launchedCount = 0;
     }
 
-    public AppEntity getAppEntity(){
-        return new AppEntity(packageName, launchedCount);
-    }
-
-    public static Map<String, MyAppInfo> getMapFromList(List<MyAppInfo> myAppInfoList){
+    public static Map<String, MyAppInfo> getPackageNameMapFromList(List<MyAppInfo> myAppInfoList) {
         Map<String, MyAppInfo> map = new HashMap<>();
-        for (MyAppInfo app : myAppInfoList){
+        for (MyAppInfo app : myAppInfoList) {
             map.put(app.packageName, app);
         }
         return map;

@@ -37,6 +37,12 @@ android {
         versionCode 300
         versionName "3.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -84,7 +90,7 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:1.0'
 
     // okhttp
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
 
     // room
     implementation "android.arch.persistence.room:runtime:1.1.1"

@@ -11,6 +11,9 @@ import com.example.trafimau_app.MyAppInfo;
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 
+// TODO: consider creating common super class for GridFragmentAdapter and ListFragmentAdapter
+// and deal with different view holders. maybe use generics?
+
 public class GridFragmentAdapter extends RecyclerView.Adapter<GridFragmentViewHolder> {
 
     private final MyApplication app;
