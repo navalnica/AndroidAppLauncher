@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.example.trafimau_app.Launcher.GridAppIconView
+    <com.example.trafimau_app.Launcher.SquareBasedOnWidthImageView
         android:id="@+id/gridFragmentAppIcon"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/gridFragmentAppLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:gravity="center"
-        android:paddingTop="@dimen/smallOffset"
-        />
+        android:lines="2"
+        android:paddingTop="@dimen/smallOffset" />
 
 </LinearLayout>

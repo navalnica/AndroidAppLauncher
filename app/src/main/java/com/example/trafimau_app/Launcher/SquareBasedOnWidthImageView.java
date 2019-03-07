@@ -3,17 +3,17 @@ package com.example.trafimau_app.Launcher;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class GridAppIconView extends android.support.v7.widget.AppCompatImageView {
+public class SquareBasedOnWidthImageView extends android.support.v7.widget.AppCompatImageView {
 
-    public GridAppIconView(Context context) {
+    public SquareBasedOnWidthImageView(Context context) {
         super(context);
     }
 
-    public GridAppIconView(Context context, AttributeSet attrs) {
+    public SquareBasedOnWidthImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public GridAppIconView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SquareBasedOnWidthImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

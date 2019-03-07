@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:visibility="invisible" />
 
-        <com.example.trafimau_app.Launcher.DesktopIconView
+        <com.example.trafimau_app.Launcher.SquareBasedOnHeightImageView
             android:id="@+id/desktopItemIconView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

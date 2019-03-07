@@ -1,20 +1,19 @@
 package com.example.trafimau_app.Launcher;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-public class DesktopIconView extends AppCompatImageView {
+public class SquareBasedOnHeightImageView extends android.support.v7.widget.AppCompatImageView {
 
-    public DesktopIconView(Context context) {
+    public SquareBasedOnHeightImageView(Context context) {
         super(context);
     }
 
-    public DesktopIconView(Context context, AttributeSet attrs) {
+    public SquareBasedOnHeightImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DesktopIconView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SquareBasedOnHeightImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
