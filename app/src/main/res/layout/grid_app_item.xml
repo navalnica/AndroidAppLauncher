@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.example.trafimau_app.Launcher.SquareBasedOnWidthImageView
+    <com.example.trafimau_app.launcher.SquareBasedOnWidthImageView
         android:id="@+id/gridFragmentAppIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"

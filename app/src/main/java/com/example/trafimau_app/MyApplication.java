@@ -1,18 +1,18 @@
 package com.example.trafimau_app;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.trafimau_app.db.AppDatabase;
+import com.example.trafimau_app.db.AppsDatabase;
 import com.example.trafimau_app.db.AppEntity;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
@@ -21,6 +21,7 @@ import com.yandex.metrica.YandexMetricaConfig;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class MyApplication extends Application {
     private String compactLayoutEnabledKey;
     private boolean compactLayoutEnabled = false;
 
-    private AppDatabase db;
+    private AppsDatabase db;
     private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
     private PackageManager pm;
 
@@ -72,22 +73,17 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        getDataFromSharedPreferences();
-        syncAppTheme();
         initExternalTrackingServices();
 
         pm = getPackageManager();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        getDataFromSharedPreferences();
+        syncAppTheme();
         initDatabase();
     }
 
     private void initDatabase() {
-
-        // TODO: move initialization to AppDatabase class
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "app-database-name")
-                .allowMainThreadQueries() // TODO: run operations in background
-                .build();
+        db = AppsDatabase.getInstance(getApplicationContext());
 
         // uncomment to clear tables
 //        db.clearAllTables();
@@ -123,7 +119,7 @@ public class MyApplication extends Application {
         // DB automatically removes corresponding AppEntity
         // figure out why it happens
 
-        List<AppEntity> dbAppsList = db.appEntityDao().getAll();
+        List<AppEntity> dbAppsList = db.appEntityDao().getAllInList();
         Log.d(LOG_TAG, " ");
         Log.d(LOG_TAG, "appsDB content:");
         for (AppEntity e : dbAppsList) {
@@ -161,19 +157,11 @@ public class MyApplication extends Application {
         Log.d(LOG_TAG, " ");
         Log.d(LOG_TAG, "MyApplication.updateAppsDB: intersection cnt: " + intersection.size());
         for (String packageName : intersection) {
-            scannedAppsMap.get(packageName).launchedCount =
-                    dbAppsMap.get(packageName).launchedCount;
+            final MyAppInfo myAppInfo = scannedAppsMap.get(packageName);
+            final AppEntity appEntity = dbAppsMap.get(packageName);
+            myAppInfo.launchedCount = appEntity.launchedCount;
+            myAppInfo.lastLaunched = appEntity.lastLaunched;
         }
-
-//        // TODO: remove
-//        dbAppsList = db.appEntityDao().getAll();
-//        Log.d(LOG_TAG, " ");
-//        Log.d(LOG_TAG, "updated appsDB content:");
-//        for (AppEntity e : dbAppsList) {
-//            Log.d(LOG_TAG, e.toString());
-//        }
-//        Log.d(LOG_TAG, "total cnt: " + dbAppsList.size());
-//        Log.d(LOG_TAG, " ");
     }
 
     public void insertPackageToDB(@NonNull String packageName) {
@@ -181,7 +169,7 @@ public class MyApplication extends Application {
             final ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             final MyAppInfo myAppInfo = new MyAppInfo(ai, pm);
             installedApps.add(myAppInfo);
-            db.appEntityDao().insert(new AppEntity(packageName, myAppInfo.label,0));
+            db.appEntityDao().insert(new AppEntity(packageName, myAppInfo.label));
         } catch (PackageManager.NameNotFoundException e) {
             String msg = "MyApplication.insertPackageToDB: packageName not found exception";
             Log.e(LOG_TAG, msg);
@@ -191,8 +179,8 @@ public class MyApplication extends Application {
     public void deletePackageFromDB(@NonNull String packageName) {
         AppEntity toDelete = db.appEntityDao().getAppByPackageName(packageName);
         db.appEntityDao().delete(toDelete);
-        for(int i = 0; i < installedApps.size(); ++i){
-            if(installedApps.get(i).packageName.equals(packageName)){
+        for (int i = 0; i < installedApps.size(); ++i) {
+            if (installedApps.get(i).packageName.equals(packageName)) {
                 installedApps.remove(i);
                 return;
             }
@@ -201,23 +189,28 @@ public class MyApplication extends Application {
 
     public void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
         AppEntity toUpdate = db.appEntityDao().getAppByPackageName(packageName);
+        Date date = new Date();
+        toUpdate.lastLaunched = date;
         toUpdate.launchedCount++;
         db.appEntityDao().update(toUpdate);
         if (installedAppsPosition < 0 || installedAppsPosition >= installedApps.size()) {
+            // TODO: is Log useful when followed by exception throw ?
             final String msg = "MyApplication.increaseAppLaunchedCount: invalid installedAppsPosition passed";
             Log.e(LOG_TAG, msg);
             throw new InvalidParameterException(msg);
         }
-        installedApps.get(installedAppsPosition).launchedCount++;
+        final MyAppInfo myAppInfo = installedApps.get(installedAppsPosition);
+        myAppInfo.lastLaunched = date;
+        myAppInfo.launchedCount++;
     }
 
     public int getInstalledAppsCount() {
         return installedApps.size();
     }
 
-    public MyAppInfo getInstalledAppInfo(int i) {
+    public MyAppInfo getAppInfoFromLocalVar(int i) {
         if (i < 0 || i >= installedApps.size()) {
-            final String msg = "MyApplication.getInstalledAppInfo: invalid array position passed";
+            final String msg = "MyApplication.getAppInfoFromLocalVar: invalid array position passed";
             Log.e(LOG_TAG, msg);
             throw new InvalidParameterException(msg);
         }

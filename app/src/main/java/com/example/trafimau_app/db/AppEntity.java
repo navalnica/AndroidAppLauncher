@@ -3,24 +3,29 @@ package com.example.trafimau_app.db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.trafimau_app.MyAppInfo;
 import com.example.trafimau_app.MyApplication;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity(tableName = AppEntity.TABLE_NAME)
+@TypeConverters(DateConverter.class)
 public class AppEntity {
 
     public static final String TABLE_NAME = "apps";
-    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_PACKAGE_NAME = "package_name";
     public static final String COLUMN_LABEL = "label";
     public static final String COLUMN_LAUNCHED_COUNT = "launched_count";
+    public static final String COLUMN_LAST_LAUNCHED = "last_launched";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COLUMN_ID)
@@ -37,10 +42,12 @@ public class AppEntity {
     @ColumnInfo(name = COLUMN_LAUNCHED_COUNT)
     public int launchedCount;
 
-    public AppEntity(@NonNull String packageName, @NonNull String label, int launchedCount) {
+    @ColumnInfo(name = COLUMN_LAST_LAUNCHED)
+    public Date lastLaunched;
+
+    public AppEntity(@NonNull String packageName, @NonNull String label) {
         this.packageName = packageName;
         this.label = label;
-        this.launchedCount = launchedCount;
     }
 
     @NonNull
@@ -56,7 +63,16 @@ public class AppEntity {
             Log.e(MyApplication.LOG_TAG, msg);
             throw new NullPointerException(msg);
         }
-        return new AppEntity(appInfo.packageName, appInfo.label, appInfo.launchedCount);
+        AppEntity e =  new AppEntity(appInfo.packageName, appInfo.label);
+        if(appInfo.launchedCount > 0){
+            e.launchedCount = appInfo.launchedCount;
+            if(appInfo.lastLaunched == null){
+                final String msg = "AppEntity.fromMyAppInfo: appInfo.lastLaunched is null when it shouldn't be null";
+                throw new NullPointerException(msg);
+            }
+            e.lastLaunched = appInfo.lastLaunched;
+        }
+        return e;
     }
 
     public static Map<String, AppEntity> getPackageNameMapFromList(List<AppEntity> entities) {
