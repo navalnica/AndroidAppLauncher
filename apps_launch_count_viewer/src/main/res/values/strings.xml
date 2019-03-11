@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Apps Launch Count Viewer</string>
+    <string name="empty_description">List is empty</string>
+    <string name="all_launched_apps">All Launched Apps</string>
+    <string name="launched_count">Launched count:</string>
+    <string name="last_launched_text">Last launched:</string>
+    <string name="value">42</string>
+</resources>

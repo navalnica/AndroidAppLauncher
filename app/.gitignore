@@ -34,7 +34,7 @@ target/**
 .DS_Store
 
 # Gradle
-gradle-app.setting
+gradle-appEntity.setting
 .gradletasknamecache
 .gradle/**
 build/**
