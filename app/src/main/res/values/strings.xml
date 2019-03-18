@@ -46,5 +46,16 @@
     <string name="add_new_item">Add new item</string>
     <string name="sitename_hint" translatable="false">sitename.com</string>
     <string name="enterTheSiteLink">Enter the site link</string>
+    <string name="notifications">Notifications</string>
+    <string name="send_push_notification">Send simple push</string>
+    <string name="simple_push_title">Simple push</string>
+    <string name="simple_push_description">You have sent simple push</string>
+    <string name="push_with_color_description">You have sent push with color</string>
+    <string name="push_with_color">Push with color</string>
+
+    <string name="notificationChannelId">TrafimauAppChannelId</string>
+    <string name="notificationChannelName">TrafimauAppChannelName</string>
+    <string name="notificationChannelDescription">TrafimauAppChannelDescription</string>
+    <string name="send_push_with_color">Send colored push</string>
 
 </resources>

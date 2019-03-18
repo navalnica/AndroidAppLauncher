@@ -1,19 +1,21 @@
 package com.example.trafimau_app;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.trafimau_app.db.AppsDatabase;
 import com.example.trafimau_app.db.AppEntity;
+import com.example.trafimau_app.db.AppsDatabase;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.yandex.metrica.YandexMetrica;
@@ -81,6 +83,8 @@ public class MyApplication extends Application {
         getDataFromSharedPreferences();
         syncAppTheme();
         initDatabase();
+
+        registerNotificationChannel();
     }
 
     private void initDatabase() {
@@ -302,5 +306,22 @@ public class MyApplication extends Application {
         final String msg = "compactLayoutEnabled: " + compactLayoutEnabled;
         Log.d(MyApplication.LOG_TAG, msg);
         YandexMetrica.reportEvent(msg);
+    }
+
+    private void registerNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String name = getString(R.string.notificationChannelName);
+            String description = getString(R.string.notificationChannelDescription);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(
+                    getString(R.string.notificationChannelId), name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

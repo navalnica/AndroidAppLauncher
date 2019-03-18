@@ -4,13 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,7 +23,6 @@ import android.view.MenuItem;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.yandex.metrica.push.YandexMetricaPush;
 
 import java.util.Stack;
 
@@ -213,12 +214,20 @@ public class LauncherActivity extends AppCompatActivity {
                 menuItem -> {
                     menuItem.setChecked(true);
                     navMenuItemsStack.push(menuItem);
-                    if (menuItem.getItemId() == R.id.navPreferencesFragment) {
+                    final int itemId = menuItem.getItemId();
+
+                    if (itemId == R.id.navPreferencesFragment) {
                         inflateFragment(new PreferencesFragment(), true, settingsTitle);
+                    } else if (itemId == R.id.sendSimplePush) {
+                        sendSimplePush();
+                        menuItem.setChecked(false);
+                    } else if (itemId == R.id.sendPushWithIcon) {
+                        sendPushWithColor();
+                        menuItem.setChecked(false);
                     } else {
                         Fragment appsFragment;
                         AppsFragment.Page page;
-                        switch (menuItem.getItemId()) {
+                        switch (itemId) {
                             case R.id.navDesktopFragment:
                                 page = AppsFragment.Page.DESKTOP;
                                 break;
@@ -243,6 +252,36 @@ public class LauncherActivity extends AppCompatActivity {
                     profileFragmentActive = true;
                     inflateFragment(new ProfileFragment(), true, null);
                 });
+    }
+
+    private void sendPushWithColor() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                this, getString(R.string.notificationChannelId))
+                .setSmallIcon(R.drawable.ic_color_lens_black_24dp)
+                .setColor(Color.MAGENTA)
+                .setContentTitle(getString(R.string.push_with_color))
+                .setContentText(getString(R.string.push_with_color_description))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat nmc = NotificationManagerCompat.from(this);
+        nmc.notify(42, builder.build());
+    }
+
+    private void sendSimplePush() {
+        // push is not removed after click
+        // maybe it's caused by not setting ContentIntent
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                this, getString(R.string.notificationChannelId))
+                .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
+                .setContentTitle(getString(R.string.simple_push_title))
+                .setContentText(getString(R.string.simple_push_description))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(null)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat nmc = NotificationManagerCompat.from(this);
+        nmc.notify(12, builder.build());
     }
 
     private void inflateFragment(Fragment fragment, boolean addToBackStack, String title) {
