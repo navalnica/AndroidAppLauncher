@@ -17,7 +17,7 @@ import com.example.trafimau_app.R;
 public class ListFragment extends Fragment {
 
     private MyApplication app;
-    private ListFragmentAdapter listFragmentAdapter;
+    private LauncherAppAdapter launcherAppAdapter;
     private View rootView;
 
     @Override
@@ -27,7 +27,7 @@ public class ListFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            listFragmentAdapter = new ListFragmentAdapter(app);
+            launcherAppAdapter = new LauncherAppAdapter(app, R.layout.list_app_item);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
@@ -45,7 +45,7 @@ public class ListFragment extends Fragment {
 
     private void configRecyclerView() {
         RecyclerView rv = rootView.findViewById(R.id.listFragmentRecyclerView);
-        rv.setAdapter(listFragmentAdapter);
+        rv.setAdapter(launcherAppAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(rv.getContext());
         rv.setLayoutManager(layoutManager);
     }

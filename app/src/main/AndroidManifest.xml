@@ -33,6 +33,13 @@
             android:exported="true"
             android:readPermission="com.example.trafimau_app.provider.READ" />
 
+        <receiver android:name=".receivers.SilentPushReceiver">
+            <intent-filter>
+                <!-- Recieve silent push notifications. -->
+                <action android:name="${applicationId}.action.ymp.SILENT_PUSH_RECEIVE"/>
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8aeba7c3ec63adc1141616f33036329f545d13e4" />

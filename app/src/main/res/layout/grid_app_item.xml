@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <com.example.trafimau_app.launcher.SquareBasedOnWidthImageView
-        android:id="@+id/gridFragmentAppIcon"
+        android:id="@+id/launcherAppIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="fitCenter"/>
 
     <TextView
-        android:id="@+id/gridFragmentAppLabel"
+        android:id="@+id/launcherAppLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"

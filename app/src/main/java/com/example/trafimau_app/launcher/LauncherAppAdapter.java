@@ -9,26 +9,28 @@ import android.widget.Toast;
 
 import com.example.trafimau_app.MyAppInfo;
 import com.example.trafimau_app.MyApplication;
-import com.example.trafimau_app.R;
 
-public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewHolder> {
+public class LauncherAppAdapter extends RecyclerView.Adapter<LaucherViewHolder> {
 
     private final MyApplication app;
 
-    ListFragmentAdapter(MyApplication app) {
+    private int itemLayoutResourceId;
+
+    LauncherAppAdapter(MyApplication app, int itemLayoutResourceId) {
         this.app = app;
+        this.itemLayoutResourceId = itemLayoutResourceId;
     }
 
     @NonNull
     @Override
-    public ListFragmentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.list_app_item, viewGroup, false);
-        return new ListFragmentViewHolder(view);
+    public LaucherViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).
+                inflate(itemLayoutResourceId, viewGroup, false);
+        return new LaucherViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListFragmentViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull LaucherViewHolder viewHolder, int i) {
         final MyAppInfo appInfo = app.getAppInfoFromLocalVar(i);
         viewHolder.bind(appInfo);
         viewHolder.itemView.setOnClickListener(v -> {

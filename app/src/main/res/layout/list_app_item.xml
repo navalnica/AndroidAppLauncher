@@ -6,13 +6,13 @@
     android:padding="@dimen/smallOffset">
 
     <ImageView
-        android:id="@+id/listFragmentAppIcon"
+        android:id="@+id/launcherAppIcon"
         android:layout_width="@dimen/listItemHeight"
         android:layout_height="@dimen/listItemHeight"
         android:scaleType="fitCenter" />
 
     <TextView
-        android:id="@+id/listFragmentAppLabel"
+        android:id="@+id/launcherAppLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/largeOffset"

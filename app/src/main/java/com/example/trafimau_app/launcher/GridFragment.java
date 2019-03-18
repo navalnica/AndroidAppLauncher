@@ -20,7 +20,7 @@ import com.example.trafimau_app.R;
 public class GridFragment extends Fragment {
 
     private MyApplication app;
-    private GridFragmentAdapter gridFragmentAdapter;
+    private LauncherAppAdapter launcherAppAdapter;
     private View rootView;
 
     @Override
@@ -30,7 +30,7 @@ public class GridFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null) {
             app = (MyApplication) getActivity().getApplication();
-            gridFragmentAdapter = new GridFragmentAdapter(app);
+            launcherAppAdapter = new LauncherAppAdapter(app, R.layout.grid_app_item);
         }
         else{
             Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
@@ -48,7 +48,7 @@ public class GridFragment extends Fragment {
 
     private void configRecyclerView() {
         RecyclerView rv = rootView.findViewById(R.id.gridFragmentRecyclerView);
-        rv.setAdapter(gridFragmentAdapter);
+        rv.setAdapter(launcherAppAdapter);
         int gridSpanCount = 1;
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT) {

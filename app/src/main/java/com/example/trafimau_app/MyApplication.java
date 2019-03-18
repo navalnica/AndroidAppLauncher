@@ -18,6 +18,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
+import com.yandex.metrica.push.YandexMetricaPush;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -229,6 +230,8 @@ public class MyApplication extends Application {
         YandexMetrica.activate(getApplicationContext(), config);
         // app lifecycle tracking
         YandexMetrica.enableActivityAutoTracking(this);
+
+        YandexMetricaPush.init(getApplicationContext());
     }
 
     private void getDataFromSharedPreferences() {
