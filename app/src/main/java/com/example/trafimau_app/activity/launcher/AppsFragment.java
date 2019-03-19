@@ -17,18 +17,9 @@ import com.example.trafimau_app.R;
 import com.yandex.metrica.YandexMetrica;
 
 public class AppsFragment extends Fragment {
-    public static final String ARG_APP_PAGE_INDEX = "page_index";
 
     private ViewPager viewPager;
     private AppsViewPagerAdapter pagerAdapter;
-
-    public static AppsFragment newInstance(int activePageIndex) {
-        AppsFragment fragment = new AppsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_APP_PAGE_INDEX, activePageIndex);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,28 +31,25 @@ public class AppsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(
                 R.layout.fragment_apps, container, false);
         viewPager = rootView.findViewById(R.id.appsViewPager);
+
         // it is very important to use getChildFragmentManager()
         // instead getActivity().getSupportFragmentManager()
         pagerAdapter = new AppsViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            int pageIndex = arguments.getInt(ARG_APP_PAGE_INDEX);
-            viewPager.setCurrentItem(pageIndex);
-        }
 
         YandexMetrica.reportEvent("AppsFragment.onCreateView");
 
         return rootView;
     }
 
-    public void setCurrentPage(int pageIndex) {
+    public void setCurrentPage(Page page) {
+        int pageIndex = page.ordinal();
         if(pageIndex < 0 || pageIndex >= 3){
-            Log.d(MyApplication.LOG_TAG, "AppsFragment.setCurrentItem: page index is invalid");
+            Log.e(MyApplication.LOG_TAG, "AppsFragment.setCurrentItem: page index is invalid");
             pageIndex = 0;
         }
         if (viewPager != null) {
