@@ -7,12 +7,10 @@
     <string name="layoutCompactName">Плотный макет</string>
     <string name="themePickerDark">Тёмная тема</string>
     <string name="themePickerLight">Светлая тема</string>
-    <string name="buttonContinue">Далее</string>
     <string name="authorImageContentDescription">Изображение автора</string>
     <string name="greeting">Приветствуем!</string>
     <string name="appDescription">Это launcher, написанный для MDS</string>
     <string name="color">Цвет</string>
-    <string name="buttonFinish">Завершить</string>
     <string name="appIconContentDescription">Изображение приложения</string>
     <string name="listLauncher">Список приложений</string>
     <string name="gridLauncher">Сетка приложений</string>

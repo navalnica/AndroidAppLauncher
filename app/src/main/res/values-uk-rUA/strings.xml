@@ -7,7 +7,6 @@
     <string name="layoutCompactName">Щільний макет</string>
     <string name="themePickerDark">Темна тема</string>
     <string name="themePickerLight">Світла тема</string>
-    <string name="buttonContinue">Далі</string>
     <string name="authorImageContentDescription">Зображення автора</string>
     <string name="greeting">Вітаємо!</string>
     <string name="appDescription">Це launcher, написаний для MDS</string>

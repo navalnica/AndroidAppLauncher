@@ -5,9 +5,6 @@
     <string name="authorImageContentDescription">Author image</string>
     <string name="appIconContentDescription">Application icon</string>
 
-    <string name="buttonContinue">Continue</string>
-    <string name="buttonFinish">Finish</string>
-
     <string name="themePickerLight">Light Theme</string>
     <string name="themePickerDark">Dark theme</string>
 

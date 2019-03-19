@@ -26,6 +26,8 @@ import com.yandex.metrica.push.YandexMetricaPush;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -96,11 +98,12 @@ public class MyApplication extends Application {
 
         scanInstalledApps();
         updateAppsDB();
+
+        // TODO: implement other sort options
+        Collections.sort(installedApps, (o1, o2) -> o1.label.compareTo(o2.label));
     }
 
     private void scanInstalledApps() {
-
-        // TODO: it's called every app launch. make DB receive changes to PackageManager
 
         YandexMetrica.reportEvent("MyApplication.scanInstalledApps()");
 
@@ -108,7 +111,12 @@ public class MyApplication extends Application {
         List<ApplicationInfo> infos = pm
                 .getInstalledApplications(PackageManager.GET_META_DATA);
 
+        final String packageName = getPackageName();
+
         for (ApplicationInfo ai : infos) {
+            if(ai.packageName.equals(packageName)){
+                continue;
+            }
             Intent intent = pm.getLaunchIntentForPackage(ai.packageName);
             if (intent != null) {
                 if (intent.hasCategory(Intent.CATEGORY_LAUNCHER)) {

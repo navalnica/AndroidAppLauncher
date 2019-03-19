@@ -67,6 +67,7 @@ public class ActivityLauncher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // TODO: save view pager selected item index and restore it
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 

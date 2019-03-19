@@ -3,7 +3,6 @@
     <string name="appDescription">Гэта launcher, напісаны для MDS</string>
     <string name="greeting">Вітаем!</string>
     <string name="authorImageContentDescription">Выява аўтара</string>
-    <string name="buttonContinue">Далей</string>
     <string name="themePickerLight">Светлая тэма</string>
     <string name="themePickerDark">Цёмная тэма</string>
     <string name="layoutCompactName">Шчыльны макет</string>
@@ -12,7 +11,6 @@
     <string name="layoutStandardDescription">Партрэтная: 4 іконкі ў шэрагу\nЛандшафтная: 6 іконак у шэрагу</string>
     <string name="layoutCompactDescription">Партрэтны: 5 іконкі ў шэрагу\nЛандшафтны: 7 іконак у шэрагу</string>
     <string name="color">Колер</string>
-    <string name="buttonFinish">Скончыць</string>
     <string name="appIconContentDescription">Выява дастасавання</string>
     <string name="listLauncher">Спіс дастасаванняў</string>
     <string name="gridLauncher">Сетка</string>

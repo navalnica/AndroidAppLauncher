@@ -3,7 +3,6 @@
     <string name="appDescription">זהו מפעיל האפליקציות עבור MDS</string>
     <string name="greeting">ברוך הבא!</string>
     <string name="authorImageContentDescription">תמונה של מחבר</string>
-    <string name="buttonContinue">המשך</string>
     <string name="themePickerLight">נושא בהיר</string>
     <string name="themePickerDark">ערכת נושא כהה</string>
     <string name="layoutCompactName">פריסה קומפקטית</string>
@@ -18,7 +17,6 @@
         \nנוף: 7 סמלים בשורה
     </string>
     <string name="color">צבע</string>
-    <string name="buttonFinish">סיים</string>
     <string name="appIconContentDescription">סמל היישום</string>
     <string name="listLauncher">רשימה</string>
     <string name="gridLauncher">רשת</string>
