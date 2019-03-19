@@ -1,60 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/themePickerRadioGroup"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/largeOffset">
 
-    <LinearLayout
-        android:id="@+id/themePickerRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/themePickerContinueButton"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/largeOffset"
-        android:baselineAligned="false">
+    <FrameLayout
+        android:id="@+id/themePickerLightBlock"
+        style="@style/welcomePageRadioButtonBlock">
 
-        <FrameLayout
-            android:id="@+id/themePickerLightBlock"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_block_background"
-            >
+        <RadioButton
+            android:id="@+id/themePickerLightThemeRadioButton"
+            style="@style/themePickerRadioButton"
+            android:text="@string/themePickerLight" />
 
-            <RadioButton
-                android:id="@+id/themePickerLightThemeRadioButton"
-                android:text="@string/themePickerLight"
-                style="@style/themePickerRadioButton"
-                />
+    </FrameLayout>
 
-        </FrameLayout>
+    <FrameLayout
+        android:id="@+id/themePickerDarkBlock"
+        style="@style/welcomePageRadioButtonBlock"
+        android:layout_marginStart="@dimen/largeOffset">
 
-        <FrameLayout
-            android:id="@+id/themePickerDarkBlock"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_block_background"
-            android:layout_marginStart="@dimen/largeOffset"
-            >
+        <RadioButton
+            android:id="@+id/themePickerDarkThemeRadioButton"
+            style="@style/themePickerRadioButton"
+            android:text="@string/themePickerDark" />
 
-            <RadioButton
-                android:id="@+id/themePickerDarkThemeRadioButton"
-                android:text="@string/themePickerDark"
-                style="@style/themePickerRadioButton"
-                />
+    </FrameLayout>
 
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/themePickerContinueButton"
-        style="@style/buttonContinue"
-        android:theme="@style/coloredAppCompatButton"
-        android:layout_alignParentEnd="true"/>
-
-</RelativeLayout>
+</LinearLayout>

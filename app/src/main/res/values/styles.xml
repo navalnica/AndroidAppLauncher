@@ -31,7 +31,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_margin">@dimen/largeOffset</item>
     </style>
 
     <style name="coloredAppCompatButton" parent="Widget.AppCompat.Button.Colored">
@@ -56,9 +55,9 @@
         <item name="android:clickable">false</item>
     </style>
 
-    <style name="layoutPickerRadioButtonBlock">
+    <style name="welcomePageRadioButtonBlock">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>

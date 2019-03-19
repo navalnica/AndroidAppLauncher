@@ -2,6 +2,7 @@ package com.example.trafimau_app.welcome_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,20 +10,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
-import com.example.trafimau_app.launcher.LauncherActivity;
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.example.trafimau_app.launcher.LauncherActivity;
 import com.yandex.metrica.YandexMetrica;
 
-public class WelcomePageActivity extends AppCompatActivity implements
-        OnContinueButtonClickListener {
+public class WelcomePageActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private int FRAGMENTS_COUNT = 4;
     private MyApplication app;
-
-    // TODO: add tabs with fragment titles
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,30 @@ public class WelcomePageActivity extends AppCompatActivity implements
         WelcomePageViewPagerAdapter adapter = new WelcomePageViewPagerAdapter(
                 getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i < FRAGMENTS_COUNT - 1) {
+                    continueButton.setText(R.string.buttonContinue);
+                } else {
+                    continueButton.setText(R.string.buttonFinish);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
+        continueButton = findViewById(R.id.welcomeContinueButton);
+        continueButton.setOnClickListener(this::onContinueButtonClick);
+
+        TabLayout tabLayout = findViewById(R.id.welcomeTabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
         YandexMetrica.reportEvent("Showing Welcome Page");
     }
@@ -59,7 +83,6 @@ public class WelcomePageActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
     public void onContinueButtonClick(View view) {
         final int currentItem = viewPager.getCurrentItem();
         if (currentItem < FRAGMENTS_COUNT - 1) {

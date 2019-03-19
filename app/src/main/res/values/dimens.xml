@@ -1,6 +1,7 @@
 <resources>
     <dimen name="largeOffset">18dp</dimen>
     <dimen name="smallOffset">8dp</dimen>
+    <dimen name="welcemePageSideDivider">50dp</dimen>
     <dimen name="profileImage">166dp</dimen>
     <dimen name="navDrawerImage">90dp</dimen>
 

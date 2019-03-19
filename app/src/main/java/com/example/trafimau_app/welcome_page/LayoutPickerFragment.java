@@ -1,7 +1,6 @@
 package com.example.trafimau_app.welcome_page;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.example.trafimau_app.R;
 
 public class LayoutPickerFragment extends Fragment {
 
-    private OnContinueButtonClickListener continueButtonClickListener;
     private MyApplication app;
     private boolean compactLayoutEnabled = false;
     private RadioButton standardLayoutRB;
@@ -49,9 +47,6 @@ public class LayoutPickerFragment extends Fragment {
         compactLayoutBlock.setOnClickListener(
                 v -> onRadioButtonBlockClick(v, true));
 
-        rootView.findViewById(R.id.layoutPickerContinueButton).setOnClickListener(
-                v -> continueButtonClickListener.onContinueButtonClick(v));
-
         compactLayoutEnabled = app.isCompactLayoutEnabled();
         setRadioButtonsState();
 
@@ -61,23 +56,6 @@ public class LayoutPickerFragment extends Fragment {
     private void setRadioButtonsState() {
         standardLayoutRB.setChecked(!compactLayoutEnabled);
         compactLayoutRB.setChecked(compactLayoutEnabled);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            continueButtonClickListener = (OnContinueButtonClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(
-                    OnContinueButtonClickListener.getErrorMessage(context.toString()));
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        continueButtonClickListener = null;
     }
 
     private void onRadioButtonBlockClick(View v, boolean compactLayoutClicked) {

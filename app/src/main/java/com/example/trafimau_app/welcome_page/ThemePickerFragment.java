@@ -1,7 +1,6 @@
 package com.example.trafimau_app.welcome_page;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +16,6 @@ import com.example.trafimau_app.R;
 import com.yandex.metrica.YandexMetrica;
 
 public class ThemePickerFragment extends Fragment {
-
-    private OnContinueButtonClickListener continueButtonClickListener;
 
     private Activity activity;
     private MyApplication app;
@@ -58,37 +55,16 @@ public class ThemePickerFragment extends Fragment {
         lightThemeBlock.setOnClickListener(v -> onRadioButtonBlockClick(v, false));
         darkThemeBlock.setOnClickListener(v -> onRadioButtonBlockClick(v, true));
 
-        rootView.findViewById(R.id.themePickerContinueButton).setOnClickListener(
-                v -> continueButtonClickListener.onContinueButtonClick(v));
-
         nightModeEnabled = app.isNighModeEnabled();
         setRadioButtonsState();
 
         return rootView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            continueButtonClickListener = (OnContinueButtonClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(
-                    OnContinueButtonClickListener.getErrorMessage(context.toString()));
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        continueButtonClickListener = null;
-    }
-
     private void onRadioButtonBlockClick(View v, boolean darkThemeClicked) {
         Log.d(MyApplication.LOG_TAG, "ThemePickerFragment: onRadioButtonBlockClick");
 
-        if(darkThemeClicked == nightModeEnabled){
+        if (darkThemeClicked == nightModeEnabled) {
             return;
         }
 
