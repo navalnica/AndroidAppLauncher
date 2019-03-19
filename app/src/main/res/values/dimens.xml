@@ -26,5 +26,6 @@
     <dimen name="dividerMarginStart">60dp</dimen>
     <dimen name="dividerMarginEnd">20dp</dimen>
     <dimen name="dividerHeight">1dp</dimen>
+    <dimen name="appsTabLayoutIndicatorHeight">6dp</dimen>
 
 </resources>
