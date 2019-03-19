@@ -1,4 +1,4 @@
-package com.example.trafimau_app.welcome_page;
+package com.example.trafimau_app.activity.welcome_page;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

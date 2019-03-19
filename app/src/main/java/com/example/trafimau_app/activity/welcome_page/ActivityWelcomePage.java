@@ -1,4 +1,4 @@
-package com.example.trafimau_app.welcome_page;
+package com.example.trafimau_app.activity.welcome_page;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import android.widget.Button;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.example.trafimau_app.launcher.LauncherActivity;
+import com.example.trafimau_app.activity.launcher.ActivityLauncher;
 import com.yandex.metrica.YandexMetrica;
 
-public class WelcomePageActivity extends AppCompatActivity {
+public class ActivityWelcomePage extends AppCompatActivity {
 
     private ViewPager viewPager;
     private int FRAGMENTS_COUNT = 4;
@@ -36,7 +36,7 @@ public class WelcomePageActivity extends AppCompatActivity {
         } else {
             Log.d(MyApplication.LOG_TAG, "isShowWelcomePage: false");
             Log.d(MyApplication.LOG_TAG, "starting Launcher Activity");
-            Intent intent = new Intent(this, LauncherActivity.class);
+            Intent intent = new Intent(this, ActivityLauncher.class);
             startActivity(intent);
             finish();
         }
@@ -91,7 +91,7 @@ public class WelcomePageActivity extends AppCompatActivity {
             Log.d(MyApplication.LOG_TAG, "settings showWelcomePage to false");
             app.setShowWelcomePage(false);
 
-            Intent intent = new Intent(this, LauncherActivity.class);
+            Intent intent = new Intent(this, ActivityLauncher.class);
             startActivity(intent);
             finish();
         }

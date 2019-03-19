@@ -5,7 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <permission android:name="com.example.trafimau_app.provider.READ"
+    <permission
+        android:name="com.example.trafimau_app.provider.READ"
         android:protectionLevel="signature" />
 
     <application
@@ -18,14 +19,17 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".welcome_page.WelcomePageActivity">
+        <activity android:name=".activity.welcome_page.ActivityWelcomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".launcher.LauncherActivity" />
+        <activity android:name=".activity.launcher.ActivityLauncher" />
+        <activity
+            android:name=".activity.ActivityProfile"
+            android:parentActivityName=".activity.launcher.ActivityLauncher" />
 
         <provider
             android:name=".AppsLaunchCountProvider"
@@ -33,10 +37,12 @@
             android:exported="true"
             android:readPermission="com.example.trafimau_app.provider.READ" />
 
-        <receiver android:name=".receivers.SilentPushReceiver">
+        <receiver
+            android:name=".receivers.SilentPushReceiver"
+            android:exported="false">
             <intent-filter>
                 <!-- Recieve silent push notifications. -->
-                <action android:name="${applicationId}.action.ymp.SILENT_PUSH_RECEIVE"/>
+                <action android:name="${applicationId}.action.ymp.SILENT_PUSH_RECEIVE" />
             </intent-filter>
         </receiver>
 

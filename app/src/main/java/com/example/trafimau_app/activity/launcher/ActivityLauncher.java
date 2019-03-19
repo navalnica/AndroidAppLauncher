@@ -1,4 +1,4 @@
-package com.example.trafimau_app.launcher;
+package com.example.trafimau_app.activity.launcher;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,16 +23,16 @@ import android.view.MenuItem;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
+import com.example.trafimau_app.activity.ActivityProfile;
 
 import java.util.Stack;
 
-public class LauncherActivity extends AppCompatActivity {
+public class ActivityLauncher extends AppCompatActivity {
 
     private MyApplication app;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private boolean profileFragmentActive = false;
 
     private String appsTitle;
     private String settingsTitle;
@@ -142,7 +142,7 @@ public class LauncherActivity extends AppCompatActivity {
 //         return super.onSupportNavigateUp()
 //     }
 
-        Log.d(MyApplication.LOG_TAG, "LauncherActivity.onBackPressed");
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher.onBackPressed");
 
         // restore previously selected drawer item
         if (!navMenuItemsStack.empty()) {
@@ -150,11 +150,6 @@ public class LauncherActivity extends AppCompatActivity {
             if (!navMenuItemsStack.empty()) {
                 navMenuItemsStack.peek().setChecked(true);
             }
-        }
-
-        // refresh flag
-        if (profileFragmentActive) {
-            profileFragmentActive = false;
         }
 
         // TODO: is it ok not to call super.onBackPressed() ?
@@ -184,14 +179,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(MyApplication.LOG_TAG, "LauncherActivity.onOptionsItemSelected");
         if (item.getItemId() == android.R.id.home) {
-            // if ProfileFragment is active than we do not need to open drawer
-            // just return to previous fragment
-            if (profileFragmentActive) {
-                profileFragmentActive = false;
-                return super.onOptionsItemSelected(item);
-            }
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
@@ -249,8 +237,8 @@ public class LauncherActivity extends AppCompatActivity {
         navigationView.getHeaderView(0).findViewById(R.id.navDrawerAuthorImage)
                 .setOnClickListener(view -> {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    profileFragmentActive = true;
-                    inflateFragment(new ProfileFragment(), true, null);
+                    Intent intent = new Intent(this, ActivityProfile.class);
+                    startActivity(intent);
                 });
     }
 
@@ -289,7 +277,7 @@ public class LauncherActivity extends AppCompatActivity {
 
         final int backStackEntryCount = fragmentManager.getBackStackEntryCount();
         final String notInflatingMsg =
-                "LauncherActivity.inflateFragment: not inflating. fragment already exists";
+                "ActivityLauncher.inflateFragment: not inflating. fragment already exists";
 
         // check if new fragment is the same as the initial one
         if (backStackEntryCount == 0 && initialFragmentInflated) {

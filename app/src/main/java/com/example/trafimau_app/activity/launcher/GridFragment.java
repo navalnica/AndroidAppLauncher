@@ -1,4 +1,4 @@
-package com.example.trafimau_app.launcher;
+package com.example.trafimau_app.activity.launcher;
 
 import android.app.Activity;
 import android.content.res.Configuration;

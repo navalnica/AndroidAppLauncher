@@ -1,4 +1,4 @@
-package com.example.trafimau_app.welcome_page;
+package com.example.trafimau_app.activity.welcome_page;
 
 import android.app.Activity;
 import android.os.Bundle;
