@@ -34,8 +34,8 @@ android {
         applicationId "com.example.trafimau_app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 300
-        versionName "3.0.0"
+        versionCode 500
+        versionName "5.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -52,7 +52,6 @@ android {
             signingConfig signingConfigs.config
 
             ext.betaDistributionGroupAliases = 'mds2019'
-//            ext.betaDistributionGroupAliases = 'dudes'
         }
     }
     compileOptions {

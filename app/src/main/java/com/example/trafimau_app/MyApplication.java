@@ -14,8 +14,10 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.trafimau_app.db.AppEntity;
-import com.example.trafimau_app.db.AppsDatabase;
+import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
+import com.example.trafimau_app.data.MyAppInfo;
+import com.example.trafimau_app.data.db.AppEntity;
+import com.example.trafimau_app.data.db.AppsDatabase;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.yandex.metrica.YandexMetrica;
@@ -34,8 +36,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
 
-    // TODO: update APP_CENTER_KEY
-    private static final String APP_CENTER_KEY = "837acbd8-490f-4613-8c34-8cadf9bd3268";
+    private static final String APP_CENTER_KEY = "00de3ebf-a55b-4849-a9fe-3de0e018e1ca";
     private final static String APP_METRICA_API_KEY = "2ade6b48-042d-4406-acbf-d59322bafa72";
 
     public final static String LOG_TAG = "MyApp";

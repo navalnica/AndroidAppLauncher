@@ -1,4 +1,4 @@
-package com.example.trafimau_app.db;
+package com.example.trafimau_app.data.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -10,8 +10,6 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import java.util.List;
-
-import javax.crypto.AEADBadTagException;
 
 @Dao
 public interface AppEntityDao {

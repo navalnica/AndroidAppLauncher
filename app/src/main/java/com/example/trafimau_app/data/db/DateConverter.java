@@ -1,4 +1,4 @@
-package com.example.trafimau_app.db;
+package com.example.trafimau_app.data.db;
 
 import android.arch.persistence.room.TypeConverter;
 

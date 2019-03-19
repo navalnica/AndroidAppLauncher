@@ -1,4 +1,4 @@
-package com.example.trafimau_app.db;
+package com.example.trafimau_app.data.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.trafimau_app.MyAppInfo;
+import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.MyApplication;
 
 import java.util.Date;

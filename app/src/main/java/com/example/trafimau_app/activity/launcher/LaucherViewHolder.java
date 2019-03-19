@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.trafimau_app.MyAppInfo;
+import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.R;
 
 public class LaucherViewHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -7,10 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.example.trafimau_app.db.AppEntityDao;
-import com.example.trafimau_app.db.AppsDatabase;
+import com.example.trafimau_app.data.db.AppEntityDao;
+import com.example.trafimau_app.data.db.AppsDatabase;
 
 public class AppsLaunchCountProvider extends ContentProvider {
 

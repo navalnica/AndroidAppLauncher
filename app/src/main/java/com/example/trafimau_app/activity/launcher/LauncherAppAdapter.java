@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.trafimau_app.MyAppInfo;
+import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.MyApplication;
 
 public class LauncherAppAdapter extends RecyclerView.Adapter<LaucherViewHolder> {

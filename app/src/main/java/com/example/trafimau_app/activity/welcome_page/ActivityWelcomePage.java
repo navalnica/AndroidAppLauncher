@@ -2,6 +2,7 @@ package com.example.trafimau_app.activity.welcome_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +23,7 @@ public class ActivityWelcomePage extends AppCompatActivity {
     private ViewPager viewPager;
     private int FRAGMENTS_COUNT = 4;
     private MyApplication app;
-    private Button continueButton;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +46,9 @@ public class ActivityWelcomePage extends AppCompatActivity {
         WelcomePageViewPagerAdapter adapter = new WelcomePageViewPagerAdapter(
                 getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-            }
 
-            @Override
-            public void onPageSelected(int i) {
-                if (i < FRAGMENTS_COUNT - 1) {
-                    continueButton.setText(R.string.buttonContinue);
-                } else {
-                    continueButton.setText(R.string.buttonFinish);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-            }
-        });
-
-        continueButton = findViewById(R.id.welcomeContinueButton);
-        continueButton.setOnClickListener(this::onContinueButtonClick);
+        fab = findViewById(R.id.welcomeFab);
+        fab.setOnClickListener(this::onContinueButtonClick);
 
         TabLayout tabLayout = findViewById(R.id.welcomeTabLayout);
         tabLayout.setupWithViewPager(viewPager);

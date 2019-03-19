@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.data;
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;

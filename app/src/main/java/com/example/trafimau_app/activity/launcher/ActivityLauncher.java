@@ -32,9 +32,6 @@ public class ActivityLauncher extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    private String appsTitle;
-    private String settingsTitle;
-
     private boolean isAppsFragmentShown = true;
     private AppsFragment appsFragment;
 
@@ -79,11 +76,9 @@ public class ActivityLauncher extends AppCompatActivity {
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
         navigationView = findViewById(R.id.navigationDrawer);
 
-        appsTitle = getString(R.string.applications);
-        settingsTitle = getString(R.string.settings);
-
         appsFragment = new AppsFragment();
-        inflateFragment(appsFragment, false, appsTitle);
+        inflateFragment(appsFragment, false);
+        setTitle(R.string.applications);
         isAppsFragmentShown = true;
 
         configureToolbar();
@@ -140,8 +135,21 @@ public class ActivityLauncher extends AppCompatActivity {
                     final int itemId = menuItem.getItemId();
 
                     switch (itemId) {
+                        case R.id.navDesktopFragment:
+                            popSettingsAndShowApps();
+                            appsFragment.setCurrentPage(AppsFragment.Page.DESKTOP);
+                            break;
+                        case R.id.navGridFragment:
+                            popSettingsAndShowApps();
+                            appsFragment.setCurrentPage(AppsFragment.Page.GRID);
+                            break;
+                        case R.id.navListFragment:
+                            popSettingsAndShowApps();
+                            appsFragment.setCurrentPage(AppsFragment.Page.LIST);
+                            break;
                         case R.id.navPreferencesFragment:
-                            inflateFragment(new PreferencesFragment(), true, settingsTitle);
+                            inflateFragment(new PreferencesFragment(), true);
+                            setTitle(R.string.settings);
                             isAppsFragmentShown = false;
                             break;
                         case R.id.sendSimplePush:
@@ -149,27 +157,6 @@ public class ActivityLauncher extends AppCompatActivity {
                             break;
                         case R.id.sendPushWithIcon:
                             sendPushWithColor();
-                            break;
-                        case R.id.navDesktopFragment:
-                            if (!isAppsFragmentShown) {
-                                fragmentManager.popBackStackImmediate();
-                                isAppsFragmentShown = true;
-                            }
-                            appsFragment.setCurrentPage(AppsFragment.Page.DESKTOP);
-                            break;
-                        case R.id.navGridFragment:
-                            if (!isAppsFragmentShown) {
-                                fragmentManager.popBackStackImmediate();
-                                isAppsFragmentShown = true;
-                            }
-                            appsFragment.setCurrentPage(AppsFragment.Page.GRID);
-                            break;
-                        case R.id.navListFragment:
-                            if (!isAppsFragmentShown) {
-                                fragmentManager.popBackStackImmediate();
-                                isAppsFragmentShown = true;
-                            }
-                            appsFragment.setCurrentPage(AppsFragment.Page.LIST);
                             break;
                     }
                     drawerLayout.closeDrawers();
@@ -185,7 +172,15 @@ public class ActivityLauncher extends AppCompatActivity {
                 });
     }
 
-    private void inflateFragment(Fragment fragment, boolean addToBackStack, String title) {
+    private void popSettingsAndShowApps() {
+        if (!isAppsFragmentShown) {
+            fragmentManager.popBackStackImmediate();
+            isAppsFragmentShown = true;
+            setTitle(R.string.applications);
+        }
+    }
+
+    private void inflateFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager
                 .beginTransaction()
                 .replace(R.id.launcherFragmentContainer, fragment);
@@ -193,10 +188,6 @@ public class ActivityLauncher extends AppCompatActivity {
             transaction.addToBackStack(fragment.getClass().getSimpleName());
         }
         transaction.commit();
-
-        if (title != null) {
-            setTitle(title);
-        }
     }
 
     private void sendPushWithColor() {

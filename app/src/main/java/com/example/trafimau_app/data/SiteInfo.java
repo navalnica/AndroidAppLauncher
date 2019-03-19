@@ -1,4 +1,4 @@
-package com.example.trafimau_app;
+package com.example.trafimau_app.data;
 
 public class SiteInfo{
     public String link;

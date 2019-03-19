@@ -26,14 +26,14 @@
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp" />
 
-        <Button
-            android:id="@+id/welcomeContinueButton"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/welcomeFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="@dimen/largeOffset"
-            android:text="@string/buttonContinue"
-            android:theme="@style/coloredAppCompatButton" />
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_arrow_forward_white_24dp" />
 
     </FrameLayout>
 

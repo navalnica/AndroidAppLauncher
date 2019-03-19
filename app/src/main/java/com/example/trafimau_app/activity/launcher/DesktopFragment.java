@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.example.trafimau_app.SiteInfo;
+import com.example.trafimau_app.data.SiteInfo;
 import com.yandex.metrica.YandexMetrica;
 
 import java.io.IOException;
