@@ -21,8 +21,7 @@
         Portrait: 5 icons in a row
         \nLandscape: 7 icons in a row
     </string>
-    <string name="author">Aliaksandr Trafimau</string>
-    <string name="githubLink" translatable="false">github.com/yks72p</string>
+    <string name="author">Aliaksandr Trafimaŭ</string>
     <string name="color">Color</string>
 
     <string name="desktop">Desktop</string>
@@ -57,5 +56,20 @@
     <string name="notificationChannelName">TrafimauAppChannelName</string>
     <string name="notificationChannelDescription">TrafimauAppChannelDescription</string>
     <string name="send_push_with_color">Send colored push</string>
+    <string name="mobilePhoneNumber">(317) 535-1212</string>
+    <string name="mobilePhone">Mobile</string>
+    <string name="phoneIcon">phone icon</string>
+    <string name="emailIcon">Email icon</string>
+    <string name="email">cncntrt@gmail.com</string>
+    <string name="email_label">Email</string>
+    <string name="workPhoneNumber">(323) 529-0213</string>
+    <string name="workPhone">Work</string>
+    <string name="inspiringPlace">Inspiring place</string>
+    <string name="inspiringPlaceLocation">Ancient Theatre, Delphi, Greece</string>
+    <string name="github">Github</string>
+    <string name="githubProfile">yks72p</string>
+    <string name="workPhoneIcon">Work phone icon</string>
+    <string name="githubIcon">Github icon</string>
+    <string name="inspiring_place_icon">Inspiring place icon</string>
 
 </resources>

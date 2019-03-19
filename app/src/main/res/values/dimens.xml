@@ -1,20 +1,30 @@
 <resources>
+    <dimen name="profileOffset">20dp</dimen>
     <dimen name="largeOffset">18dp</dimen>
     <dimen name="smallOffset">8dp</dimen>
-    <dimen name="welcemePageSideDivider">50dp</dimen>
-    <dimen name="profileImage">166dp</dimen>
-    <dimen name="navDrawerImage">90dp</dimen>
 
-    <dimen name="profileAppBarHeight">309dp</dimen>
+    <dimen name="welcomeAuthorImage">166dp</dimen>
+    <dimen name="welcomePageSideDivider">50dp</dimen>
 
-    <dimen name="welcomeMainText">22sp</dimen>
-    <dimen name="welcomeSecondaryText">18sp</dimen>
+    <dimen name="welcomeMainText">20sp</dimen>
+    <dimen name="welcomeSecondaryText">16sp</dimen>
     <dimen name="themePickerText">27sp</dimen>
     <dimen name="layoutPickerMainText">22sp</dimen>
     <dimen name="layoutPickerSecondaryText">16sp</dimen>
+
     <dimen name="navHeaderHeight">192dp</dimen>
-    <dimen name="launcherListAppLabel">18sp</dimen>
+    <dimen name="navDrawerImage">90dp</dimen>
+
+    <dimen name="profileAppBarHeight">280dp</dimen>
+
+    <dimen name="profileMainText">16sp</dimen>
+    <dimen name="profileSecondaryText">14sp</dimen>
+
+    <dimen name="launcherAppLabel">18sp</dimen>
     <dimen name="desktopItemProgressBar">80dp</dimen>
     <dimen name="listItemHeight">60dp</dimen>
+    <dimen name="dividerMarginStart">60dp</dimen>
+    <dimen name="dividerMarginEnd">20dp</dimen>
+    <dimen name="dividerHeight">1dp</dimen>
 
 </resources>

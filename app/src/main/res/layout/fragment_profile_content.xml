@@ -1,24 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:appEntity="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    appEntity:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/fragment_profile">
-    <!--add context?-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/largeOffset">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/githubLink"
-            android:textSize="@dimen/welcomeSecondaryText" />
+        <RelativeLayout
+            android:id="@+id/mobilePhone"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profilePhoneIcon"
+                style="@style/profileIcon"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/phoneIcon"
+                app:srcCompat="@drawable/ic_phone_black_24dp" />
+
+            <TextView
+                android:id="@+id/profilePhoneText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profilePhoneIcon"
+                android:text="@string/mobilePhoneNumber" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profilePhoneText"
+                android:layout_toEndOf="@id/profilePhoneIcon"
+                android:text="@string/mobilePhone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/workPhone"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profileWorkPhoneIcon"
+                style="@style/profileIcon"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/workPhoneIcon" />
+
+            <TextView
+                android:id="@+id/profileWorkPhoneText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profileWorkPhoneIcon"
+                android:text="@string/workPhoneNumber" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profileWorkPhoneText"
+                android:layout_toEndOf="@id/profileWorkPhoneIcon"
+                android:text="@string/workPhone" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider" />
+
+        <RelativeLayout
+            android:id="@+id/email"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profileEmailIcon"
+                style="@style/profileIcon"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/emailIcon"
+                app:srcCompat="@drawable/ic_email_black_24dp" />
+
+            <TextView
+                android:id="@+id/profileEmailText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profileEmailIcon"
+                android:text="@string/email" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profileEmailText"
+                android:layout_toEndOf="@id/profileEmailIcon"
+                android:text="@string/email_label" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider" />
+
+        <RelativeLayout
+            android:id="@+id/github"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profileGithubIcon"
+                style="@style/profileIcon"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/githubIcon"
+                app:srcCompat="@drawable/ic_github_black_24dp" />
+
+            <TextView
+                android:id="@+id/profileGithubText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profileGithubIcon"
+                android:text="@string/githubProfile" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profileGithubText"
+                android:layout_toEndOf="@id/profileGithubIcon"
+                android:text="@string/github" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider" />
+
+        <RelativeLayout
+            android:id="@+id/inspiringPlace"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profileInspiringPlaceIcon"
+                style="@style/profileIcon"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/inspiring_place_icon"
+                app:srcCompat="@drawable/ic_place_black_24dp" />
+
+            <TextView
+                android:id="@+id/profileInspiringPlaceText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profileInspiringPlaceIcon"
+                android:text="@string/inspiringPlaceLocation" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profileInspiringPlaceText"
+                android:layout_toEndOf="@id/profileInspiringPlaceIcon"
+                android:text="@string/inspiringPlace" />
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <View
-        android:layout_width="@dimen/welcemePageSideDivider"
+        android:layout_width="@dimen/welcomePageSideDivider"
         android:layout_height="match_parent" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <View
-        android:layout_width="@dimen/welcemePageSideDivider"
+        android:layout_width="@dimen/welcomePageSideDivider"
         android:layout_height="match_parent" />
 
 </LinearLayout>

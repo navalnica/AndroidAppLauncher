@@ -8,8 +8,8 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="@dimen/profileImage"
-        android:layout_height="@dimen/profileImage"
+        android:layout_width="@dimen/welcomeAuthorImage"
+        android:layout_height="@dimen/welcomeAuthorImage"
         android:contentDescription="@string/appIconContentDescription"
         android:src="@drawable/github_profile_image" />
 
