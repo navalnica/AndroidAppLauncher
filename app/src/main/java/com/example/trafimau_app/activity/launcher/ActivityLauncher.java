@@ -108,6 +108,10 @@ public class ActivityLauncher extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
+        if (!isAppsFragmentShown) {
+            isAppsFragmentShown = true;
+            setTitle(R.string.applications);
+        }
         super.onBackPressed();
     }
 
@@ -196,7 +200,7 @@ public class ActivityLauncher extends AppCompatActivity {
                 this, getString(R.string.notificationChannelId))
                 .setSmallIcon(R.drawable.ic_color_lens_black_24dp)
                 .setColor(Color.MAGENTA)
-                .setContentTitle(getString(R.string.push_with_color))
+                .setContentTitle(getString(R.string.push_with_color_title))
                 .setContentText(getString(R.string.push_with_color_description))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

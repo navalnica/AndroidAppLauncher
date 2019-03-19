@@ -2,7 +2,6 @@
 <resources>
     <string name="appDescription">Гэта launcher, напісаны для MDS</string>
     <string name="greeting">Вітаем!</string>
-    <string name="authorImageContentDescription">Выява аўтара</string>
     <string name="themePickerLight">Светлая тэма</string>
     <string name="themePickerDark">Цёмная тэма</string>
     <string name="layoutCompactName">Шчыльны макет</string>
@@ -11,8 +10,7 @@
     <string name="layoutStandardDescription">Партрэтная: 4 іконкі ў шэрагу\nЛандшафтная: 6 іконак у шэрагу</string>
     <string name="layoutCompactDescription">Партрэтны: 5 іконкі ў шэрагу\nЛандшафтны: 7 іконак у шэрагу</string>
     <string name="color">Колер</string>
-    <string name="appIconContentDescription">Выява дастасавання</string>
-    <string name="listLauncher">Спіс дастасаванняў</string>
+    <string name="listLauncher">Спіс</string>
     <string name="gridLauncher">Сетка</string>
     <string name="settings">Налады</string>
     <string name="appDescription1">З дапамогай гэтай праграмы вы можаце запускаць іншыя ўсталяваныя дастасаванні</string>
@@ -20,4 +18,24 @@
     <string name="toggle_dark_theme">Пераключыць цёмную тэму</string>
     <string name="layout">Макет</string>
     <string name="show_welcome_page_on_next_launch">Паказаць Пачатковую старонку пра наступным запуску</string>
+    <string name="desktop">Працоўны стол</string>
+    <string name="applications">Дастасаванні</string>
+    <string name="darkThemeDisabled">Цёмная тэма ўлучаная</string>
+    <string name="darkThemeEnabled">Цёмная тэма вылучаная</string>
+    <string name="layoutPickerDialogTitle">Абярыце макет</string>
+    <string name="cancel">Скасаваць</string>
+    <string name="add_new_item">Дадаць</string>
+    <string name="enterTheSiteLink">Увядзіце спасылку на сайт</string>
+    <string name="notifications">Паведамленні</string>
+    <string name="send_push_notification">Простае паведамленне</string>
+    <string name="simple_push_description">Вы даслалі паведамленне</string>
+    <string name="push_with_color_description">Вы даслалі паведамленне з каляровым фонам</string>
+    <string name="push_with_color_title">Каляровае паведамленне</string>
+    <string name="send_push_with_color">Каляровае паведамленне</string>
+    <string name="simple_push_title">Простае паведамленне</string>
+    <string name="mobilePhone">Мабільны тэлефон</string>
+    <string name="email_label">Электронная пошта</string>
+    <string name="workPhone">Працоўны тэлефон</string>
+    <string name="inspiringPlace">Натхняльнае месца</string>
+    <string name="inspiringPlaceLocation">Старажытны тэатр, Дэльфы, Грэцыя</string>
 </resources>
