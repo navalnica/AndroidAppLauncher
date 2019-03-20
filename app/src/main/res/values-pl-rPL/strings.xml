@@ -7,7 +7,6 @@
     <string name="layoutCompactName">Gęsty układ</string>
     <string name="themePickerDark">Ciemny temat</string>
     <string name="themePickerLight">Jasny temat</string>
-    <string name="buttonContinue">Dalej</string>
     <string name="authorImageContentDescription">Obraz twórca</string>
     <string name="greeting">Witamy!</string>
     <string name="appDescription">Ten launcher, napisane dla MDS</string>

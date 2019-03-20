@@ -1,7 +1,6 @@
 PATH_TO_APK="app/build/outputs/apk/release/app-release.apk"
 PATH_TO_RELEASE_NOTES="release_notes.txt"
 
-#TARGET_GROUP="dudes"
  TARGET_GROUP="UltimateGroup"
 
 sudo npm install -g appcenter-cli

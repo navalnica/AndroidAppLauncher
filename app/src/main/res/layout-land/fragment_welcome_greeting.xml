@@ -1,68 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:appEntity="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcomeLandImageWithText"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/welcomeAuthorImage"
+        android:layout_width="@dimen/welcomeAuthorImage"
+        android:layout_height="@dimen/welcomeAuthorImage"
+        android:contentDescription="@string/appIconContentDescription"
+        android:src="@drawable/github_profile_image" />
 
     <LinearLayout
-        android:id="@+id/welcomeLandImageWithText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        appEntity:layout_constraintBottom_toBottomOf="parent"
-        appEntity:layout_constraintEnd_toEndOf="parent"
-        appEntity:layout_constraintHorizontal_bias="0.3"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/largeOffset"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        appEntity:layout_constraintStart_toStartOf="parent"
-        appEntity:layout_constraintTop_toTopOf="parent"
-
-        appEntity:layout_constraintVertical_bias="0.4">
-
-        <ImageView
-            android:id="@+id/welcomeAuthorImage"
-            android:layout_width="@dimen/profileImage"
-            android:layout_height="@dimen/profileImage"
-            android:contentDescription="@string/appIconContentDescription"
-            android:src="@drawable/github_profile_image" />
-
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/largeOffset"
-            android:orientation="vertical">
+            android:text="@string/app_name"
+            android:textSize="@dimen/welcomeMainText" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="@dimen/welcomeMainText" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/largeOffset"
+            android:text="@string/greeting"
+            android:textSize="@dimen/welcomeSecondaryText" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/largeOffset"
-                android:text="@string/greeting"
-                android:textSize="@dimen/welcomeSecondaryText" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/appDescription"
-                android:textSize="@dimen/welcomeSecondaryText"
-                android:layout_marginTop="@dimen/largeOffset" />
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/largeOffset"
+            android:text="@string/appDescription"
+            android:textSize="@dimen/welcomeSecondaryText" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/welcomeStartContinueButton"
-        style="@style/buttonContinue"
-        android:theme="@style/coloredAppCompatButton"
-        appEntity:layout_constraintBottom_toBottomOf="parent"
-        appEntity:layout_constraintEnd_toEndOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
-
+</LinearLayout>

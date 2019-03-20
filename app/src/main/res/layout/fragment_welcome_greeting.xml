@@ -1,48 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/welcomeAuthorImage"
+        android:layout_height="@dimen/welcomeAuthorImage"
+        android:contentDescription="@string/appIconContentDescription"
+        android:src="@drawable/github_profile_image" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_marginTop="@dimen/largeOffset"
+        android:text="@string/app_name"
+        android:textSize="@dimen/welcomeMainText" />
 
-        <ImageView
-            android:layout_width="@dimen/profileImage"
-            android:layout_height="@dimen/profileImage"
-            android:contentDescription="@string/appIconContentDescription"
-            android:src="@drawable/github_profile_image" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/largeOffset"
+        android:text="@string/greeting"
+        android:textSize="@dimen/welcomeSecondaryText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="@dimen/welcomeMainText"
-            android:layout_marginTop="@dimen/largeOffset" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/largeOffset"
+        android:text="@string/appDescription"
+        android:textSize="@dimen/welcomeSecondaryText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/greeting"
-            android:textSize="@dimen/welcomeSecondaryText"
-            android:layout_marginTop="@dimen/largeOffset" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/appDescription"
-            android:textSize="@dimen/welcomeSecondaryText"
-            android:layout_marginTop="@dimen/largeOffset" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/welcomeStartContinueButton"
-        style="@style/buttonContinue"
-        android:theme="@style/coloredAppCompatButton" />
-
-</RelativeLayout>
+</LinearLayout>

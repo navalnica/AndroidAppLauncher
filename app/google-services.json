@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "841249015541",
+    "firebase_url": "https://applauncher-1bf64.firebaseio.com",
+    "project_id": "applauncher-1bf64",
+    "storage_bucket": "applauncher-1bf64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841249015541:android:06bbe1589a5cd505",
+        "android_client_info": {
+          "package_name": "com.example.trafimau_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841249015541-b55nll3uipntkn02tsk22ful7k70rel9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjpnPMuDMW_5ByqjiDQAiRqHa4hUnWrn8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

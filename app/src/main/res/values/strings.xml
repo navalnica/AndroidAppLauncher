@@ -2,11 +2,8 @@
     <string name="app_name" translatable="false">TrafimauApp</string>
     <string name="appDescription">This is the appEntity launcher made for MDS</string>
     <string name="greeting">Welcome!</string>
-    <string name="authorImageContentDescription">Author image</string>
-    <string name="appIconContentDescription">Application icon</string>
-
-    <string name="buttonContinue">Continue</string>
-    <string name="buttonFinish">Finish</string>
+    <string name="authorImageContentDescription" translatable="false">Author image</string>
+    <string name="appIconContentDescription" translatable="false">Application icon</string>
 
     <string name="themePickerLight">Light Theme</string>
     <string name="themePickerDark">Dark theme</string>
@@ -21,13 +18,12 @@
         Portrait: 5 icons in a row
         \nLandscape: 7 icons in a row
     </string>
-    <string name="author">Aliaksandr Trafimau</string>
-    <string name="githubLink" translatable="false">github.com/yks72p</string>
+    <string name="author">Aliaksandr Trafimaŭ</string>
     <string name="color">Color</string>
 
     <string name="desktop">Desktop</string>
-    <string name="gridLauncher">Grid Launcher</string>
-    <string name="listLauncher">List Launcher</string>
+    <string name="gridLauncher">Grid</string>
+    <string name="listLauncher">List</string>
     <string name="applications">Applications</string>
     <string name="settings">Settings</string>
 
@@ -46,5 +42,39 @@
     <string name="add_new_item">Add new item</string>
     <string name="sitename_hint" translatable="false">sitename.com</string>
     <string name="enterTheSiteLink">Enter the site link</string>
+    <string name="notifications">Notifications</string>
+    <string name="send_push_notification">Simple push</string>
+    <string name="simple_push_title">Simple push</string>
+    <string name="simple_push_description">You have sent simple push</string>
+    <string name="push_with_color_description">You have sent push with color</string>
+    <string name="push_with_color_title">Colored push</string>
+
+    <string name="notificationChannelId" translatable="false">TrafimauAppChannelId</string>
+    <string name="notificationChannelName" translatable="false">TrafimauAppChannelName</string>
+    <string name="notificationChannelDescription" translatable="false">TrafimauAppChannelDescription</string>
+    <string name="send_push_with_color">Colored push</string>
+    <string name="mobilePhoneNumber" translatable="false">(317) 535-1212</string>
+    <string name="mobilePhone">Mobile phone</string>
+    <string name="phoneIcon" translatable="false">phone icon</string>
+    <string name="emailIcon" translatable="false">Email icon</string>
+    <string name="email" translatable="false">cncntrt@gmail.com</string>
+    <string name="email_label">Email</string>
+    <string name="workPhoneNumber" translatable="false">(323) 529-0213</string>
+    <string name="workPhone">Work phone</string>
+    <string name="inspiringPlace">Inspiring place</string>
+    <string name="inspiringPlaceLocation">Ancient Theatre, Delphi, Greece</string>
+    <string name="github" translatable="false">Github</string>
+    <string name="githubProfile" translatable="false">yks72p</string>
+    <string name="workPhoneIcon" translatable="false">Work phone icon</string>
+    <string name="githubIcon" translatable="false">Github icon</string>
+    <string name="inspiring_place_icon" translatable="false">Inspiring place icon</string>
+    <string name="karma_title">Improve my karma :)</string>
+    <string name="karma_description">You can say \'Good Job\' and add +5 to my karma. Be aware that uncontrolled forces of nature (such as <b>Silent Pushes</b>) can change karma in any time</string>
+    <string name="karma_icon" translatable="false">Karma icon</string>
+    <string name="currentKarmaLabel">Current karma:</string>
+    <string name="never">Never</string>
+    <string name="last_change_by_nature">Last change by nature:</string>
+    <string name="add">Add</string>
+    <string name="enter_the_site_link">Enter the site link</string>
 
 </resources>

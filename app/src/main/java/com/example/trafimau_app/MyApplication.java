@@ -1,26 +1,34 @@
 package com.example.trafimau_app;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.trafimau_app.db.AppsDatabase;
-import com.example.trafimau_app.db.AppEntity;
+import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
+import com.example.trafimau_app.data.MyAppInfo;
+import com.example.trafimau_app.data.db.AppEntity;
+import com.example.trafimau_app.data.db.AppsDatabase;
+import com.example.trafimau_app.data.db.DateConverter;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
+import com.yandex.metrica.push.YandexMetricaPush;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -31,11 +39,12 @@ import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
 
-    // TODO: update APP_CENTER_KEY
-    private static final String APP_CENTER_KEY = "837acbd8-490f-4613-8c34-8cadf9bd3268";
+    private static final String APP_CENTER_KEY = "00de3ebf-a55b-4849-a9fe-3de0e018e1ca";
     private final static String APP_METRICA_API_KEY = "2ade6b48-042d-4406-acbf-d59322bafa72";
 
     public final static String LOG_TAG = "MyApp";
+    public final static String KARMA_UPDATED_FROM_SILENT_PUSH_ACTION =
+            "com.example.trafimau_app.karma_updated_from_silent_push_action";
 
     public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
 
@@ -49,6 +58,12 @@ public class MyApplication extends Application {
 
     private String compactLayoutEnabledKey;
     private boolean compactLayoutEnabled = false;
+
+    private String karmaKey;
+    private int karmaValue;
+
+    private String karmaLastChangeDateKey;
+    private Long karmaLastChangeDateValue;
 
     private AppsDatabase db;
     private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
@@ -80,6 +95,8 @@ public class MyApplication extends Application {
         getDataFromSharedPreferences();
         syncAppTheme();
         initDatabase();
+
+        registerNotificationChannel();
     }
 
     private void initDatabase() {
@@ -90,11 +107,12 @@ public class MyApplication extends Application {
 
         scanInstalledApps();
         updateAppsDB();
+
+        // TODO: implement other sort options
+        Collections.sort(installedApps, (o1, o2) -> o1.label.compareTo(o2.label));
     }
 
     private void scanInstalledApps() {
-
-        // TODO: it's called every app launch. make DB receive changes to PackageManager
 
         YandexMetrica.reportEvent("MyApplication.scanInstalledApps()");
 
@@ -102,7 +120,12 @@ public class MyApplication extends Application {
         List<ApplicationInfo> infos = pm
                 .getInstalledApplications(PackageManager.GET_META_DATA);
 
+        final String packageName = getPackageName();
+
         for (ApplicationInfo ai : infos) {
+            if (ai.packageName.equals(packageName)) {
+                continue;
+            }
             Intent intent = pm.getLaunchIntentForPackage(ai.packageName);
             if (intent != null) {
                 if (intent.hasCategory(Intent.CATEGORY_LAUNCHER)) {
@@ -164,7 +187,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void insertPackageToDB(@NonNull String packageName) {
+    public final void insertPackageToDB(@NonNull String packageName) {
         try {
             final ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             final MyAppInfo myAppInfo = new MyAppInfo(ai, pm);
@@ -176,7 +199,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void deletePackageFromDB(@NonNull String packageName) {
+    public final void deletePackageFromDB(@NonNull String packageName) {
         AppEntity toDelete = db.appEntityDao().getAppByPackageName(packageName);
         db.appEntityDao().delete(toDelete);
         for (int i = 0; i < installedApps.size(); ++i) {
@@ -187,7 +210,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
+    public final void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
         AppEntity toUpdate = db.appEntityDao().getAppByPackageName(packageName);
         Date date = new Date();
         toUpdate.lastLaunched = date;
@@ -204,11 +227,11 @@ public class MyApplication extends Application {
         myAppInfo.launchedCount++;
     }
 
-    public int getInstalledAppsCount() {
+    public final int getInstalledAppsCount() {
         return installedApps.size();
     }
 
-    public MyAppInfo getAppInfoFromLocalVar(int i) {
+    public final MyAppInfo getAppInfoFromLocalVar(int i) {
         if (i < 0 || i >= installedApps.size()) {
             final String msg = "MyApplication.getAppInfoFromLocalVar: invalid array position passed";
             Log.e(LOG_TAG, msg);
@@ -229,6 +252,8 @@ public class MyApplication extends Application {
         YandexMetrica.activate(getApplicationContext(), config);
         // app lifecycle tracking
         YandexMetrica.enableActivityAutoTracking(this);
+
+        YandexMetricaPush.init(getApplicationContext());
     }
 
     private void getDataFromSharedPreferences() {
@@ -241,6 +266,15 @@ public class MyApplication extends Application {
         compactLayoutEnabledKey = getString(R.string.sharedPrefCompactLayoutEnabledKey);
         compactLayoutEnabled = sharedPreferences.getBoolean(compactLayoutEnabledKey, false);
         currentLayout = compactLayoutEnabled ? LayoutInfo.COMPACT : LayoutInfo.STANDARD;
+
+        karmaKey = getString(R.string.sharedPrefKarmaKey);
+        karmaValue = sharedPreferences.getInt(karmaKey, 0);
+
+        karmaLastChangeDateKey = getString(R.string.sharedPrefKarmaLastChangeDateKey);
+        karmaLastChangeDateValue = sharedPreferences.getLong(karmaLastChangeDateKey, 0);
+        if(karmaLastChangeDateValue == 0){
+            karmaLastChangeDateValue = null;
+        }
     }
 
     private void syncAppTheme() {
@@ -251,11 +285,11 @@ public class MyApplication extends Application {
         }
     }
 
-    public boolean isShowWelcomePage() {
+    public final boolean isShowWelcomePage() {
         return showWelcomePage;
     }
 
-    public void setShowWelcomePage(boolean value) {
+    public final void setShowWelcomePage(boolean value) {
         showWelcomePage = value;
         sharedPreferences
                 .edit()
@@ -266,11 +300,11 @@ public class MyApplication extends Application {
         YandexMetrica.reportEvent("setting show welcome page on next run to " + value);
     }
 
-    public boolean isNighModeEnabled() {
+    public final boolean isNighModeEnabled() {
         return nightModeEnabled;
     }
 
-    public void setNightModeEnabled(boolean value) {
+    public final void setNightModeEnabled(boolean value) {
         nightModeEnabled = value;
         syncAppTheme();
 
@@ -284,11 +318,11 @@ public class MyApplication extends Application {
         YandexMetrica.reportEvent(msg);
     }
 
-    public boolean isCompactLayoutEnabled() {
+    public final boolean isCompactLayoutEnabled() {
         return compactLayoutEnabled;
     }
 
-    public void setCompactLayoutEnabled(boolean value) {
+    public final void setCompactLayoutEnabled(boolean value) {
         compactLayoutEnabled = value;
         currentLayout = compactLayoutEnabled ? LayoutInfo.COMPACT : LayoutInfo.STANDARD;
         sharedPreferences
@@ -299,5 +333,51 @@ public class MyApplication extends Application {
         final String msg = "compactLayoutEnabled: " + compactLayoutEnabled;
         Log.d(MyApplication.LOG_TAG, msg);
         YandexMetrica.reportEvent(msg);
+    }
+
+    public int getKarmaValue() {
+        return karmaValue;
+    }
+
+    public void setKarmaValue(int karmaValue) {
+        this.karmaValue = karmaValue;
+        sharedPreferences
+                .edit()
+                .putInt(karmaKey, karmaValue)
+                .apply();
+
+        final String msg = "karma updated. karma: " + karmaValue;
+        Log.d(MyApplication.LOG_TAG, msg);
+    }
+
+    public Date getKarmaLastChangeDate() {
+        return DateConverter.toDate(karmaLastChangeDateValue);
+    }
+
+    public void setKarmaLastChangeDateToNow() {
+        Date now = new Date();
+        karmaLastChangeDateValue = DateConverter.toTimestamp(now);
+        sharedPreferences.
+                edit()
+                .putLong(karmaLastChangeDateKey, karmaLastChangeDateValue)
+                .apply();
+        Log.d(MyApplication.LOG_TAG, "setting last karma change date to now");
+    }
+
+    private void registerNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String name = getString(R.string.notificationChannelName);
+            String description = getString(R.string.notificationChannelDescription);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(
+                    getString(R.string.notificationChannelId), name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

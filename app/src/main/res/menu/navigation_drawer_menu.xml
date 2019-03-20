@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/navDesktopFragment"
-            android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/desktop" />
         <item
@@ -19,6 +18,20 @@
             android:id="@+id/navPreferencesFragment"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/settings" />
+
+        <item
+            android:title="@string/notifications">
+            <menu>
+                <item
+                    android:id="@+id/sendSimplePush"
+                    android:icon="@drawable/ic_notifications_active_black_24dp"
+                    android:title="@string/send_push_notification" />
+                <item
+                    android:id="@+id/sendPushWithIcon"
+                    android:icon="@drawable/ic_color_lens_black_24dp"
+                    android:title="@string/send_push_with_color" />
+            </menu>
+        </item>
     </group>
 
 </menu>
