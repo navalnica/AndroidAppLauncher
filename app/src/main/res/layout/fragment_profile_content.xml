@@ -19,7 +19,6 @@
             <ImageView
                 android:id="@+id/profilePhoneIcon"
                 style="@style/profileIcon"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/phoneIcon"
                 app:srcCompat="@drawable/ic_phone_black_24dp" />
 
@@ -43,7 +42,6 @@
             <ImageView
                 android:id="@+id/profileWorkPhoneIcon"
                 style="@style/profileIcon"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/workPhoneIcon" />
 
             <TextView
@@ -68,7 +66,6 @@
             <ImageView
                 android:id="@+id/profileEmailIcon"
                 style="@style/profileIcon"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/emailIcon"
                 app:srcCompat="@drawable/ic_email_black_24dp" />
 
@@ -94,7 +91,6 @@
             <ImageView
                 android:id="@+id/profileGithubIcon"
                 style="@style/profileIcon"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/githubIcon"
                 app:srcCompat="@drawable/ic_github_black_24dp" />
 
@@ -120,7 +116,6 @@
             <ImageView
                 android:id="@+id/profileInspiringPlaceIcon"
                 style="@style/profileIcon"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/inspiring_place_icon"
                 app:srcCompat="@drawable/ic_place_black_24dp" />
 
@@ -135,6 +130,65 @@
                 android:layout_below="@id/profileInspiringPlaceText"
                 android:layout_toEndOf="@id/profileInspiringPlaceIcon"
                 android:text="@string/inspiringPlace" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider" />
+
+        <RelativeLayout
+            android:id="@+id/karma"
+            style="@style/profileItem"
+            android:layout_marginTop="@dimen/karmaTopOffset">
+
+            <ImageView
+                android:id="@+id/karmaIcon"
+                style="@style/profileIcon"
+                android:contentDescription="@string/karma_icon"
+                app:srcCompat="@drawable/ic_transform_black_24dp" />
+
+            <TextView
+                android:id="@+id/karmaTitle"
+                style="@style/profileMainText"
+                android:layout_marginBottom="@dimen/smallOffset"
+                android:layout_toEndOf="@id/karmaIcon"
+                android:text="@string/karma_title" />
+
+            <TextView
+                android:id="@+id/currentKarmaLabel"
+                style="@style/profileMainText"
+                android:layout_below="@id/karmaTitle"
+                android:layout_toEndOf="@id/karmaIcon"
+                android:text="@string/currentKarmaLabel" />
+
+            <TextView
+                android:id="@+id/currentKarmaValue"
+                style="@style/profileMainText"
+                android:layout_below="@id/karmaTitle"
+                android:layout_marginStart="@dimen/largeOffset"
+                android:layout_toEndOf="@id/currentKarmaLabel"
+                android:text="42" />
+
+            <TextView
+                android:id="@+id/karmaDescription"
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/currentKarmaLabel"
+                android:layout_toEndOf="@id/karmaIcon"
+                android:text="@string/karma_description" />
+
+            <TextView
+                android:id="@+id/karmaLastChangeLabel"
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/karmaDescription"
+                android:layout_toEndOf="@id/karmaIcon"
+                android:text="@string/last_change_by_nature" />
+
+            <TextView
+                android:id="@+id/karmaLastChangeValue"
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/karmaLastChangeLabel"
+                android:layout_toEndOf="@id/karmaIcon"
+                android:text="@string/never"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
     </LinearLayout>

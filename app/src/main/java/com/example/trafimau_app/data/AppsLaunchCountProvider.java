@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.example.trafimau_app.data.db.AppEntityDao;
+import com.example.trafimau_app.data.db.AppDao;
 import com.example.trafimau_app.data.db.AppsDatabase;
 
 public class AppsLaunchCountProvider extends ContentProvider {
@@ -25,7 +25,7 @@ public class AppsLaunchCountProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, AppsDatabase.DB_NAME + "/last", CODE_LAUNCHED_LAST);
     }
 
-    private AppEntityDao appEntityDao;
+    private AppDao appDao;
 
     @Override
     public boolean onCreate() {
@@ -34,7 +34,7 @@ public class AppsLaunchCountProvider extends ContentProvider {
             final String msg = "AppsLaunchCountProvider.onCreate(): context = null";
             throw new NullPointerException(msg);
         }
-        appEntityDao = AppsDatabase.getInstance(context).appEntityDao();
+        appDao = AppsDatabase.getInstance(context).appEntityDao();
         return true;
     }
 
@@ -44,10 +44,10 @@ public class AppsLaunchCountProvider extends ContentProvider {
         final Cursor cursor;
         switch(uriMatcher.match(uri)){
             case(CODE_LAUNCHED_ALL):
-                cursor = appEntityDao.getLaunchedInCursor();
+                cursor = appDao.getLaunchedInCursor();
                 break;
             case(CODE_LAUNCHED_LAST):
-                cursor = appEntityDao.getLastLaunchedInCursor();
+                cursor = appDao.getLastLaunchedInCursor();
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

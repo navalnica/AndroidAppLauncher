@@ -3,4 +3,6 @@
     <string name="showWelcomePageKey" translatable="false">SHOW_WELCOME_PAGE</string>
     <string name="sharedPrefNightModeEnabledKey" translatable="false">NIGHT_MODE_ENABLED</string>
     <string name="sharedPrefCompactLayoutEnabledKey" translatable="false">COMPACT_LAYOUT_ENABLED</string>
+    <string name="sharedPrefKarmaKey" translatable="false">KARMA_VALUE</string>
+    <string name="sharedPrefKarmaLastChangeDateKey" translatable="false">KARMA_LAST_CHANGE</string>
 </resources>

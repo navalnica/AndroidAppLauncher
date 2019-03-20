@@ -38,4 +38,11 @@
     <string name="workPhone">Працоўны тэлефон</string>
     <string name="inspiringPlace">Натхняльнае месца</string>
     <string name="inspiringPlaceLocation">Старажытны тэатр, Дэльфы, Грэцыя</string>
+    <string name="karma_title">Палепшыце маю карму :)</string>
+    <string name="currentKarmaLabel">Бягучая карма:</string>
+    <string name="never">Ніколі</string>
+    <string name="last_change_by_nature">Апошнія змены прыродай:</string>
+    <string name="add">Дадаць</string>
+    <string name="enter_the_site_link">Увядзіце спасылку на сайт</string>
+    <string name="karma_description">Вы можаце сказаць \"Выдатная работа\" і дадаць +5 да маёй кармы. Аднак памятайце, што непадуладныя сілы прыроды (напрыклад, <b>Silent Pushes</b>) могуць змяніць карму ў любы момант</string>
 </resources>

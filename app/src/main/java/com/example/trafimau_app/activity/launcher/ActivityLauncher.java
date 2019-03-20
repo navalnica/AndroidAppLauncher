@@ -35,6 +35,7 @@ public class ActivityLauncher extends AppCompatActivity {
     private boolean isAppsFragmentShown = true;
     private AppsFragment appsFragment;
 
+    // TODO: move registration from activity to application
     private BroadcastReceiver appsBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {

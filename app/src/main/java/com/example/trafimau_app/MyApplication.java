@@ -18,6 +18,7 @@ import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
 import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.data.db.AppEntity;
 import com.example.trafimau_app.data.db.AppsDatabase;
+import com.example.trafimau_app.data.db.DateConverter;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.yandex.metrica.YandexMetrica;
@@ -42,6 +43,8 @@ public class MyApplication extends Application {
     private final static String APP_METRICA_API_KEY = "2ade6b48-042d-4406-acbf-d59322bafa72";
 
     public final static String LOG_TAG = "MyApp";
+    public final static String KARMA_UPDATED_FROM_SILENT_PUSH_ACTION =
+            "com.example.trafimau_app.karma_updated_from_silent_push_action";
 
     public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
 
@@ -55,6 +58,12 @@ public class MyApplication extends Application {
 
     private String compactLayoutEnabledKey;
     private boolean compactLayoutEnabled = false;
+
+    private String karmaKey;
+    private int karmaValue;
+
+    private String karmaLastChangeDateKey;
+    private Long karmaLastChangeDateValue;
 
     private AppsDatabase db;
     private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
@@ -114,7 +123,7 @@ public class MyApplication extends Application {
         final String packageName = getPackageName();
 
         for (ApplicationInfo ai : infos) {
-            if(ai.packageName.equals(packageName)){
+            if (ai.packageName.equals(packageName)) {
                 continue;
             }
             Intent intent = pm.getLaunchIntentForPackage(ai.packageName);
@@ -178,7 +187,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void insertPackageToDB(@NonNull String packageName) {
+    public final void insertPackageToDB(@NonNull String packageName) {
         try {
             final ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             final MyAppInfo myAppInfo = new MyAppInfo(ai, pm);
@@ -190,7 +199,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void deletePackageFromDB(@NonNull String packageName) {
+    public final void deletePackageFromDB(@NonNull String packageName) {
         AppEntity toDelete = db.appEntityDao().getAppByPackageName(packageName);
         db.appEntityDao().delete(toDelete);
         for (int i = 0; i < installedApps.size(); ++i) {
@@ -201,7 +210,7 @@ public class MyApplication extends Application {
         }
     }
 
-    public void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
+    public final void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
         AppEntity toUpdate = db.appEntityDao().getAppByPackageName(packageName);
         Date date = new Date();
         toUpdate.lastLaunched = date;
@@ -218,11 +227,11 @@ public class MyApplication extends Application {
         myAppInfo.launchedCount++;
     }
 
-    public int getInstalledAppsCount() {
+    public final int getInstalledAppsCount() {
         return installedApps.size();
     }
 
-    public MyAppInfo getAppInfoFromLocalVar(int i) {
+    public final MyAppInfo getAppInfoFromLocalVar(int i) {
         if (i < 0 || i >= installedApps.size()) {
             final String msg = "MyApplication.getAppInfoFromLocalVar: invalid array position passed";
             Log.e(LOG_TAG, msg);
@@ -257,6 +266,15 @@ public class MyApplication extends Application {
         compactLayoutEnabledKey = getString(R.string.sharedPrefCompactLayoutEnabledKey);
         compactLayoutEnabled = sharedPreferences.getBoolean(compactLayoutEnabledKey, false);
         currentLayout = compactLayoutEnabled ? LayoutInfo.COMPACT : LayoutInfo.STANDARD;
+
+        karmaKey = getString(R.string.sharedPrefKarmaKey);
+        karmaValue = sharedPreferences.getInt(karmaKey, 0);
+
+        karmaLastChangeDateKey = getString(R.string.sharedPrefKarmaLastChangeDateKey);
+        karmaLastChangeDateValue = sharedPreferences.getLong(karmaLastChangeDateKey, 0);
+        if(karmaLastChangeDateValue == 0){
+            karmaLastChangeDateValue = null;
+        }
     }
 
     private void syncAppTheme() {
@@ -267,11 +285,11 @@ public class MyApplication extends Application {
         }
     }
 
-    public boolean isShowWelcomePage() {
+    public final boolean isShowWelcomePage() {
         return showWelcomePage;
     }
 
-    public void setShowWelcomePage(boolean value) {
+    public final void setShowWelcomePage(boolean value) {
         showWelcomePage = value;
         sharedPreferences
                 .edit()
@@ -282,11 +300,11 @@ public class MyApplication extends Application {
         YandexMetrica.reportEvent("setting show welcome page on next run to " + value);
     }
 
-    public boolean isNighModeEnabled() {
+    public final boolean isNighModeEnabled() {
         return nightModeEnabled;
     }
 
-    public void setNightModeEnabled(boolean value) {
+    public final void setNightModeEnabled(boolean value) {
         nightModeEnabled = value;
         syncAppTheme();
 
@@ -300,11 +318,11 @@ public class MyApplication extends Application {
         YandexMetrica.reportEvent(msg);
     }
 
-    public boolean isCompactLayoutEnabled() {
+    public final boolean isCompactLayoutEnabled() {
         return compactLayoutEnabled;
     }
 
-    public void setCompactLayoutEnabled(boolean value) {
+    public final void setCompactLayoutEnabled(boolean value) {
         compactLayoutEnabled = value;
         currentLayout = compactLayoutEnabled ? LayoutInfo.COMPACT : LayoutInfo.STANDARD;
         sharedPreferences
@@ -315,6 +333,35 @@ public class MyApplication extends Application {
         final String msg = "compactLayoutEnabled: " + compactLayoutEnabled;
         Log.d(MyApplication.LOG_TAG, msg);
         YandexMetrica.reportEvent(msg);
+    }
+
+    public int getKarmaValue() {
+        return karmaValue;
+    }
+
+    public void setKarmaValue(int karmaValue) {
+        this.karmaValue = karmaValue;
+        sharedPreferences
+                .edit()
+                .putInt(karmaKey, karmaValue)
+                .apply();
+
+        final String msg = "karma updated. karma: " + karmaValue;
+        Log.d(MyApplication.LOG_TAG, msg);
+    }
+
+    public Date getKarmaLastChangeDate() {
+        return DateConverter.toDate(karmaLastChangeDateValue);
+    }
+
+    public void setKarmaLastChangeDateToNow() {
+        Date now = new Date();
+        karmaLastChangeDateValue = DateConverter.toTimestamp(now);
+        sharedPreferences.
+                edit()
+                .putLong(karmaLastChangeDateKey, karmaLastChangeDateValue)
+                .apply();
+        Log.d(MyApplication.LOG_TAG, "setting last karma change date to now");
     }
 
     private void registerNotificationChannel() {

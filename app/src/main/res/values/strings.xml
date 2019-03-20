@@ -68,5 +68,13 @@
     <string name="workPhoneIcon" translatable="false">Work phone icon</string>
     <string name="githubIcon" translatable="false">Github icon</string>
     <string name="inspiring_place_icon" translatable="false">Inspiring place icon</string>
+    <string name="karma_title">Improve my karma :)</string>
+    <string name="karma_description">You can say \'Good Job\' and add +5 to my karma. Be aware that uncontrolled forces of nature (such as <b>Silent Pushes</b>) can change karma in any time</string>
+    <string name="karma_icon" translatable="false">Karma icon</string>
+    <string name="currentKarmaLabel">Current karma:</string>
+    <string name="never">Never</string>
+    <string name="last_change_by_nature">Last change by nature:</string>
+    <string name="add">Add</string>
+    <string name="enter_the_site_link">Enter the site link</string>
 
 </resources>

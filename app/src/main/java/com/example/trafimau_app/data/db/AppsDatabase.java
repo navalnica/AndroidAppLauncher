@@ -10,7 +10,7 @@ public abstract class AppsDatabase extends RoomDatabase {
 
     public static final String DB_NAME = "database";
 
-    public abstract AppEntityDao appEntityDao();
+    public abstract AppDao appEntityDao();
 
     // The only instance
     private static AppsDatabase sInstance;

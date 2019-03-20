@@ -1,7 +1,7 @@
 <resources>
-    <dimen name="profileOffset">20dp</dimen>
     <dimen name="largeOffset">18dp</dimen>
     <dimen name="smallOffset">8dp</dimen>
+    <dimen name="karmaTopOffset">40dp</dimen>
 
     <dimen name="welcomeAuthorImage">166dp</dimen>
     <dimen name="welcomePageSideDivider">50dp</dimen>
@@ -17,8 +17,8 @@
 
     <dimen name="profileAppBarHeight">280dp</dimen>
 
-    <dimen name="profileMainText">16sp</dimen>
-    <dimen name="profileSecondaryText">14sp</dimen>
+    <dimen name="profileMainText">18sp</dimen>
+    <dimen name="profileSecondaryText">16sp</dimen>
 
     <dimen name="launcherAppLabel">18sp</dimen>
     <dimen name="desktopItemProgressBar">80dp</dimen>

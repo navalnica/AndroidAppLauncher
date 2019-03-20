@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 @Dao
-public interface AppEntityDao {
+public interface AppDao {
 
     @Query("SELECT * FROM " + AppEntity.TABLE_NAME +
             " ORDER BY " + AppEntity.COLUMN_LAUNCHED_COUNT + " DESC, " +

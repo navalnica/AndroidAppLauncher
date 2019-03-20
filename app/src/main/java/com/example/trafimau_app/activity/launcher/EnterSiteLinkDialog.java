@@ -51,9 +51,9 @@ public class EnterSiteLinkDialog extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         final View layout = inflater.inflate(R.layout.dialog_enter_site_link, null);
 
-        builder.setTitle("Enter the site link")
+        builder.setTitle(R.string.enter_the_site_link)
                 .setView(layout)
-                .setPositiveButton("Set", (dialog, id) -> {
+                .setPositiveButton(R.string.add, (dialog, id) -> {
                     EditText et = layout.findViewById(R.id.addSiteDialogEditText);
                     String URL = et.getText().toString();
                     listener.onLinkSetFromDialog(URL);
