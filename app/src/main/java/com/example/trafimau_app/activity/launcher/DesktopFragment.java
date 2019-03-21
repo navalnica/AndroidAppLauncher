@@ -1,6 +1,7 @@
 package com.example.trafimau_app.activity.launcher;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -59,6 +60,14 @@ public class DesktopFragment extends Fragment implements
         if (activity != null) {
             app = (MyApplication) activity.getApplication();
         }
+
+        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreate");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onAttach");
     }
 
     @Nullable
@@ -73,7 +82,16 @@ public class DesktopFragment extends Fragment implements
 
         loadSavedSites();
 
+        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreateView");
+
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onSaveInstanceState");
     }
 
     int getTableItemIndexByView(View v) {

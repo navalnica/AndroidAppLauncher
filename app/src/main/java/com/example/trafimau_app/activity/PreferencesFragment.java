@@ -1,9 +1,12 @@
-package com.example.trafimau_app.activity.launcher;
+package com.example.trafimau_app.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.support.annotation.Nullable;
 import android.support.v14.preference.SwitchPreference;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -56,6 +59,18 @@ public class PreferencesFragment
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
 
         initializeViews();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(MyApplication.LOG_TAG, "PreferencesFragment.onDestroy");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(MyApplication.LOG_TAG, "PreferencesFragment.onSaveInstanceState");
     }
 
     private void initializeViews() {

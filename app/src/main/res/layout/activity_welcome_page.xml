@@ -33,6 +33,7 @@
             android:layout_gravity="end"
             android:layout_margin="@dimen/largeOffset"
             android:backgroundTint="@color/colorPrimary"
+            android:foregroundTint="@color/colorPrimary"
             android:src="@drawable/ic_arrow_forward_white_24dp" />
 
     </FrameLayout>

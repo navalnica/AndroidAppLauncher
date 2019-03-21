@@ -42,7 +42,7 @@ public class MyApplication extends Application {
     private static final String APP_CENTER_KEY = "00de3ebf-a55b-4849-a9fe-3de0e018e1ca";
     private final static String APP_METRICA_API_KEY = "2ade6b48-042d-4406-acbf-d59322bafa72";
 
-    public final static String LOG_TAG = "MyApp";
+    public final static String LOG_TAG = "myapp";
     public final static String KARMA_UPDATED_FROM_SILENT_PUSH_ACTION =
             "com.example.trafimau_app.karma_updated_from_silent_push_action";
 

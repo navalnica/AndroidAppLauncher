@@ -24,51 +24,29 @@ import android.view.MenuItem;
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 import com.example.trafimau_app.activity.ActivityProfile;
+import com.example.trafimau_app.activity.PreferencesFragment;
 
-public class ActivityLauncher extends AppCompatActivity {
+public class ActivityLauncher extends AppCompatActivity
+        implements AppsFragment.PageChangedListener {
 
     private MyApplication app;
+    private AppsFragment appsFragment;
+    private FragmentManager fragmentManager;
 
+    private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    private boolean isAppsFragmentShown = true;
-    private AppsFragment appsFragment;
+    private int currentTitleResId;
+    private final String currentTitleResIdKey = "current_title_res_id";
 
-    // TODO: move registration from activity to application
-    private BroadcastReceiver appsBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            Uri data = intent.getData();
-            if (action == null || data == null) {
-                String msg = "appsBroadcastReceiver.onReceive: intent action or dataString == null";
-                Log.e(MyApplication.LOG_TAG, msg);
-                throw new NullPointerException(msg);
-            }
-            String packageName = intent.getData().getSchemeSpecificPart();
-
-            Log.d(MyApplication.LOG_TAG,
-                    "appsBroadcastReceiver.onReceive: package: " + packageName
-                            + " action: " + action);
-
-            // TODO: do not recreate activity. consider using notifyDatasetChanged or LiveData
-            if (action.equals(Intent.ACTION_PACKAGE_REMOVED) ||
-                    action.equals(Intent.ACTION_PACKAGE_REPLACED)) {
-                app.deletePackageFromDB(packageName);
-                recreate();
-            } else if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
-                app.insertPackageToDB(packageName);
-                recreate();
-            }
-        }
-    };
-    private FragmentManager fragmentManager;
+    private boolean isSettingsFragmentVisible;
+    private final String isSettingsFragmentVisibleKey = "is_settings_fragment_visible";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher.onCreate");
 
-        // TODO: save view pager selected item index and restore it
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
@@ -77,15 +55,61 @@ public class ActivityLauncher extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
         navigationView = findViewById(R.id.navigationDrawer);
+        toolbar = findViewById(R.id.launcherToolbar);
 
-        appsFragment = new AppsFragment();
-        inflateFragment(appsFragment, false);
-        setTitle(R.string.applications);
-        isAppsFragmentShown = true;
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher: savedInstanceState: " + savedInstanceState);
+        if (savedInstanceState == null) {
+            appsFragment = new AppsFragment();
+
+            inflateFragment(appsFragment, false);
+            isSettingsFragmentVisible = false;
+            setCurrentTitle(R.string.desktop);
+        }else{
+            Fragment fragment = fragmentManager.findFragmentByTag(AppsFragment.class.getSimpleName());
+            if(fragment instanceof AppsFragment){
+                appsFragment = (AppsFragment) fragment;
+            }
+        }
 
         configureToolbar();
         configureNavigationDrawer();
-        initAppsBroadcastReceiver();
+        initAndRegisterAppsBroadcastReceiver();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher.onSaveInstanceState");
+        outState.putBoolean(isSettingsFragmentVisibleKey, isSettingsFragmentVisible);
+        outState.putInt(currentTitleResIdKey, currentTitleResId);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher.onRestoreInstanceState");
+        isSettingsFragmentVisible = savedInstanceState.getBoolean(isSettingsFragmentVisibleKey);
+        setCurrentTitle(savedInstanceState.getInt(currentTitleResIdKey));
+    }
+
+    private void setCurrentTitle(int resId) {
+        if (resId == 0) {
+            Log.e(MyApplication.LOG_TAG, "ActivityLauncher.setCurrentTitle: " +
+                    "resId == 0. setting to desktop");
+            resId = R.string.desktop;
+        }
+        currentTitleResId = resId;
+        setTitle(currentTitleResId);
+    }
+
+    private void initAndRegisterAppsBroadcastReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addDataScheme("package");
+        // TODO: use local broadcast manager
+        registerReceiver(appsBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -94,26 +118,28 @@ public class ActivityLauncher extends AppCompatActivity {
         unregisterReceiver(appsBroadcastReceiver);
     }
 
-    private void initAppsBroadcastReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-        intentFilter.addDataScheme("package");
-        registerReceiver(appsBroadcastReceiver, intentFilter);
-    }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        if (!isAppsFragmentShown) {
-            isAppsFragmentShown = true;
-            setTitle(R.string.applications);
+        if (isSettingsFragmentVisible) {
+            isSettingsFragmentVisible = false;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onPageChanged(AppsFragment.Page page) {
+        if(page == null){
+            currentTitleResId = R.string.app_name;
+        }else if (page == AppsFragment.Page.DESKTOP){
+            currentTitleResId = R.string.desktop;
+        }else if(page == AppsFragment.Page.LIST || page == AppsFragment.Page.GRID){
+            currentTitleResId = R.string.applications;
+        }
+        setTitle(currentTitleResId);
     }
 
     @Override
@@ -125,7 +151,6 @@ public class ActivityLauncher extends AppCompatActivity {
     }
 
     private void configureToolbar() {
-        Toolbar toolbar = findViewById(R.id.launcherToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -135,28 +160,30 @@ public class ActivityLauncher extends AppCompatActivity {
     }
 
     private void configureNavigationDrawer() {
-
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     final int itemId = menuItem.getItemId();
 
                     switch (itemId) {
                         case R.id.navDesktopFragment:
-                            popSettingsAndShowApps();
+                            popSettingsIfActiveAndShowApps();
                             appsFragment.setCurrentPage(AppsFragment.Page.DESKTOP);
+                            setCurrentTitle(R.string.desktop);
                             break;
                         case R.id.navGridFragment:
-                            popSettingsAndShowApps();
+                            popSettingsIfActiveAndShowApps();
                             appsFragment.setCurrentPage(AppsFragment.Page.GRID);
+                            setCurrentTitle(R.string.applications);
                             break;
                         case R.id.navListFragment:
-                            popSettingsAndShowApps();
+                            popSettingsIfActiveAndShowApps();
                             appsFragment.setCurrentPage(AppsFragment.Page.LIST);
+                            setCurrentTitle(R.string.applications);
                             break;
                         case R.id.navPreferencesFragment:
                             inflateFragment(new PreferencesFragment(), true);
-                            setTitle(R.string.settings);
-                            isAppsFragmentShown = false;
+                            isSettingsFragmentVisible = true;
+                            setCurrentTitle(R.string.settings);
                             break;
                         case R.id.sendSimplePush:
                             sendSimplePush();
@@ -178,20 +205,20 @@ public class ActivityLauncher extends AppCompatActivity {
                 });
     }
 
-    private void popSettingsAndShowApps() {
-        if (!isAppsFragmentShown) {
+    private void popSettingsIfActiveAndShowApps() {
+        if (isSettingsFragmentVisible) {
             fragmentManager.popBackStackImmediate();
-            isAppsFragmentShown = true;
-            setTitle(R.string.applications);
+            isSettingsFragmentVisible = false;
         }
     }
 
     private void inflateFragment(Fragment fragment, boolean addToBackStack) {
+        final String tag = fragment.getClass().getSimpleName();
         FragmentTransaction transaction = fragmentManager
                 .beginTransaction()
-                .replace(R.id.launcherFragmentContainer, fragment);
+                .replace(R.id.launcherFragmentContainer, fragment, tag);
         if (addToBackStack) {
-            transaction.addToBackStack(fragment.getClass().getSimpleName());
+            transaction.addToBackStack(tag);
         }
         transaction.commit();
     }
@@ -225,4 +252,33 @@ public class ActivityLauncher extends AppCompatActivity {
         NotificationManagerCompat nmc = NotificationManagerCompat.from(this);
         nmc.notify(12, builder.build());
     }
+
+    // TODO: move registration from activity to application
+    private BroadcastReceiver appsBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String action = intent.getAction();
+            Uri data = intent.getData();
+            if (action == null || data == null) {
+                String msg = "appsBroadcastReceiver.onReceive: intent action or dataString == null";
+                Log.e(MyApplication.LOG_TAG, msg);
+                throw new NullPointerException(msg);
+            }
+            String packageName = intent.getData().getSchemeSpecificPart();
+
+            Log.d(MyApplication.LOG_TAG,
+                    "appsBroadcastReceiver.onReceive: package: " + packageName
+                            + " action: " + action);
+
+            // TODO: do not recreate activity. consider using notifyDatasetChanged or LiveData
+            if (action.equals(Intent.ACTION_PACKAGE_REMOVED) ||
+                    action.equals(Intent.ACTION_PACKAGE_REPLACED)) {
+                app.deletePackageFromDB(packageName);
+                recreate();
+            } else if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
+                app.insertPackageToDB(packageName);
+                recreate();
+            }
+        }
+    };
 }

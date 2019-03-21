@@ -56,16 +56,6 @@ public class ActivityWelcomePage extends AppCompatActivity {
         YandexMetrica.reportEvent("Showing Welcome Page");
     }
 
-    @Override
-    public void onBackPressed() {
-        final int currentItem = viewPager.getCurrentItem();
-        if (currentItem == 0) {
-            super.onBackPressed();
-        } else {
-            viewPager.setCurrentItem(currentItem - 1);
-        }
-    }
-
     public void onContinueButtonClick(View view) {
         final int currentItem = viewPager.getCurrentItem();
         if (currentItem < FRAGMENTS_COUNT - 1) {
