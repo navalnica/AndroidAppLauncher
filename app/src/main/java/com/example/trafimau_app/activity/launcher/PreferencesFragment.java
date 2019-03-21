@@ -1,4 +1,4 @@
-package com.example.trafimau_app.activity;
+package com.example.trafimau_app.activity.launcher;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -59,6 +59,8 @@ public class PreferencesFragment
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
 
         initializeViews();
+
+        // TODO: handle checkbox status on device rotation
     }
 
     @Override
@@ -75,9 +77,9 @@ public class PreferencesFragment
 
     private void initializeViews() {
         darkThemeSwitch.setChecked(app.isNighModeEnabled());
+        showWelcomePageCheckbox.setChecked(app.isShowWelcomePage());
         layoutListPreference.setValue(Boolean.toString(app.isCompactLayoutEnabled()));
         setSummaryForLayoutListPreference();
-        showWelcomePageCheckbox.setChecked(false);
     }
 
     @Override

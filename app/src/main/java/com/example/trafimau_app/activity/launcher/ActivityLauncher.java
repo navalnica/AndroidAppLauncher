@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 import com.example.trafimau_app.activity.ActivityProfile;
-import com.example.trafimau_app.activity.PreferencesFragment;
 
 public class ActivityLauncher extends AppCompatActivity
         implements AppsFragment.PageChangedListener {
