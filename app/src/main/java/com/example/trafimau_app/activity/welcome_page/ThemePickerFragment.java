@@ -34,7 +34,6 @@ public class ThemePickerFragment extends Fragment {
             YandexMetrica.reportEvent(msg);
             throw new NullPointerException(msg);
         }
-        activity = getActivity();
         app = (MyApplication) activity.getApplication();
 
         super.onCreate(savedInstanceState);

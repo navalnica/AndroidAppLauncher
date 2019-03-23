@@ -4,6 +4,7 @@
     package="com.example.trafimau_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <permission
         android:name="com.example.trafimau_app.provider.READ"

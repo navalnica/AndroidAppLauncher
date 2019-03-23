@@ -40,7 +40,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class DesktopFragment extends Fragment implements
+public class FragmentDesktop extends Fragment implements
         EnterSiteLinkDialog.EnterSiteLinkDialogListener {
 
     private MyApplication app;
@@ -60,14 +60,12 @@ public class DesktopFragment extends Fragment implements
         if (activity != null) {
             app = (MyApplication) activity.getApplication();
         }
-
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreate");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onAttach");
+        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onAttach");
     }
 
     @Nullable
@@ -75,14 +73,12 @@ public class DesktopFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
+        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onCreateView");
 
+        View rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
         tableLayout = rootView.findViewById(R.id.desktopTable);
         addListenersForTableItems(tableLayout);
-
         loadSavedSites();
-
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onCreateView");
 
         return rootView;
     }
@@ -91,7 +87,7 @@ public class DesktopFragment extends Fragment implements
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Log.d(MyApplication.LOG_TAG, "DesktopFragment.onSaveInstanceState");
+        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onSaveInstanceState");
     }
 
     int getTableItemIndexByView(View v) {
@@ -109,7 +105,7 @@ public class DesktopFragment extends Fragment implements
             SiteInfo info = entry.getValue();
             if (ix == null || info == null) {
                 YandexMetrica.reportEvent(
-                        "DesktopFragment.loadSavedSites. found null entry in map");
+                        "FragmentDesktop.loadSavedSites. found null entry in map");
                 continue;
             }
             int rowIx = ix / columnsCount;
@@ -118,7 +114,7 @@ public class DesktopFragment extends Fragment implements
             Log.d(MyApplication.LOG_TAG,
                     "Restoring site info for item with ix: " + ix
                             + " row: " + rowIx + " colIx: " + colIx);
-            YandexMetrica.reportEvent("DesktopFragment: loading saved items");
+            YandexMetrica.reportEvent("FragmentDesktop: loading saved items");
 
 
             TableRow row = (TableRow) tableLayout.getChildAt(rowIx);
@@ -153,15 +149,15 @@ public class DesktopFragment extends Fragment implements
         EnterSiteLinkDialog dialog = new EnterSiteLinkDialog();
         dialog.setTargetFragment(this, 0);
 
-        // the top level fragment is AppsFragment.
+        // the top level fragment is FragmentLauncher.
         // it uses ViewPager and loads other fragments
-        // including DesktopFragment with the use of
+        // including FragmentDesktop with the use of
         // getChildFragmentManager().
         // so getFragmentManager() here will result in parents getChildFragmentManager()
         FragmentManager curFragmentManager = getFragmentManager();
 
         if (curFragmentManager == null) {
-            final String msg = "DesktopFragment: getFragmentManager() == null";
+            final String msg = "FragmentDesktop: getFragmentManager() == null";
             Log.d(MyApplication.LOG_TAG, msg);
             YandexMetrica.reportEvent(msg);
             throw new NullPointerException(msg);
@@ -169,7 +165,7 @@ public class DesktopFragment extends Fragment implements
 
         dialog.show(getFragmentManager(), "EnterSiteLinkDialog");
 
-        YandexMetrica.reportEvent("DesktopFragment: loading site info for desktop item");
+        YandexMetrica.reportEvent("FragmentDesktop: loading site info for desktop item");
     }
 
     @Override
@@ -266,7 +262,7 @@ public class DesktopFragment extends Fragment implements
         int itemIx = getTableItemIndexByView(view);
         String link = app.sitesDataModel.getLink(itemIx);
         if (link == null) {
-            final String msg = "DesktopFragment.openLinkInBrowser: link == null";
+            final String msg = "FragmentDesktop.openLinkInBrowser: link == null";
             Log.d(MyApplication.LOG_TAG, msg);
             YandexMetrica.reportEvent(msg);
             return;

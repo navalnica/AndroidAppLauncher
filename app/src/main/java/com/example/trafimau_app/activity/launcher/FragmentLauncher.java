@@ -15,20 +15,22 @@ import android.view.ViewGroup;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.yandex.metrica.YandexMetrica;
 
-public class AppsFragment extends Fragment {
+public class FragmentLauncher extends Fragment {
 
     private ViewPager viewPager;
     private AppsViewPagerAdapter pagerAdapter;
     private PageChangedListener listener;
+    private ActivityLauncher activity;
+    private MyApplication app;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        activity = (ActivityLauncher) context;
+        app = (MyApplication) activity.getApplication();
         try {
             listener = (PageChangedListener) context;
-
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement PageChangedListener");
         }
@@ -43,13 +45,13 @@ public class AppsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(MyApplication.LOG_TAG, "AppsFragment.onCreate");
+        Log.d(MyApplication.LOG_TAG, "FragmentLauncher.onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(MyApplication.LOG_TAG, "AppsFragment.onDestroy");
+        Log.d(MyApplication.LOG_TAG, "FragmentLauncher.onDestroy");
     }
 
     @Nullable
@@ -57,10 +59,10 @@ public class AppsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Log.d(MyApplication.LOG_TAG, "AppsFragment.onCreateView");
+        Log.d(MyApplication.LOG_TAG, "FragmentLauncher.onCreateView");
 
         View rootView = inflater.inflate(
-                R.layout.fragment_apps, container, false);
+                R.layout.fragment_launcher, container, false);
         viewPager = rootView.findViewById(R.id.appsViewPager);
 
         // it is very important to use getChildFragmentManager()
@@ -69,10 +71,12 @@ public class AppsFragment extends Fragment {
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {}
+            public void onPageScrolled(int i, float v, int i1) {
+            }
 
             @Override
-            public void onPageScrollStateChanged(int i) {}
+            public void onPageScrollStateChanged(int i) {
+            }
 
             @Override
             public void onPageSelected(int i) {
@@ -82,40 +86,47 @@ public class AppsFragment extends Fragment {
 
         listener.onPageChanged(getCurrentPage());
 
-        YandexMetrica.reportEvent("AppsFragment.onCreateView");
-
         return rootView;
     }
 
     public void setCurrentPage(Page page) {
         int pageIndex = page.ordinal();
-        if(pageIndex < 0 || pageIndex >= 3){
-            Log.e(MyApplication.LOG_TAG, "AppsFragment.setCurrentItem: page index is invalid");
+        if (pageIndex < 0 || pageIndex >= 3) {
+            Log.e(MyApplication.LOG_TAG, "FragmentLauncher.setCurrentItem: page index is invalid");
             pageIndex = 0;
         }
         if (viewPager != null) {
             viewPager.setCurrentItem(pageIndex);
         } else {
-            Log.e(MyApplication.LOG_TAG, "AppsFragment.setCurrentItem: viewPager == null");
+            Log.e(MyApplication.LOG_TAG, "FragmentLauncher.setCurrentItem: viewPager == null");
         }
     }
 
-    private Page getCurrentPage(){
-        if(viewPager == null){
-            Log.e(MyApplication.LOG_TAG, "AppsFragment.getCurrentPage: viewPager is null");
+    private Page getCurrentPage() {
+        if (viewPager == null) {
+            Log.e(MyApplication.LOG_TAG, "FragmentLauncher.getCurrentPage: viewPager is null");
             return null;
         }
         int ix = viewPager.getCurrentItem();
-        if(ix == Page.DESKTOP.ordinal()){
+        if (ix == Page.DESKTOP.ordinal()) {
             return Page.DESKTOP;
-        } else if (ix == Page.GRID.ordinal()){
+        } else if (ix == Page.GRID.ordinal()) {
             return Page.GRID;
-        } else if(ix == Page.LIST.ordinal()){
+        } else if (ix == Page.LIST.ordinal()) {
             return Page.LIST;
         }
         Log.e(MyApplication.LOG_TAG,
-                "AppsFragment.getCurrentPage invalid current item. it's value: " + ix);
+                "FragmentLauncher.getCurrentPage invalid current item. it's value: " + ix);
         return null;
+    }
+
+    public enum Page {
+        DESKTOP, GRID, LIST
+    }
+
+    public interface PageChangedListener {
+        void onPageChanged(Page page);
+
     }
 
     private class AppsViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -127,11 +138,11 @@ public class AppsFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == Page.GRID.ordinal()) {
-                return new GridFragment();
+                return new FragmentGrid();
             } else if (position == Page.LIST.ordinal()) {
-                return new ListFragment();
+                return new FragmentList();
             } else {
-                return new DesktopFragment();
+                return new FragmentDesktop();
             }
         }
 
@@ -140,13 +151,4 @@ public class AppsFragment extends Fragment {
             return 3;
         }
     }
-
-    public enum Page {
-        DESKTOP, GRID, LIST
-    }
-
-    public interface PageChangedListener{
-        void onPageChanged(Page page);
-    }
-
 }

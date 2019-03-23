@@ -231,9 +231,9 @@ public class MyApplication extends Application {
         return installedApps.size();
     }
 
-    public final MyAppInfo getAppInfoFromLocalVar(int i) {
+    public final MyAppInfo getAppInfo(int i) {
         if (i < 0 || i >= installedApps.size()) {
-            final String msg = "MyApplication.getAppInfoFromLocalVar: invalid array position passed";
+            final String msg = "MyApplication.getAppInfo: invalid array position passed";
             Log.e(LOG_TAG, msg);
             throw new InvalidParameterException(msg);
         }

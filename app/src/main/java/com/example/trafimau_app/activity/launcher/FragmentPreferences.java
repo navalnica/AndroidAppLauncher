@@ -17,7 +17,7 @@ import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 import com.yandex.metrica.YandexMetrica;
 
-public class PreferencesFragment
+public class FragmentPreferences
         extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -43,7 +43,7 @@ public class PreferencesFragment
 
         activity = getActivity();
         if (activity == null) {
-            final String msg = "PreferencesFragment: getActivity() returned null";
+            final String msg = "FragmentPreferences: getActivity() returned null";
             Log.d(MyApplication.LOG_TAG, msg);
             YandexMetrica.reportEvent(msg);
             throw new NullPointerException(msg);
@@ -66,13 +66,13 @@ public class PreferencesFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(MyApplication.LOG_TAG, "PreferencesFragment.onDestroy");
+        Log.d(MyApplication.LOG_TAG, "FragmentPreferences.onDestroy");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(MyApplication.LOG_TAG, "PreferencesFragment.onSaveInstanceState");
+        Log.d(MyApplication.LOG_TAG, "FragmentPreferences.onSaveInstanceState");
     }
 
     private void initializeViews() {
