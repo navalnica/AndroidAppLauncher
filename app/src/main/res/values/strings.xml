@@ -64,7 +64,9 @@
     <string name="inspiringPlace">Inspiring place</string>
     <string name="inspiringPlaceLocation">Ancient Theatre, Delphi, Greece</string>
     <string name="github" translatable="false">Github</string>
+    <string name="linkedIn" translatable="false">LinkedIn</string>
     <string name="githubProfile" translatable="false">yks72p</string>
+    <string name="linkedInProfile" translatable="false">yks72p</string>
     <string name="workPhoneIcon" translatable="false">Work phone icon</string>
     <string name="githubIcon" translatable="false">Github icon</string>
     <string name="inspiring_place_icon" translatable="false">Inspiring place icon</string>
@@ -96,5 +98,6 @@
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_by_frequency">Sort by frequency</string>
     <string name="sort_by_installation_date">Sort by installation date</string>
+    <string name="linked_in_icon" translatable="false">LinkedIn icon</string>
 
 </resources>

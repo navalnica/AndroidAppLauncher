@@ -110,6 +110,31 @@
         <include layout="@layout/divider" />
 
         <RelativeLayout
+            android:id="@+id/linkedIn"
+            style="@style/profileItem">
+
+            <ImageView
+                android:id="@+id/profileLinkedInIcon"
+                style="@style/profileIcon"
+                android:contentDescription="@string/linked_in_icon"
+                app:srcCompat="@drawable/ic_linked_in_24dp" />
+
+            <TextView
+                android:id="@+id/profileLinkedInText"
+                style="@style/profileMainText"
+                android:layout_toEndOf="@id/profileLinkedInIcon"
+                android:text="@string/linkedInProfile" />
+
+            <TextView
+                style="@style/profileSecondaryText"
+                android:layout_below="@id/profileLinkedInText"
+                android:layout_toEndOf="@id/profileLinkedInIcon"
+                android:text="@string/linkedIn" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider" />
+
+        <RelativeLayout
             android:id="@+id/inspiringPlace"
             style="@style/profileItem">
 
