@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "a10c7f8f559a5322f34aa6a1b0a30f14",
+    "version": 2,
+    "identityHash": "f1cb08a354ac7d76b29001876d82eadb",
     "entities": [
       {
         "tableName": "apps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `package_name` TEXT NOT NULL, `label` TEXT NOT NULL, `is_system_app` INTEGER NOT NULL, `launched_count` INTEGER NOT NULL, `last_launched` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `package_name` TEXT NOT NULL, `label` TEXT NOT NULL, `is_system_app` INTEGER NOT NULL, `launched_count` INTEGER NOT NULL, `last_launched` INTEGER, `first_install_time` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -43,6 +43,12 @@
             "columnName": "last_launched",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "firstInstallTime",
+            "columnName": "first_install_time",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -57,7 +63,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a10c7f8f559a5322f34aa6a1b0a30f14\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f1cb08a354ac7d76b29001876d82eadb\")"
     ]
   }
 }

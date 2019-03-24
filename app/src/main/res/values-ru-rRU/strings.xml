@@ -45,4 +45,21 @@
     <string name="last_change_by_nature">Последнее изменение природой:</string>
     <string name="add">Добавить</string>
     <string name="enter_the_site_link">Введите ссылку на сайт</string>
+    <string name="launches">Запусков:\u0020</string>
+    <string name="information">Информация</string>
+    <string name="delete">Удалить</string>
+    <string name="view">Вид</string>
+    <string name="sort">Сортировка</string>
+    <string name="current_mode_desc_descr">По убыванию</string>
+    <string name="current_mode_asc_descr">По возрастанию</string>
+    <string name="toggle_asc_order">Переключить порядок сортировки</string>
+    <string name="sort_mode">Тип сортировки</string>
+    <string name="set_sort_by">Сортировать по</string>
+    <string name="set_sort_mode_dialog_by_name">Имени</string>
+    <string name="no_sort">Без сортировки</string>
+    <string name="set_sort_mode_dialog_installation_by_date">Дате установки</string>
+    <string name="set_sort_mode_dialog_by_frequency">Частоте</string>
+    <string name="sort_by_name">Сортировка по имени</string>
+    <string name="sort_by_frequency">Сортировка по частоте</string>
+    <string name="sort_by_installation_date">Сортировка по дате установки</string>
 </resources>

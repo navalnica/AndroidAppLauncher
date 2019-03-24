@@ -79,5 +79,22 @@
     <string name="launches">Launches:\u0020</string>
     <string name="information">Information</string>
     <string name="delete">Delete</string>
+    <string name="view">View</string>
+    <string name="sort">Sort</string>
+    <string name="current_mode_desc_descr">Descending</string>
+    <string name="current_mode_asc_descr">Ascending</string>
+    <string name="toggle_asc_order">Toggle sort order</string>
+
+    <string name="sort_mode">Sort mode</string>
+    <string name="set_sort_by">Set sort by</string>
+
+    <string name="set_sort_mode_dialog_by_name">Name</string>
+    <string name="set_sort_mode_dialog_by_frequency">Frequency</string>
+    <string name="set_sort_mode_dialog_installation_by_date">Installation date</string>
+    <string name="no_sort">No sort</string>
+
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_frequency">Sort by frequency</string>
+    <string name="sort_by_installation_date">Sort by installation date</string>
 
 </resources>

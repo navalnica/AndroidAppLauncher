@@ -24,8 +24,10 @@ public class AppEntity {
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_PACKAGE_NAME = "package_name";
     public static final String COLUMN_LABEL = "label";
+    public static final String COLUMN_IS_SYSTEM_APP = "is_system_app";
     public static final String COLUMN_LAUNCHED_COUNT = "launched_count";
     public static final String COLUMN_LAST_LAUNCHED = "last_launched";
+    public static final String COLUMN_FIRST_INSTALL_TIME = "first_install_time";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COLUMN_ID)
@@ -39,21 +41,31 @@ public class AppEntity {
     @ColumnInfo(name = COLUMN_LABEL)
     public String label;
 
+    @ColumnInfo(name = COLUMN_IS_SYSTEM_APP)
+    public boolean isSystemApp;
+
     @ColumnInfo(name = COLUMN_LAUNCHED_COUNT)
     public int launchedCount;
 
     @ColumnInfo(name = COLUMN_LAST_LAUNCHED)
     public Date lastLaunched;
 
-    public AppEntity(@NonNull String packageName, @NonNull String label) {
+    @ColumnInfo(name = COLUMN_FIRST_INSTALL_TIME)
+    public Date firstInstallTime;
+
+    public AppEntity(@NonNull String packageName, @NonNull String label,
+                     boolean isSystemApp, @NonNull Date firstInstallTime) {
         this.packageName = packageName;
         this.label = label;
+        this.isSystemApp = isSystemApp;
+        this.firstInstallTime = firstInstallTime;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "package: " + packageName + "; label: " + label + "; launched: " + launchedCount;
+        return "package: " + packageName + "; label: " + label +
+                "; launched: " + launchedCount + "; isSystemApp: " + isSystemApp;
     }
 
     @NonNull
@@ -63,10 +75,11 @@ public class AppEntity {
             Log.e(MyApplication.LOG_TAG, msg);
             throw new NullPointerException(msg);
         }
-        AppEntity e =  new AppEntity(appInfo.packageName, appInfo.label);
-        if(appInfo.launchedCount > 0){
+        AppEntity e = new AppEntity(appInfo.packageName, appInfo.label,
+                appInfo.isSystemApp, appInfo.firstInstallTime);
+        if (appInfo.launchedCount > 0) {
             e.launchedCount = appInfo.launchedCount;
-            if(appInfo.lastLaunched == null){
+            if (appInfo.lastLaunched == null) {
                 final String msg = "AppEntity.fromMyAppInfo: appInfo.lastLaunched is null when it shouldn't be null";
                 throw new NullPointerException(msg);
             }

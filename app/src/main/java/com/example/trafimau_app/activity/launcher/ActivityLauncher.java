@@ -1,7 +1,5 @@
 package com.example.trafimau_app.activity.launcher;
 
-import android.app.LauncherActivity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -66,6 +64,7 @@ public class ActivityLauncher extends AppCompatActivity
                         (savedInstanceState == null));
 
         app = (MyApplication) getApplication();
+        app.setActivityLauncher(this);
         fragmentManager = getSupportFragmentManager();
 
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
@@ -77,9 +76,9 @@ public class ActivityLauncher extends AppCompatActivity
             inflateFragment(fragmentLauncher, false);
             isSettingsFragmentVisible = false;
             setCurrentTitle(R.string.desktop);
-        }else{
+        } else {
             Fragment fragment = fragmentManager.findFragmentByTag(FragmentLauncher.class.getSimpleName());
-            if(fragment instanceof FragmentLauncher){
+            if (fragment instanceof FragmentLauncher) {
                 fragmentLauncher = (FragmentLauncher) fragment;
             }
         }
@@ -145,11 +144,11 @@ public class ActivityLauncher extends AppCompatActivity
 
     @Override
     public void onPageChanged(FragmentLauncher.Page page) {
-        if(page == null){
+        if (page == null) {
             currentTitleResId = R.string.app_name;
-        }else if (page == FragmentLauncher.Page.DESKTOP){
+        } else if (page == FragmentLauncher.Page.DESKTOP) {
             currentTitleResId = R.string.desktop;
-        }else if(page == FragmentLauncher.Page.LIST || page == FragmentLauncher.Page.GRID){
+        } else if (page == FragmentLauncher.Page.LIST || page == FragmentLauncher.Page.GRID) {
             currentTitleResId = R.string.applications;
         }
         setTitle(currentTitleResId);
@@ -236,8 +235,14 @@ public class ActivityLauncher extends AppCompatActivity
         transaction.commit();
     }
 
-    public void registerRecyclerViewAdapter(LauncherAppAdapter adapter){
+    public void addAppsChangedListener(LauncherAppAdapter adapter) {
         recyclerViewAdapters.add(adapter);
+    }
+
+    public void notifyAppsChanged() {
+        for (LauncherAppAdapter a : recyclerViewAdapters) {
+            a.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -253,14 +258,15 @@ public class ActivityLauncher extends AppCompatActivity
         menu.setHeaderTitle(selectedItemAppInfo.label);
         menu.findItem(R.id.menu_launches).setTitle(
                 getString(R.string.launches) + selectedItemAppInfo.launchedCount);
-
-        // TODO: check if app belongs to system apps
+        if (selectedItemAppInfo.isSystemApp) {
+            menu.findItem(R.id.menu_delete).setVisible(false);
+        }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        if(selectedItemAppInfo == null){
+        if (selectedItemAppInfo == null) {
             throw new NullPointerException(
                     "AppsContainerBaseFragment.onContextItemSelected: selectedItemAppInfo is null");
         }
@@ -275,16 +281,8 @@ public class ActivityLauncher extends AppCompatActivity
             case R.id.menu_delete:
                 Log.d(MyApplication.LOG_TAG, "AppsContainerBaseFragment.onContextItemSelected:" +
                         " deleting app: " + selectedItemAppInfo.label);
-                Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
-                startActivity(uninstallIntent);
-
-                Intent intentToThis = new Intent();
-                intentToThis.setClass(this, LauncherActivity.class);
-                PendingIntent pendingIntent = PendingIntent
-                        .getActivity(this, 0, intentToThis, 0);
-
-                this.getPackageManager().getPackageInstaller().uninstall(
-                        selectedItemAppInfo.packageName, pendingIntent.getIntentSender());
+                Intent deleteIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+                startActivity(deleteIntent);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -339,14 +337,12 @@ public class ActivityLauncher extends AppCompatActivity
 
             if (action.equals(Intent.ACTION_PACKAGE_REMOVED) ||
                     action.equals(Intent.ACTION_PACKAGE_REPLACED)) {
-                app.deletePackageFromDB(packageName);
+                app.deletePackage(packageName);
             } else if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
-                app.insertPackageToDB(packageName);
+                app.insertNewPackage(packageName);
             }
 
-            for(LauncherAppAdapter a : recyclerViewAdapters){
-                a.notifyDataSetChanged();
-            }
+            notifyAppsChanged();
         }
     };
 }

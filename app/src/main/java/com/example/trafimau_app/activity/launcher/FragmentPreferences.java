@@ -3,13 +3,9 @@ package com.example.trafimau_app.activity.launcher;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.support.annotation.Nullable;
 import android.support.v14.preference.SwitchPreference;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
@@ -27,11 +23,16 @@ public class FragmentPreferences
     private String keyDarkThemeSwitch;
     private String keyLayoutList;
     private String keyShowWelcomePageCheckbox;
+    private String keySortAscendingSwitch;
+    private String keySortModeList;
 
     private SwitchPreference darkThemeSwitch;
+    private SwitchPreference sortAscendingSwitch;
     private ListPreference layoutListPreference;
-    private String[] layoutDescriptions;
+    private ListPreference sortModeListPreference;
     private CheckBoxPreference showWelcomePageCheckbox;
+    private String[] layoutSummary;
+    private String[] sortModeSummary;
 
 
     @Override
@@ -39,7 +40,8 @@ public class FragmentPreferences
 
         addPreferencesFromResource(R.xml.preferences);
 
-        layoutDescriptions = getResources().getStringArray(R.array.layout_descriptions);
+        layoutSummary = getResources().getStringArray(R.array.summary_layout);
+        sortModeSummary = getResources().getStringArray(R.array.summary_sort_mode);
 
         activity = getActivity();
         if (activity == null) {
@@ -50,29 +52,19 @@ public class FragmentPreferences
         }
         app = (MyApplication) activity.getApplication();
 
-        keyDarkThemeSwitch = getResources().getString(R.string.prefKeyDarkThemeSwitch);
-        keyLayoutList = getResources().getString(R.string.prefKeyLayoutListPreference);
-        keyShowWelcomePageCheckbox = getResources().getString(R.string.prefKeyShowWelcomePageCheckbox);
+        keyDarkThemeSwitch = getString(R.string.prefKeyDarkThemeSwitch);
+        keyLayoutList = getString(R.string.prefKeyLayoutListPreference);
+        keyShowWelcomePageCheckbox = getString(R.string.prefKeyShowWelcomePageCheckbox);
+        keySortAscendingSwitch = getString(R.string.prefKeySortAscendingSwitch);
+        keySortModeList = getString(R.string.prefKeySortModeListPreference);
 
         darkThemeSwitch = (SwitchPreference) findPreference(keyDarkThemeSwitch);
         layoutListPreference = (ListPreference) findPreference(keyLayoutList);
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
+        sortAscendingSwitch = (SwitchPreference) findPreference(keySortAscendingSwitch);
+        sortModeListPreference = (ListPreference) findPreference(keySortModeList);
 
         initializeViews();
-
-        // TODO: handle checkbox status on device rotation
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(MyApplication.LOG_TAG, "FragmentPreferences.onDestroy");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(MyApplication.LOG_TAG, "FragmentPreferences.onSaveInstanceState");
     }
 
     private void initializeViews() {
@@ -80,6 +72,10 @@ public class FragmentPreferences
         showWelcomePageCheckbox.setChecked(app.isShowWelcomePage());
         layoutListPreference.setValue(Boolean.toString(app.isCompactLayoutEnabled()));
         setSummaryForLayoutListPreference();
+
+        sortModeListPreference.setValue(app.getSortMode());
+        sortAscendingSwitch.setChecked(app.isSortAscending());
+        setSummaryForSortMode();
     }
 
     @Override
@@ -98,9 +94,6 @@ public class FragmentPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Preference preference = findPreference(key);
-
-        // update summary for currentLayout picker
         if (key.equals(keyLayoutList)) {
             final String value = layoutListPreference.getValue();
             boolean compactModeEnabled = Boolean.valueOf(value);
@@ -108,10 +101,14 @@ public class FragmentPreferences
             setSummaryForLayoutListPreference();
         } else if (key.equals(keyDarkThemeSwitch)) {
             app.setNightModeEnabled(darkThemeSwitch.isChecked());
-            YandexMetrica.reportEvent("recreating Launcher Activity");
             activity.recreate();
         } else if (key.equals(keyShowWelcomePageCheckbox)) {
             app.setShowWelcomePage(showWelcomePageCheckbox.isChecked());
+        } else if (key.equals(keySortAscendingSwitch)) {
+            app.setSortAscending(sortAscendingSwitch.isChecked());
+        } else if (key.equals(keySortModeList)) {
+            app.setSortMode(sortModeListPreference.getValue());
+            setSummaryForSortMode();
         }
 
     }
@@ -120,9 +117,16 @@ public class FragmentPreferences
         int valueIndex = layoutListPreference.findIndexOfValue(
                 layoutListPreference.getValue()
         );
-
         CharSequence summary = layoutListPreference.getEntries()[valueIndex]
-                + ":\n\n" + layoutDescriptions[valueIndex];
+                + ":\n\n" + layoutSummary[valueIndex];
         layoutListPreference.setSummary(summary);
+    }
+
+    private void setSummaryForSortMode(){
+        int valueIndex = sortModeListPreference.findIndexOfValue(
+                sortModeListPreference.getValue()
+        );
+        CharSequence summary = sortModeSummary[valueIndex];
+        sortModeListPreference.setSummary(summary);
     }
 }

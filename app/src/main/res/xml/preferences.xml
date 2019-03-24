@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/prefKeyDarkThemeSwitch"
-        android:summaryOff="@string/darkThemeDisabled"
-        android:summaryOn="@string/darkThemeEnabled"
-        android:title="@string/toggle_dark_theme"
-        />
+    <PreferenceCategory android:title="@string/view">
 
-    <ListPreference
-        android:key="@string/prefKeyLayoutListPreference"
-        android:title="@string/layout"
-        android:summary="@string/layoutStandardDescription"
-        android:dialogTitle="@string/layoutPickerDialogTitle"
-        android:entries="@array/layout_entries"
-        android:entryValues="@array/layout_compact_enabled_values"
-        android:negativeButtonText="@string/cancel"
-        />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/prefKeyDarkThemeSwitch"
+            android:summaryOff="@string/darkThemeDisabled"
+            android:summaryOn="@string/darkThemeEnabled"
+            android:title="@string/toggle_dark_theme" />
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/prefKeyShowWelcomePageCheckbox"
-        android:title="@string/show_welcome_page_on_next_launch" />
+        <ListPreference
+            android:dialogTitle="@string/layoutPickerDialogTitle"
+            android:entries="@array/entries_layout"
+            android:entryValues="@array/entry_values_compact_layout"
+            android:key="@string/prefKeyLayoutListPreference"
+            android:negativeButtonText="@string/cancel"
+            android:summary="@string/layoutStandardDescription"
+            android:title="@string/layout" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/prefKeyShowWelcomePageCheckbox"
+            android:title="@string/show_welcome_page_on_next_launch" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/sort">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/prefKeySortAscendingSwitch"
+            android:summaryOff="@string/current_mode_desc_descr"
+            android:summaryOn="@string/current_mode_asc_descr"
+            android:title="@string/toggle_asc_order" />
+
+        <ListPreference
+            android:dialogTitle="@string/set_sort_by"
+            android:entries="@array/entries_sort_mode"
+            android:entryValues="@array/entry_values_sort_mode"
+            android:key="@string/prefKeySortModeListPreference"
+            android:negativeButtonText="@string/cancel"
+            android:summary="@string/no_sort"
+            android:title="@string/sort_mode" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

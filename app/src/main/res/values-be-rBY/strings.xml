@@ -45,4 +45,21 @@
     <string name="add">Дадаць</string>
     <string name="enter_the_site_link">Увядзіце спасылку на сайт</string>
     <string name="karma_description">Вы можаце сказаць \"Выдатная работа\" і дадаць +5 да маёй кармы. Аднак памятайце, што непадуладныя сілы прыроды (напрыклад, <b>Silent Pushes</b>) могуць змяніць карму ў любы момант</string>
+    <string name="launches">Запускаў:\u0020</string>
+    <string name="information">Інфармацыя</string>
+    <string name="delete">Выдаліць</string>
+    <string name="view">Выгляд</string>
+    <string name="sort">Сартыроўка</string>
+    <string name="current_mode_desc_descr">Па ўбыванні</string>
+    <string name="current_mode_asc_descr">Па ўзрастанні</string>
+    <string name="toggle_asc_order">Пераключыць парадак сартыроўкі</string>
+    <string name="sort_mode">Тып сартыроўкі</string>
+    <string name="set_sort_by">Сартыраваць па</string>
+    <string name="set_sort_mode_dialog_by_name">Назве</string>
+    <string name="no_sort">Без сартыроўкі</string>
+    <string name="set_sort_mode_dialog_installation_by_date">Даце ўсталёўкі</string>
+    <string name="set_sort_mode_dialog_by_frequency">Частасці</string>
+    <string name="sort_by_name">Сартыроўка па назве</string>
+    <string name="sort_by_frequency">Сартыроўка па частасці</string>
+    <string name="sort_by_installation_date">Сартыроўка па даце ўсталёўкі</string>
 </resources>

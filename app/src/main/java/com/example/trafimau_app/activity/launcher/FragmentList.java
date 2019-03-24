@@ -20,7 +20,7 @@ public class FragmentList extends AppsContainerBaseFragment {
         app = (MyApplication) activity.getApplication();
         layoutResId = R.layout.fragment_list;
         launcherAppAdapter = new LauncherAppAdapter(app, this, R.layout.list_app_item);
-        activity.registerRecyclerViewAdapter(launcherAppAdapter);
+        activity.addAppsChangedListener(launcherAppAdapter);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.example.trafimau_app.activity.launcher.ActivityLauncher;
 import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
 import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.data.db.AppEntity;
@@ -28,7 +29,6 @@ import com.yandex.metrica.push.YandexMetricaPush;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +48,11 @@ public class MyApplication extends Application {
 
     public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
 
+    private ActivityLauncher activityLauncher;
     private SharedPreferences sharedPreferences;
+    private AppsDatabase db;
+    private PackageManager pm;
+    private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
 
     private String showWelcomePageKey;
     private boolean showWelcomePage = false;
@@ -65,9 +69,14 @@ public class MyApplication extends Application {
     private String karmaLastChangeDateKey;
     private Long karmaLastChangeDateValue;
 
-    private AppsDatabase db;
-    private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
-    private PackageManager pm;
+    private String sortModeKey;
+    private String sortMode;
+    private String SORT_MODE_NO_SORT;
+    private String SORT_MODE_NAME;
+    private String SORT_MODE_FREQUENCY;
+    private String SORT_MODE_INSTALLATION_DATE;
+    private String isSortAscendingKey;
+    private boolean isSortAscending;
 
     public enum LayoutInfo {
         STANDARD(4, 6),
@@ -87,7 +96,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         initExternalTrackingServices();
 
         pm = getPackageManager();
@@ -95,8 +103,11 @@ public class MyApplication extends Application {
         getDataFromSharedPreferences();
         syncAppTheme();
         initDatabase();
-
         registerNotificationChannel();
+    }
+
+    public void setActivityLauncher(ActivityLauncher activityLauncher){
+        this.activityLauncher = activityLauncher;
     }
 
     private void initDatabase() {
@@ -107,23 +118,45 @@ public class MyApplication extends Application {
 
         scanInstalledApps();
         updateAppsDB();
+        sortInstalledApps();
+    }
 
-        // TODO: implement other sort options
-        Collections.sort(installedApps, (o1, o2) -> o1.label.compareTo(o2.label));
+    private void sortInstalledApps() {
+        if (SORT_MODE_FREQUENCY.equals(sortMode)) {
+            Collections.sort(installedApps, (o1, o2) -> {
+                int res = o2.launchedCount - o1.launchedCount;
+                if(res != 0){
+                    return res;
+                }
+                if(isSortAscending){
+                    return o2.label.compareTo(o1.label);
+                }
+                return o1.label.compareTo(o2.label);
+            });
+
+        } else if (SORT_MODE_INSTALLATION_DATE.equals(sortMode)) {
+            Collections.sort(installedApps,
+                    (o1, o2) -> o2.firstInstallTime.compareTo(o1.firstInstallTime));
+        } else if (SORT_MODE_NAME.equals(sortMode)) {
+            Collections.sort(installedApps, (o1, o2) -> o2.label.compareTo(o1.label));
+        }
+        if (isSortAscending) {
+            Collections.reverse(installedApps);
+        }
+        if(activityLauncher != null){
+            activityLauncher.notifyAppsChanged();
+        }
     }
 
     private void scanInstalledApps() {
-
-        YandexMetrica.reportEvent("MyApplication.scanInstalledApps()");
-
         installedApps.clear();
         List<ApplicationInfo> infos = pm
-                .getInstalledApplications(PackageManager.GET_META_DATA);
+                .getInstalledApplications(0);
 
-        final String packageName = getPackageName();
+        final String myPackageName = getPackageName();
 
         for (ApplicationInfo ai : infos) {
-            if (ai.packageName.equals(packageName)) {
+            if (ai.packageName.equals(myPackageName)) {
                 continue;
             }
             Intent intent = pm.getLaunchIntentForPackage(ai.packageName);
@@ -187,19 +220,21 @@ public class MyApplication extends Application {
         }
     }
 
-    public final void insertPackageToDB(@NonNull String packageName) {
+    public final void insertNewPackage(@NonNull String packageName) {
         try {
             final ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             final MyAppInfo myAppInfo = new MyAppInfo(ai, pm);
             installedApps.add(myAppInfo);
-            db.appEntityDao().insert(new AppEntity(packageName, myAppInfo.label));
+            db.appEntityDao().insert(AppEntity.fromMyAppInfo(myAppInfo));
+            sortInstalledApps();
         } catch (PackageManager.NameNotFoundException e) {
-            String msg = "MyApplication.insertPackageToDB: packageName not found exception";
+            String msg = "MyApplication.insertNewPackage: packageName not found exception";
             Log.e(LOG_TAG, msg);
         }
     }
 
-    public final void deletePackageFromDB(@NonNull String packageName) {
+    public final void deletePackage(@NonNull String packageName) {
+        // todo: delete inplace in Dao
         AppEntity toDelete = db.appEntityDao().getAppByPackageName(packageName);
         db.appEntityDao().delete(toDelete);
         for (int i = 0; i < installedApps.size(); ++i) {
@@ -208,9 +243,11 @@ public class MyApplication extends Application {
                 return;
             }
         }
+        sortInstalledApps();
     }
 
     public final void increaseAppLaunchedCount(@NonNull String packageName, int installedAppsPosition) {
+        // todo: update inplace in Dao
         AppEntity toUpdate = db.appEntityDao().getAppByPackageName(packageName);
         Date date = new Date();
         toUpdate.lastLaunched = date;
@@ -225,6 +262,7 @@ public class MyApplication extends Application {
         final MyAppInfo myAppInfo = installedApps.get(installedAppsPosition);
         myAppInfo.lastLaunched = date;
         myAppInfo.launchedCount++;
+        sortInstalledApps();
     }
 
     public final int getInstalledAppsCount() {
@@ -235,7 +273,7 @@ public class MyApplication extends Application {
         if (i < 0 || i >= installedApps.size()) {
             final String msg = "MyApplication.getAppInfo: invalid array position passed";
             Log.e(LOG_TAG, msg);
-            throw new InvalidParameterException(msg);
+            throw new IndexOutOfBoundsException(msg);
         }
         return installedApps.get(i);
     }
@@ -272,9 +310,19 @@ public class MyApplication extends Application {
 
         karmaLastChangeDateKey = getString(R.string.sharedPrefKarmaLastChangeDateKey);
         karmaLastChangeDateValue = sharedPreferences.getLong(karmaLastChangeDateKey, 0);
-        if(karmaLastChangeDateValue == 0){
+        if (karmaLastChangeDateValue == 0) {
             karmaLastChangeDateValue = null;
         }
+
+        SORT_MODE_NAME = getString(R.string.sharedPrefSortModeName);
+        SORT_MODE_FREQUENCY = getString(R.string.sharedPrefSortModeFrequency);
+        SORT_MODE_INSTALLATION_DATE = getString(R.string.sharedPrefSortModeInstallationDate);
+        SORT_MODE_NO_SORT = getString(R.string.sharedPrefSortModeNoSort);
+
+        sortModeKey = getString(R.string.sharedPrefSortModeKey);
+        sortMode = sharedPreferences.getString(sortModeKey, SORT_MODE_NO_SORT);
+        isSortAscendingKey = getString(R.string.sharedPrefIsSortAscendingKey);
+        isSortAscending = sharedPreferences.getBoolean(isSortAscendingKey, false);
     }
 
     private void syncAppTheme() {
@@ -362,6 +410,42 @@ public class MyApplication extends Application {
                 .putLong(karmaLastChangeDateKey, karmaLastChangeDateValue)
                 .apply();
         Log.d(MyApplication.LOG_TAG, "setting last karma change date to now");
+    }
+
+    public String getSortMode() {
+        return sortMode;
+    }
+
+    public void setSortMode(String sortMode) {
+        if (sortMode.equals(SORT_MODE_NAME) ||
+                sortMode.equals(SORT_MODE_FREQUENCY) ||
+                sortMode.equals(SORT_MODE_INSTALLATION_DATE) ||
+                sortMode.equals(SORT_MODE_NO_SORT)) {
+            this.sortMode = sortMode;
+            sortInstalledApps();
+            sharedPreferences.
+                    edit()
+                    .putString(sortModeKey, sortMode)
+                    .apply();
+            Log.d(MyApplication.LOG_TAG, "setting sort mode to: " + sortMode);
+        }
+        else{
+            throw new IllegalArgumentException("passed invalid sortMode");
+        }
+    }
+
+    public boolean isSortAscending() {
+        return isSortAscending;
+    }
+
+    public void setSortAscending(boolean isSortAscending) {
+        this.isSortAscending = isSortAscending;
+        sortInstalledApps();
+        sharedPreferences.
+                edit()
+                .putBoolean(isSortAscendingKey, isSortAscending)
+                .apply();
+        Log.d(MyApplication.LOG_TAG, "setting sort ascending to: " + isSortAscending);
     }
 
     private void registerNotificationChannel() {
