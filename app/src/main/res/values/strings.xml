@@ -100,4 +100,11 @@
     <string name="sort_by_installation_date">Sort by installation date</string>
     <string name="linked_in_icon" translatable="false">LinkedIn icon</string>
 
+    <string name="choose_the_language">Choose the language</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="belarusian">Belarusian</string>
+    <string name="russian">Russian</string>
+    <string name="system_language">System language</string>
+
 </resources>

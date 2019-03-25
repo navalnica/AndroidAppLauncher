@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -31,6 +34,7 @@ import com.example.trafimau_app.data.MyAppInfo;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class ActivityLauncher extends AppCompatActivity
         implements FragmentLauncher.PageChangedListener {
@@ -65,6 +69,7 @@ public class ActivityLauncher extends AppCompatActivity
 
         app = (MyApplication) getApplication();
         app.setActivityLauncher(this);
+        updateLocale();
         fragmentManager = getSupportFragmentManager();
 
         drawerLayout = findViewById(R.id.launcherDrawerLayout);
@@ -317,6 +322,31 @@ public class ActivityLauncher extends AppCompatActivity
 
         NotificationManagerCompat nmc = NotificationManagerCompat.from(this);
         nmc.notify(12, builder.build());
+    }
+
+    public void updateLocale() {
+        String language = app.getLanguage();
+        if(language.equals(getString(R.string.sharedPrefLanguageSystemDefault))){
+            Log.d(MyApplication.LOG_TAG,
+                    "ActivityLauncher.updateLocale: using system default language");
+            language = Locale.getDefault().getLanguage();
+        }
+
+        Log.d(MyApplication.LOG_TAG, "ActivityLauncher.updateLocale: language: " + language);
+
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+
+        final Locale locale = new Locale(language);
+        if(configuration.locale.equals(locale)){
+            Log.d(MyApplication.LOG_TAG, "ActivityLauncher.updateLocale: " +
+                    "actual locale is already set. not updating");
+            return;
+        }
+        configuration.locale = locale;
+        resources.updateConfiguration(configuration, displayMetrics);
+        recreate();
     }
 
     private BroadcastReceiver appsBroadcastReceiver = new BroadcastReceiver() {

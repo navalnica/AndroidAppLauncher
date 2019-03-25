@@ -34,4 +34,17 @@
         <item>@string/no_sort</item>
     </string-array>
 
+    <string-array name="entries_language">
+        <item>@string/english</item>
+        <item>@string/belarusian</item>
+        <item>@string/russian</item>
+        <item>@string/system_language</item>
+    </string-array>
+    <string-array name="entry_values_language">
+        <item>@string/sharedPrefLanguageEnglish</item>
+        <item>@string/sharedPrefLanguageBelarusian</item>
+        <item>@string/sharedPrefLanguageRussian</item>
+        <item>@string/sharedPrefLanguageSystemDefault</item>
+    </string-array>
+
 </resources>

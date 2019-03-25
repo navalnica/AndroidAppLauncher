@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sharedPrefLanguageKey" translatable="false">LANGUAGE</string>
+    <string name="sharedPrefLanguageEnglish" translatable="false">en</string>
+    <string name="sharedPrefLanguageBelarusian" translatable="false">be</string>
+    <string name="sharedPrefLanguageRussian" translatable="false">ru</string>
+    <string name="sharedPrefLanguageSystemDefault" translatable="false">system</string>
+
     <string name="showWelcomePageKey" translatable="false">SHOW_WELCOME_PAGE</string>
     <string name="sharedPrefNightModeEnabledKey" translatable="false">NIGHT_MODE_ENABLED</string>
     <string name="sharedPrefCompactLayoutEnabledKey" translatable="false">COMPACT_LAYOUT_ENABLED</string>
     <string name="sharedPrefKarmaKey" translatable="false">KARMA_VALUE</string>
     <string name="sharedPrefKarmaLastChangeDateKey" translatable="false">KARMA_LAST_CHANGE</string>
 
-    <string name="sharedPrefSortModeKey" translatable="false">SORT_MODE</string>
     <string name="sharedPrefIsSortAscendingKey" translatable="false">IS_SORT_ASCENDING</string>
+    <string name="sharedPrefSortModeKey" translatable="false">SORT_MODE</string>
     <string name="sharedPrefSortModeName" translatable="false">SORT_BY_NAME</string>
     <string name="sharedPrefSortModeFrequency" translatable="false">SORT_BY_FREQUENCY</string>
     <string name="sharedPrefSortModeInstallationDate" translatable="false">SORT_BY_INSTALLED_DATE</string>

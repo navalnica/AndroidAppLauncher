@@ -62,4 +62,10 @@
     <string name="sort_by_name">Сартыроўка па назве</string>
     <string name="sort_by_frequency">Сартыроўка па частасці</string>
     <string name="sort_by_installation_date">Сартыроўка па даце ўсталёўкі</string>
+    <string name="choose_the_language">Абярыце мову</string>
+    <string name="language">Мова</string>
+    <string name="english">Ангельская</string>
+    <string name="belarusian">Беларуская</string>
+    <string name="russian">Руская</string>
+    <string name="system_language">Сістэмная мова</string>
 </resources>

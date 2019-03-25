@@ -62,4 +62,10 @@
     <string name="sort_by_name">Сортировка по имени</string>
     <string name="sort_by_frequency">Сортировка по частоте</string>
     <string name="sort_by_installation_date">Сортировка по дате установки</string>
+    <string name="choose_the_language">Выберите язык</string>
+    <string name="language">Язык</string>
+    <string name="english">Английский</string>
+    <string name="belarusian">Белорусский</string>
+    <string name="russian">Русский</string>
+    <string name="system_language">Системный язык</string>
 </resources>

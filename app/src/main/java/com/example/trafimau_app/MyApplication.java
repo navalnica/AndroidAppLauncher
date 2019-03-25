@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,14 +70,22 @@ public class MyApplication extends Application {
     private String karmaLastChangeDateKey;
     private Long karmaLastChangeDateValue;
 
+    private String isSortAscendingKey;
+    private boolean isSortAscending;
+
     private String sortModeKey;
     private String sortMode;
     private String SORT_MODE_NO_SORT;
     private String SORT_MODE_NAME;
     private String SORT_MODE_FREQUENCY;
     private String SORT_MODE_INSTALLATION_DATE;
-    private String isSortAscendingKey;
-    private boolean isSortAscending;
+
+    private String languageKey;
+    private String language;
+    private String LANGUAGE_ENGLISH;
+    private String LANGUAGE_BELARUSIAN;
+    private String LANGUAGE_RUSSIAN;
+    private String LANGUAGE_SYSTEM_DEFAULT;
 
     public enum LayoutInfo {
         STANDARD(4, 6),
@@ -106,7 +115,7 @@ public class MyApplication extends Application {
         registerNotificationChannel();
     }
 
-    public void setActivityLauncher(ActivityLauncher activityLauncher){
+    public void setActivityLauncher(ActivityLauncher activityLauncher) {
         this.activityLauncher = activityLauncher;
     }
 
@@ -125,10 +134,10 @@ public class MyApplication extends Application {
         if (SORT_MODE_FREQUENCY.equals(sortMode)) {
             Collections.sort(installedApps, (o1, o2) -> {
                 int res = o2.launchedCount - o1.launchedCount;
-                if(res != 0){
+                if (res != 0) {
                     return res;
                 }
-                if(isSortAscending){
+                if (isSortAscending) {
                     return o2.label.compareTo(o1.label);
                 }
                 return o1.label.compareTo(o2.label);
@@ -143,7 +152,7 @@ public class MyApplication extends Application {
         if (isSortAscending) {
             Collections.reverse(installedApps);
         }
-        if(activityLauncher != null){
+        if (activityLauncher != null) {
             activityLauncher.notifyAppsChanged();
         }
     }
@@ -314,15 +323,22 @@ public class MyApplication extends Application {
             karmaLastChangeDateValue = null;
         }
 
+        isSortAscendingKey = getString(R.string.sharedPrefIsSortAscendingKey);
+        isSortAscending = sharedPreferences.getBoolean(isSortAscendingKey, false);
+
         SORT_MODE_NAME = getString(R.string.sharedPrefSortModeName);
         SORT_MODE_FREQUENCY = getString(R.string.sharedPrefSortModeFrequency);
         SORT_MODE_INSTALLATION_DATE = getString(R.string.sharedPrefSortModeInstallationDate);
         SORT_MODE_NO_SORT = getString(R.string.sharedPrefSortModeNoSort);
-
         sortModeKey = getString(R.string.sharedPrefSortModeKey);
         sortMode = sharedPreferences.getString(sortModeKey, SORT_MODE_NO_SORT);
-        isSortAscendingKey = getString(R.string.sharedPrefIsSortAscendingKey);
-        isSortAscending = sharedPreferences.getBoolean(isSortAscendingKey, false);
+
+        LANGUAGE_ENGLISH = getString(R.string.sharedPrefLanguageEnglish);
+        LANGUAGE_BELARUSIAN = getString(R.string.sharedPrefLanguageBelarusian);
+        LANGUAGE_RUSSIAN = getString(R.string.sharedPrefLanguageRussian);
+        LANGUAGE_SYSTEM_DEFAULT = getString(R.string.sharedPrefLanguageSystemDefault);
+        languageKey = getString(R.string.sharedPrefLanguageKey);
+        language = sharedPreferences.getString(languageKey, LANGUAGE_SYSTEM_DEFAULT);
     }
 
     private void syncAppTheme() {
@@ -428,8 +444,7 @@ public class MyApplication extends Application {
                     .putString(sortModeKey, sortMode)
                     .apply();
             Log.d(MyApplication.LOG_TAG, "setting sort mode to: " + sortMode);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("passed invalid sortMode");
         }
     }
@@ -446,6 +461,29 @@ public class MyApplication extends Application {
                 .putBoolean(isSortAscendingKey, isSortAscending)
                 .apply();
         Log.d(MyApplication.LOG_TAG, "setting sort ascending to: " + isSortAscending);
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        if (language.equals(LANGUAGE_ENGLISH) ||
+                language.equals(LANGUAGE_BELARUSIAN) ||
+                language.equals(LANGUAGE_RUSSIAN) ||
+                language.equals(LANGUAGE_SYSTEM_DEFAULT)) {
+            this.language = language;
+            if (activityLauncher != null) {
+                activityLauncher.updateLocale();
+            }
+            sharedPreferences.
+                    edit()
+                    .putString(languageKey, language)
+                    .apply();
+            Log.d(MyApplication.LOG_TAG, "setting language to: " + language);
+        } else {
+            throw new IllegalArgumentException("passed invalid language");
+        }
     }
 
     private void registerNotificationChannel() {

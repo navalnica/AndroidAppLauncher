@@ -20,26 +20,30 @@ public class FragmentPreferences
     private Activity activity;
     private MyApplication app;
 
+    private String keyLanguageList;
     private String keyDarkThemeSwitch;
     private String keyLayoutList;
     private String keyShowWelcomePageCheckbox;
     private String keySortAscendingSwitch;
     private String keySortModeList;
 
+    private ListPreference languageListPreference;
     private SwitchPreference darkThemeSwitch;
-    private SwitchPreference sortAscendingSwitch;
-    private ListPreference layoutListPreference;
-    private ListPreference sortModeListPreference;
+    private ListPreference layoutListPreference; // todo: make it switch preference
     private CheckBoxPreference showWelcomePageCheckbox;
+    private SwitchPreference sortAscendingSwitch;
+    private ListPreference sortModeListPreference;
+
+    private String[] languageSummary;
     private String[] layoutSummary;
     private String[] sortModeSummary;
-
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
 
         addPreferencesFromResource(R.xml.preferences);
 
+        languageSummary = getResources().getStringArray(R.array.entries_language);
         layoutSummary = getResources().getStringArray(R.array.summary_layout);
         sortModeSummary = getResources().getStringArray(R.array.summary_sort_mode);
 
@@ -52,12 +56,14 @@ public class FragmentPreferences
         }
         app = (MyApplication) activity.getApplication();
 
+        keyLanguageList = getString(R.string.prefKeyLanguageListPreference);
         keyDarkThemeSwitch = getString(R.string.prefKeyDarkThemeSwitch);
         keyLayoutList = getString(R.string.prefKeyLayoutListPreference);
         keyShowWelcomePageCheckbox = getString(R.string.prefKeyShowWelcomePageCheckbox);
         keySortAscendingSwitch = getString(R.string.prefKeySortAscendingSwitch);
         keySortModeList = getString(R.string.prefKeySortModeListPreference);
 
+        languageListPreference = (ListPreference) findPreference(keyLanguageList);
         darkThemeSwitch = (SwitchPreference) findPreference(keyDarkThemeSwitch);
         layoutListPreference = (ListPreference) findPreference(keyLayoutList);
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
@@ -68,14 +74,17 @@ public class FragmentPreferences
     }
 
     private void initializeViews() {
+        languageListPreference.setValue(app.getLanguage());
+        setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+
         darkThemeSwitch.setChecked(app.isNighModeEnabled());
         showWelcomePageCheckbox.setChecked(app.isShowWelcomePage());
         layoutListPreference.setValue(Boolean.toString(app.isCompactLayoutEnabled()));
         setSummaryForLayoutListPreference();
 
-        sortModeListPreference.setValue(app.getSortMode());
         sortAscendingSwitch.setChecked(app.isSortAscending());
-        setSummaryForSortMode();
+        sortModeListPreference.setValue(app.getSortMode());
+        setListPreferenceSummaryFromArray(sortModeListPreference, sortModeSummary);
     }
 
     @Override
@@ -94,7 +103,10 @@ public class FragmentPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(keyLayoutList)) {
+        if (key.equals(keyLanguageList)){
+            app.setLanguage(languageListPreference.getValue());
+            setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+        } else if (key.equals(keyLayoutList)) {
             final String value = layoutListPreference.getValue();
             boolean compactModeEnabled = Boolean.valueOf(value);
             app.setCompactLayoutEnabled(compactModeEnabled);
@@ -108,9 +120,8 @@ public class FragmentPreferences
             app.setSortAscending(sortAscendingSwitch.isChecked());
         } else if (key.equals(keySortModeList)) {
             app.setSortMode(sortModeListPreference.getValue());
-            setSummaryForSortMode();
+            setListPreferenceSummaryFromArray(sortModeListPreference, sortModeSummary);
         }
-
     }
 
     private void setSummaryForLayoutListPreference() {
@@ -122,11 +133,9 @@ public class FragmentPreferences
         layoutListPreference.setSummary(summary);
     }
 
-    private void setSummaryForSortMode(){
-        int valueIndex = sortModeListPreference.findIndexOfValue(
-                sortModeListPreference.getValue()
-        );
-        CharSequence summary = sortModeSummary[valueIndex];
-        sortModeListPreference.setSummary(summary);
+    private void setListPreferenceSummaryFromArray(ListPreference listPreference, String[] summaryArray){
+        int valueIndex = listPreference.findIndexOfValue(listPreference.getValue());
+        CharSequence summary = summaryArray[valueIndex];
+        listPreference.setSummary(summary);
     }
 }
