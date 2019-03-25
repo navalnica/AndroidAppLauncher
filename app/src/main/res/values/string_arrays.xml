@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="layout_entries">
+    <string-array name="entries_layout">
         <item>@string/layoutStandardName</item>
         <item>@string/layoutCompactName</item>
     </string-array>
-
-    <!-- correspond to value of sharedPrefCompactLayoutEnabledKey -->
-    <string-array name="layout_compact_enabled_values">
+    <string-array name="entry_values_compact_layout">
+        <!-- corresponds to value of sharedPrefCompactLayoutEnabledKey -->
         <item>false</item>
         <item>true</item>
     </string-array>
-
-    <string-array name="layout_descriptions">
+    <string-array name="summary_layout">
         <item>@string/layoutStandardDescription</item>
         <item>@string/layoutCompactDescription</item>
+    </string-array>
+
+    <string-array name="entries_sort_mode">
+        <item>@string/set_sort_mode_dialog_by_name</item>
+        <item>@string/set_sort_mode_dialog_by_frequency</item>
+        <item>@string/set_sort_mode_dialog_installation_by_date</item>
+        <item>@string/no_sort</item>
+    </string-array>
+    <string-array name="entry_values_sort_mode">
+        <item>@string/sharedPrefSortModeName</item>
+        <item>@string/sharedPrefSortModeFrequency</item>
+        <item>@string/sharedPrefSortModeInstallationDate</item>
+        <item>@string/sharedPrefSortModeNoSort</item>
+    </string-array>
+    <string-array name="summary_sort_mode">
+        <item>@string/sort_by_name</item>
+        <item>@string/sort_by_frequency</item>
+        <item>@string/sort_by_installation_date</item>
+        <item>@string/no_sort</item>
+    </string-array>
+
+    <string-array name="entries_language">
+        <item>@string/english</item>
+        <item>@string/belarusian</item>
+        <item>@string/russian</item>
+        <item>@string/system_language</item>
+    </string-array>
+    <string-array name="entry_values_language">
+        <item>@string/sharedPrefLanguageEnglish</item>
+        <item>@string/sharedPrefLanguageBelarusian</item>
+        <item>@string/sharedPrefLanguageRussian</item>
+        <item>@string/sharedPrefLanguageSystemDefault</item>
     </string-array>
 
 </resources>

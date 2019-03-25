@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyLanguageListPreference" translatable="false">language_list_pref</string>
     <string name="prefKeyDarkThemeSwitch" translatable="false">dark_theme_switch</string>
-    <string name="prefKeyLayoutListPreference" translatable="false">layout_picker_list</string>
+    <string name="prefKeyLayoutListPreference" translatable="false">layout_list_pref</string>
     <string name="prefKeyShowWelcomePageCheckbox" translatable="false">show_welcome_page_checkbox</string>
+    <string name="prefKeySortAscendingSwitch" translatable="false">sort_ascending_switch</string>
+    <string name="prefKeySortModeListPreference" translatable="false">sort_mode_list_pref</string>
 </resources>

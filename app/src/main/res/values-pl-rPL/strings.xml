@@ -11,4 +11,7 @@
     <string name="greeting">Witamy!</string>
     <string name="appDescription">Ten launcher, napisane dla MDS</string>
     <string name="color">Kolor</string>
+    <string name="settings">Ustawienia</string>
+    <string name="applications">Aplikacje</string>
+    <string name="desktop">Pulpit</string>
 </resources>

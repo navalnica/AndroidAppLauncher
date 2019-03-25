@@ -1,52 +1,32 @@
 package com.example.trafimau_app.activity.launcher;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
 
-public class GridFragment extends Fragment {
-
-    private MyApplication app;
-    private LauncherAppAdapter launcherAppAdapter;
-    private View rootView;
+public class FragmentGrid extends AppsContainerBaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Activity activity = getActivity();
-        if (activity != null) {
-            app = (MyApplication) getActivity().getApplication();
-            launcherAppAdapter = new LauncherAppAdapter(app, R.layout.grid_app_item);
+        activity = (ActivityLauncher) getActivity();
+        if (activity == null) {
+            throw new NullPointerException("FragmentGrid.onCreate: getActivity() returned null");
         }
-        else{
-            Log.d(MyApplication.LOG_TAG, "getActivity() returned null");
-        }
+        app = (MyApplication) activity.getApplication();
+        layoutResId = R.layout.fragment_grid;
+        launcherAppAdapter = new LauncherAppAdapter(app, this, R.layout.grid_app_item);
+        activity.addAppsChangedListener(launcherAppAdapter);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView =  inflater.inflate(R.layout.fragment_launcher_grid, container, false);
-        configRecyclerView();
-        return rootView;
-    }
-
-    private void configRecyclerView() {
+    protected void configRecyclerView() {
         RecyclerView rv = rootView.findViewById(R.id.gridFragmentRecyclerView);
         rv.setAdapter(launcherAppAdapter);
         int gridSpanCount = 1;

@@ -139,6 +139,11 @@ public class ActivityProfile extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
+        findViewById(R.id.linkedIn).setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.linkedin.com/in/" + getString(R.string.linkedInProfile));
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
         findViewById(R.id.inspiringPlace).setOnClickListener(v -> {
             final double latitude = 38.48247594504772;
