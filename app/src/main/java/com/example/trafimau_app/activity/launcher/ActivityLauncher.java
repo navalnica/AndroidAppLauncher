@@ -326,7 +326,7 @@ public class ActivityLauncher extends AppCompatActivity
 
     public void updateLocale() {
         String language = app.getLanguage();
-        if(language.equals(getString(R.string.sharedPrefLanguageSystemDefault))){
+        if (language.equals(getString(R.string.sharedPrefLanguageSystemDefault))) {
             Log.d(MyApplication.LOG_TAG,
                     "ActivityLauncher.updateLocale: using system default language");
             language = Locale.getDefault().getLanguage();
@@ -338,13 +338,14 @@ public class ActivityLauncher extends AppCompatActivity
         Configuration configuration = resources.getConfiguration();
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 
+        // todo: does not work on API 22 and lower
         final Locale locale = new Locale(language);
-        if(configuration.locale.equals(locale)){
+        if (configuration.locale.equals(locale)) {
             Log.d(MyApplication.LOG_TAG, "ActivityLauncher.updateLocale: " +
                     "actual locale is already set. not updating");
             return;
         }
-        configuration.locale = locale;
+        configuration.setLocale(locale);
         resources.updateConfiguration(configuration, displayMetrics);
         recreate();
     }
