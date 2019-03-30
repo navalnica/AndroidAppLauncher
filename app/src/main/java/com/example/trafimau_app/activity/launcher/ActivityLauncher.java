@@ -143,8 +143,11 @@ public class ActivityLauncher extends AppCompatActivity
         }
         if (isSettingsFragmentVisible) {
             isSettingsFragmentVisible = false;
+            super.onBackPressed();
         }
-        super.onBackPressed();
+        else if(!app.isDefaultSystemLauncher()){
+            super.onBackPressed();
+        }
     }
 
     @Override
