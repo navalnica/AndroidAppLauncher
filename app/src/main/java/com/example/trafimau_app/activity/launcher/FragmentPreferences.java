@@ -63,7 +63,7 @@ public class FragmentPreferences
         keySortAscendingSwitch = getString(R.string.prefKeySortAscendingSwitch);
         keySortModeList = getString(R.string.prefKeySortModeListPreference);
 
-        languageListPreference = (ListPreference) findPreference(keyLanguageList);
+//        languageListPreference = (ListPreference) findPreference(keyLanguageList);
         darkThemeSwitch = (SwitchPreference) findPreference(keyDarkThemeSwitch);
         layoutListPreference = (ListPreference) findPreference(keyLayoutList);
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
@@ -74,8 +74,8 @@ public class FragmentPreferences
     }
 
     private void initializeViews() {
-        languageListPreference.setValue(app.getLanguage());
-        setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+//        languageListPreference.setValue(app.getLanguage());
+//        setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
 
         darkThemeSwitch.setChecked(app.isNighModeEnabled());
         showWelcomePageCheckbox.setChecked(app.isShowWelcomePage());
