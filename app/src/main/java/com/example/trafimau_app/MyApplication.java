@@ -14,11 +14,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.trafimau_app.activity.launcher.ActivityLauncher;
-import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
+import com.example.trafimau_app.data.DesktopSiteItemsHelper;
 import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.data.db.AppEntity;
 import com.example.trafimau_app.data.db.AppsDatabase;
@@ -51,11 +50,12 @@ public class MyApplication extends Application {
     public final static String KARMA_UPDATED_FROM_SILENT_PUSH_ACTION =
             "com.example.trafimau_app.karma_updated_from_silent_push_action";
 
-    public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
+    public DesktopSiteItemsHelper siteItemsHelper;
+    public int desktopIconDimensionInPx;
 
     private ActivityLauncher activityLauncher;
     private SharedPreferences sharedPreferences;
-    private AppsDatabase db;
+    public AppsDatabase db;
     private PackageManager pm;
     private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
 
@@ -123,6 +123,10 @@ public class MyApplication extends Application {
         syncAppTheme();
         initDatabase();
         registerNotificationChannel();
+
+        siteItemsHelper = new DesktopSiteItemsHelper(this);
+
+        Log.d(MyApplication.LOG_TAG, "MyApplication created");
     }
 
     public void setActivityLauncher(ActivityLauncher activityLauncher) {
