@@ -72,7 +72,7 @@ public class ActivityLauncher extends AppCompatActivity
 
         app = (MyApplication) getApplication();
         app.setActivityLauncher(this);
-        updateLocale();
+//        updateLocale();
         fragmentManager = getSupportFragmentManager();
 
         drawerLayout = findViewById(R.id.launcherDrawerLayout);

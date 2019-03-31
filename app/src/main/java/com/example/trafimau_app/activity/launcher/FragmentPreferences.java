@@ -104,8 +104,8 @@ public class FragmentPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(keyLanguageList)){
-            app.setLanguage(languageListPreference.getValue());
-            setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+//            app.setLanguage(languageListPreference.getValue());
+//            setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
         } else if (key.equals(keyLayoutList)) {
             final String value = layoutListPreference.getValue();
             boolean compactModeEnabled = Boolean.valueOf(value);

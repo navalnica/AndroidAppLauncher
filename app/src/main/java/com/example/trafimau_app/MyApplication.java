@@ -505,7 +505,7 @@ public class MyApplication extends Application {
                 language.equals(LANGUAGE_SYSTEM_DEFAULT)) {
             this.language = language;
             if (activityLauncher != null) {
-                activityLauncher.updateLocale();
+//                activityLauncher.updateLocale();
             }
             sharedPreferences.
                     edit()
