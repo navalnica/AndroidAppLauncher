@@ -16,17 +16,6 @@
         <include layout="@layout/desktop_item" />
 
         <include layout="@layout/desktop_item" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <include layout="@layout/desktop_item" />
-
-        <include layout="@layout/desktop_item" />
 
         <include layout="@layout/desktop_item" />
     </LinearLayout>
@@ -42,6 +31,8 @@
         <include layout="@layout/desktop_item" />
 
         <include layout="@layout/desktop_item" />
+
+        <include layout="@layout/desktop_item" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,6 +40,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
+
+        <include layout="@layout/desktop_item" />
 
         <include layout="@layout/desktop_item" />
 

@@ -3,7 +3,9 @@ package com.example.trafimau_app;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -15,7 +17,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.trafimau_app.activity.launcher.ActivityLauncher;
-import com.example.trafimau_app.data.DesktopSiteLinksDataModel;
+import com.example.trafimau_app.data.DesktopSiteItemsHelper;
 import com.example.trafimau_app.data.MyAppInfo;
 import com.example.trafimau_app.data.db.AppEntity;
 import com.example.trafimau_app.data.db.AppsDatabase;
@@ -32,11 +34,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import io.fabric.sdk.android.Fabric;
+
+// todo: move work with SharedPrefs in separate helper class
 
 public class MyApplication extends Application {
 
@@ -47,13 +50,16 @@ public class MyApplication extends Application {
     public final static String KARMA_UPDATED_FROM_SILENT_PUSH_ACTION =
             "com.example.trafimau_app.karma_updated_from_silent_push_action";
 
-    public DesktopSiteLinksDataModel sitesDataModel = new DesktopSiteLinksDataModel();
+    public DesktopSiteItemsHelper siteItemsHelper;
 
     private ActivityLauncher activityLauncher;
     private SharedPreferences sharedPreferences;
-    private AppsDatabase db;
+    public AppsDatabase db;
     private PackageManager pm;
     private ArrayList<MyAppInfo> installedApps = new ArrayList<>();
+
+    private String myPackageName;
+    private boolean isDefaultSystemLauncher;
 
     private String showWelcomePageKey;
     private boolean showWelcomePage = false;
@@ -72,6 +78,9 @@ public class MyApplication extends Application {
 
     private String isSortAscendingKey;
     private boolean isSortAscending;
+
+    private String desktopIconDimensionInPxKey;
+    private int desktopIconDimensionInPx;
 
     private String sortModeKey;
     private String sortMode;
@@ -109,10 +118,17 @@ public class MyApplication extends Application {
 
         pm = getPackageManager();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        myPackageName = getPackageName();
+        initIsDefaultSystemLauncher();
+
         getDataFromSharedPreferences();
         syncAppTheme();
         initDatabase();
         registerNotificationChannel();
+
+        siteItemsHelper = new DesktopSiteItemsHelper(this);
+
+        Log.d(MyApplication.LOG_TAG, "MyApplication created");
     }
 
     public void setActivityLauncher(ActivityLauncher activityLauncher) {
@@ -161,8 +177,6 @@ public class MyApplication extends Application {
         installedApps.clear();
         List<ApplicationInfo> infos = pm
                 .getInstalledApplications(0);
-
-        final String myPackageName = getPackageName();
 
         for (ApplicationInfo ai : infos) {
             if (ai.packageName.equals(myPackageName)) {
@@ -326,6 +340,9 @@ public class MyApplication extends Application {
         isSortAscendingKey = getString(R.string.sharedPrefIsSortAscendingKey);
         isSortAscending = sharedPreferences.getBoolean(isSortAscendingKey, false);
 
+        desktopIconDimensionInPxKey = getString(R.string.sharedPrefDesktopIconDimensionInPxKey);
+        desktopIconDimensionInPx = sharedPreferences.getInt(desktopIconDimensionInPxKey, 0);
+
         SORT_MODE_NAME = getString(R.string.sharedPrefSortModeName);
         SORT_MODE_FREQUENCY = getString(R.string.sharedPrefSortModeFrequency);
         SORT_MODE_INSTALLATION_DATE = getString(R.string.sharedPrefSortModeInstallationDate);
@@ -463,6 +480,20 @@ public class MyApplication extends Application {
         Log.d(MyApplication.LOG_TAG, "setting sort ascending to: " + isSortAscending);
     }
 
+    public int getDesktopIconDimensionInPx() {
+        return desktopIconDimensionInPx;
+    }
+
+    public void setDesktopIconDimensionInPx(int desktopIconDimensionInPx) {
+        this.desktopIconDimensionInPx = desktopIconDimensionInPx;
+        sharedPreferences.
+                edit()
+                .putInt(desktopIconDimensionInPxKey, desktopIconDimensionInPx)
+                .apply();
+        Log.d(MyApplication.LOG_TAG, "setting desktop icon dimension to: "
+                + desktopIconDimensionInPx);
+    }
+
     public String getLanguage() {
         return language;
     }
@@ -501,5 +532,32 @@ public class MyApplication extends Application {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void initIsDefaultSystemLauncher() {
+        isDefaultSystemLauncher = false;
+
+        List<IntentFilter> filters = new ArrayList<>();
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_MAIN);
+        filter.addCategory(Intent.CATEGORY_HOME);
+        filters.add(filter);
+
+        List<ComponentName> activities = new ArrayList<>();
+        pm.getPreferredActivities(filters, activities, myPackageName);
+
+        for (ComponentName activity : activities) {
+            if (myPackageName.equals(activity.getPackageName())) {
+                isDefaultSystemLauncher = true;
+            }
+        }
+
+        final String msg = isDefaultSystemLauncher
+                ? "this app IS SET as default system launcher"
+                : "this app IS NOT SET as system default launcher";
+        Log.w(LOG_TAG, msg);
+    }
+
+    public boolean isDefaultSystemLauncher() {
+        return isDefaultSystemLauncher;
     }
 }

@@ -21,7 +21,7 @@
     <dimen name="profileSecondaryText">16sp</dimen>
 
     <dimen name="launcherAppLabel">18sp</dimen>
-    <dimen name="desktopItemProgressBar">80dp</dimen>
+    <dimen name="desktopItemIconHeight">80dp</dimen>
     <dimen name="listItemHeight">60dp</dimen>
     <dimen name="dividerMarginStart">60dp</dimen>
     <dimen name="dividerMarginEnd">20dp</dimen>

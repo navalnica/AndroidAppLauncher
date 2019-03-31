@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:clipToPadding="false"
-    android:gravity="center"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
     android:background="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    android:padding="@dimen/smallOffset">
+    android:gravity="center"
+    android:padding="2dp">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:id="@+id/desktopItemFrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smallOffset"
+        android:layout_centerHorizontal="true">
 
         <ProgressBar
             android:id="@+id/desktopItemProgressBar"
-            android:layout_width="@dimen/desktopItemProgressBar"
-            android:layout_height="@dimen/desktopItemProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="invisible" />
 
         <com.example.trafimau_app.activity.launcher.SquareBasedOnHeightImageView
             android:id="@+id/desktopItemIconView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_add_circle_outline_black_80dp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
     </FrameLayout>
 
     <TextView
         android:id="@+id/desktopItemTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/smallOffset"
+        android:layout_below="@+id/desktopItemFrameLayout"
+        android:layout_centerHorizontal="true"
         android:ellipsize="end"
-        android:gravity="center"
-        android:text="@string/add_new_item" />
+        android:lines="1"/>
 
-</LinearLayout>
+</RelativeLayout>

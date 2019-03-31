@@ -1,13 +1,8 @@
 package com.example.trafimau_app.activity.launcher;
 
-import android.app.Activity;
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,137 +10,159 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
-import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
-import com.example.trafimau_app.data.SiteInfo;
-import com.yandex.metrica.YandexMetrica;
+import com.example.trafimau_app.data.DesktopSiteItemWithIcon;
+import com.example.trafimau_app.data.LoadSiteIconCallback;
 
-import java.io.IOException;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class FragmentDesktop extends Fragment implements
         EnterSiteLinkDialog.EnterSiteLinkDialogListener {
 
     private MyApplication app;
-    private TableLayout tableLayout;
+    private ActivityLauncher activity;
+    private LinearLayout table;
 
-    // correspond to TableLayout in fragment_desktop.xml
     private int rowsCount;
     private int columnsCount;
 
-    private View clickedItem;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Activity activity = getActivity();
-        if (activity != null) {
-            app = (MyApplication) activity.getApplication();
-        }
-    }
+    private int clickedItemIx;
+    private final String clickedItemIxKey = "clicked_item_ix";
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onAttach");
+        activity = (ActivityLauncher) context;
+        if (activity != null) {
+            app = (MyApplication) activity.getApplication();
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onCreateView");
-
         View rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
-        tableLayout = rootView.findViewById(R.id.desktopTable);
-        addListenersForTableItems(tableLayout);
-        loadSavedSites();
-
+        table = rootView.findViewById(R.id.desktopTable);
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onActivityCreated. " +
+                "savedInstanceState is null: " +
+                (savedInstanceState == null));
+        if (savedInstanceState != null) {
+            clickedItemIx = savedInstanceState.getInt(clickedItemIxKey, -1);
+        }
+        initDesktopItems();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onSaveInstanceState");
+        outState.putInt(clickedItemIxKey, clickedItemIx);
     }
 
-    int getTableItemIndexByView(View v) {
-        TableRow parentRow = (TableRow) v.getParent();
-        TableLayout parentTable = (TableLayout) parentRow.getParent();
-        int rowIx = parentTable.indexOfChild(parentRow);
+    private void initDesktopItems() {
+        rowsCount = table.getChildCount();
+        LinearLayout firstRow = (LinearLayout) table.getChildAt(0);
+        columnsCount = firstRow.getChildCount();
+
+        for (int i = 0; i < rowsCount; ++i) {
+            LinearLayout row = (LinearLayout) table.getChildAt(i);
+            for (int j = 0; j < columnsCount; ++j) {
+                row.getChildAt(j).setOnClickListener(this::querySiteLink);
+            }
+        }
+
+        if (app.getDesktopIconDimensionInPx() == 0) {
+            View view = firstRow.getChildAt(0);
+            FrameLayout frameLayout = view.findViewById(R.id.desktopItemFrameLayout);
+            ViewTreeObserver vto = frameLayout.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(() -> {
+                if (app.getDesktopIconDimensionInPx() > 0) {
+                    return;
+                }
+                int height = view.getHeight();
+                int width = view.getWidth();
+                // getHeight returns max height of FrameLayout
+                // reduce it to free some space
+                app.setDesktopIconDimensionInPx(Math.min(height, width) * 3 / 7);
+                // load saved sites after icon dimension measured
+                loadFromMemory();
+            });
+        } else {
+            loadFromMemory();
+        }
+    }
+
+    private View getItemViewByIndex(int ix) {
+        int rowIx = ix / columnsCount;
+        int colIx = ix % columnsCount;
+        LinearLayout row = (LinearLayout) table.getChildAt(rowIx);
+        final String msg = "passed invalid item ix: " + ix +
+                "; rowsCount: " + rowsCount + "; columnsCount: " + columnsCount;
+        if (row == null) {
+            throw new NullPointerException(msg);
+        }
+        final View item = row.getChildAt(colIx);
+        if (item == null) {
+            throw new NullPointerException(msg);
+        }
+        return item;
+    }
+
+    int getItemIndexByView(View v) {
+        LinearLayout parentRow = (LinearLayout) v.getParent();
+        int rowIx = table.indexOfChild(parentRow);
         int colIx = parentRow.indexOfChild(v);
         return rowIx * columnsCount + colIx;
     }
 
-    private void loadSavedSites() {
-        // TODO: store data in DB
-        for (Map.Entry<Integer, SiteInfo> entry : app.sitesDataModel.sites.entrySet()) {
+    private void loadFromMemory() {
+        for (Map.Entry<Integer, DesktopSiteItemWithIcon> entry
+                : app.siteItemsHelper.sites.entrySet()) {
             Integer ix = entry.getKey();
-            SiteInfo info = entry.getValue();
-            if (ix == null || info == null) {
-                YandexMetrica.reportEvent(
-                        "FragmentDesktop.loadSavedSites. found null entry in map");
-                continue;
+            DesktopSiteItemWithIcon item = entry.getValue();
+            if (ix == null || item == null) {
+                throw new NullPointerException(
+                        "FragmentDesktop.loadFromMemory. found null entry in map");
             }
-            int rowIx = ix / columnsCount;
-            int colIx = ix % columnsCount;
 
-            Log.d(MyApplication.LOG_TAG,
-                    "Restoring site info for item with ix: " + ix
-                            + " row: " + rowIx + " colIx: " + colIx);
-            YandexMetrica.reportEvent("FragmentDesktop: loading saved items");
-
-
-            TableRow row = (TableRow) tableLayout.getChildAt(rowIx);
-            View item = row.getChildAt(colIx);
-
-            TextView tv = item.findViewById(R.id.desktopItemTextView);
-            tv.setText(info.link);
-
-            ImageView iconView = item.findViewById(R.id.desktopItemIconView);
-            // TODO: load actual stored icon
-            iconView.setBackground(getResources().getDrawable(R.drawable.ic_warning_black_80dp));
-
-            item.setOnClickListener(this::openLinkInBrowser);
+            View itemView = getItemViewByIndex(ix);
+            TextView tv = itemView.findViewById(R.id.desktopItemTextView);
+            tv.setText(item.shortLink);
+            ImageView iconView = itemView.findViewById(R.id.desktopItemIconView);
+            iconView.setImageBitmap(item.icon);
+            itemView.setOnClickListener(this::openLinkInBrowser);
+            registerForContextMenu(itemView);
+            itemView.setTag(item.index);
         }
     }
 
-    private void addListenersForTableItems(TableLayout tableLayout) {
-        rowsCount = tableLayout.getChildCount();
-        TableRow firstRow = (TableRow) tableLayout.getChildAt(0);
-        columnsCount = firstRow.getChildCount();
+    private void querySiteLink(View v) {
+        clickedItemIx = getItemIndexByView(v);
+        Log.d(MyApplication.LOG_TAG, "Desktop item clicked! ix: " + clickedItemIx);
 
-        for (int i = 0; i < rowsCount; ++i) {
-            TableRow row = (TableRow) tableLayout.getChildAt(i);
-            for (int j = 0; j < columnsCount; ++j) {
-                row.getChildAt(j).setOnClickListener(this::setSiteInfoForDesktopItem);
-            }
-        }
-    }
-
-    private void setSiteInfoForDesktopItem(View v) {
-        clickedItem = v;
         EnterSiteLinkDialog dialog = new EnterSiteLinkDialog();
         dialog.setTargetFragment(this, 0);
 
@@ -155,162 +172,82 @@ public class FragmentDesktop extends Fragment implements
         // getChildFragmentManager().
         // so getFragmentManager() here will result in parents getChildFragmentManager()
         FragmentManager curFragmentManager = getFragmentManager();
-
         if (curFragmentManager == null) {
-            final String msg = "FragmentDesktop: getFragmentManager() == null";
-            Log.d(MyApplication.LOG_TAG, msg);
-            YandexMetrica.reportEvent(msg);
-            throw new NullPointerException(msg);
+            throw new NullPointerException("FragmentDesktop: getFragmentManager() == null");
         }
-
         dialog.show(getFragmentManager(), "EnterSiteLinkDialog");
-
-        YandexMetrica.reportEvent("FragmentDesktop: loading site info for desktop item");
     }
 
     @Override
-    public void onLinkSetFromDialog(String URL) {
-        int itemIx = getTableItemIndexByView(clickedItem);
+    public void onSiteLinkReceived(String URL) {
 
-        final String msg = "Desktop item clicked! ix: " + itemIx;
-        Log.d(MyApplication.LOG_TAG, msg);
-        YandexMetrica.reportEvent(msg);
+        View clickedItemView = getItemViewByIndex(clickedItemIx);
 
-        // save site sites
-        app.sitesDataModel.putSiteLink(itemIx, URL);
-        // set new OnClickListener
-        clickedItem.setOnClickListener(this::openLinkInBrowser);
+        final DesktopSiteItemWithIcon newItem = new DesktopSiteItemWithIcon(clickedItemIx, URL);
+        app.siteItemsHelper.addItem(newItem);
 
-        TextView tv = clickedItem.findViewById(R.id.desktopItemTextView);
-        AppCompatImageView iconView = clickedItem.findViewById(R.id.desktopItemIconView);
-        ProgressBar progressBar = clickedItem.findViewById(R.id.desktopItemProgressBar);
+        clickedItemView.setOnClickListener(this::openLinkInBrowser);
+        registerForContextMenu(clickedItemView);
+        clickedItemView.setTag(newItem.index);
 
+        TextView tv = clickedItemView.findViewById(R.id.desktopItemTextView);
+        AppCompatImageView iconView = clickedItemView.findViewById(R.id.desktopItemIconView);
+        ProgressBar progressBar = clickedItemView.findViewById(R.id.desktopItemProgressBar);
+
+        tv.setText(newItem.shortLink);
         // show progress bar until request resolves
         iconView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
-        tv.setText(URL);
-        String requestUrl = "https://favicon.yandex.net/favicon/" + URL + "?size=120";
-
-        OkHttpClient client = new OkHttpClient();
+        String requestUrl = "https://favicon.yandex.net/favicon/" + newItem.shortLink + "?size=120";
         Request request = new Request.Builder()
                 .url(requestUrl)
                 .build();
-        client.newCall(request).enqueue(
-                new Callback() {
 
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        final String msg = "site icon request for " + URL
-                                + " failed with exception: " + e.getMessage();
-                        Log.d(MyApplication.LOG_TAG, msg);
-                        YandexMetrica.reportEvent(msg);
-                        getActivity().runOnUiThread(() -> {
-                            iconView.setBackground(getResources().getDrawable(R.drawable.ic_warning_black_80dp));
-                        });
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull final Response response)
-                            throws IOException {
-                        if (!response.isSuccessful()) {
-                            final String msg = "site icon request for " + URL
-                                    + " resulted in unexpected code: " + response;
-                            YandexMetrica.reportEvent(msg);
-                            throw new IOException(msg);
-                        }
-
-                        // TODO: check if site exists / is reachable.
-                        // if not - show warning icon
-
-                        ResponseBody responseBody = response.body();
-                        if (responseBody != null) {
-                            byte[] bitmapBytes = responseBody.bytes();
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,
-                                    0, bitmapBytes.length);
-                            // blank desktop item has width = 80dp
-                            int iconWidthInDp = pxToDp(80);
-                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
-                                    iconWidthInDp, iconWidthInDp, false);
-
-                            getActivity().runOnUiThread(() -> {
-                                Drawable drawable = new BitmapDrawable(getResources(), scaledBitmap);
-                                iconView.setBackground(drawable);
-                                progressBar.setVisibility(View.INVISIBLE);
-                                iconView.setVisibility(View.VISIBLE);
-                            });
-
-                        } else {
-                            final String msg = "response for " + URL + " has null body";
-                            Log.d(MyApplication.LOG_TAG, msg);
-                            YandexMetrica.reportEvent(msg);
-                        }
-
-                    }
-
-
-                });
-    }
-
-    int pxToDp(int px) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                px, getResources().getDisplayMetrics());
+        Log.d(MyApplication.LOG_TAG, "fetching site icon for " + newItem.shortLink);
+        OkHttpClient client = new OkHttpClient();
+        // todo: check internet connection
+        client.newCall(request).enqueue(new LoadSiteIconCallback(
+                newItem, app.getDesktopIconDimensionInPx(), app.siteItemsHelper, activity,
+                () -> {
+                    iconView.setImageBitmap(newItem.icon);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    iconView.setVisibility(View.VISIBLE);
+                },
+                () -> iconView.setBackground(getResources().getDrawable(R.drawable.ic_warning_black_24dp))
+        ));
     }
 
     private void openLinkInBrowser(View view) {
-        int itemIx = getTableItemIndexByView(view);
-        String link = app.sitesDataModel.getLink(itemIx);
-        if (link == null) {
-            final String msg = "FragmentDesktop.openLinkInBrowser: link == null";
-            Log.d(MyApplication.LOG_TAG, msg);
-            YandexMetrica.reportEvent(msg);
-            return;
-        }
-        if (!(link.startsWith("https://") || link.startsWith("http://"))) {
-            link = "https://" + link;
+        int itemIx = getItemIndexByView(view);
+        DesktopSiteItemWithIcon item = app.siteItemsHelper.getItemByIndex(itemIx);
+        if (item == null || item.shortLink == null) {
+            throw new NullPointerException(
+                    "FragmentDesktop.openLinkInBrowser: item or it's shortLink is null");
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(link);
-        i.setData(uri);
+        i.setData(item.uri);
         startActivity(i);
     }
 
-//    private TableLayout inflateTable() {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        activity.onCreateContextMenuForSite(menu, v, menuInfo, this);
+    }
 
-//        // try to infalte table dynamically
-//
-//        TableLayout tableLayout = new TableLayout(getContext());
-//        tableLayout.setLayoutParams(new TableLayout.LayoutParams(
-//                TableLayout.LayoutParams.MATCH_PARENT,
-//                TableLayout.LayoutParams.MATCH_PARENT
-//        ));
-//        tableLayout.setStretchAllColumns(true);
-//        tableLayout.setWeightSum(rowsCount);
-//
-//        for (int i = 0; i < rowsCount; ++i) {
-//            TableRow row = new TableRow(getContext());
-//            row.setLayoutParams(new TableRow.LayoutParams(
-//                    TableRow.LayoutParams.MATCH_PARENT,
-//                    0,
-//                    1.0f
-//            ));
-//
-//            for (int j = 0; j < columnsCount; ++j) {
-//                View v = getLayoutInflater().inflate(R.layout.desktop_table_item,
-//                        row, false);
-//
-//                TextView tv = (TextView) v;
-//                if (i % 2 == 0) {
-//                    tv.setText(getString(R.string.layoutCompactDescription));
-//                }
-//
-//                row.addView(v);
-//            }
-//
-//            tableLayout.addView(row);
-//        }
-//        return tableLayout;
-//    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return activity.onSiteContextItemSelected(item);
+    }
 
+    public void deleteSiteItemByIndex(int index){
+        View itemView = getItemViewByIndex(index);
+        TextView tv = itemView.findViewById(R.id.desktopItemTextView);
+        tv.setText("");
+        ImageView iv = itemView.findViewById(R.id.desktopItemIconView);
+        iv.setImageBitmap(null);
+        iv.setOnClickListener(this::querySiteLink);
+        app.siteItemsHelper.deleteItem(index);
+    }
 }
