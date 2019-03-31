@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_launches"
+        android:id="@+id/menu_launcher_launches"
         android:title="@string/launches"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_about"
+        android:id="@+id/menu_launcher_about"
         android:title="@string/information" />
     <item
-        android:id="@+id/menu_delete"
+        android:id="@+id/menu_launcher_delete"
         android:title="@string/delete" />
 </menu>

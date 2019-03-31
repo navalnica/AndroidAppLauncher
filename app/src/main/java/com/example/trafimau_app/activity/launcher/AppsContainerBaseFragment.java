@@ -35,12 +35,11 @@ public abstract class AppsContainerBaseFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-        activity.onCreateContextMenu(menu, v, menuInfo);
+        activity.onCreateContextMenuForApp(menu, v, menuInfo);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        return activity.onContextItemSelected(item);
+        return activity.onAppContextItemSelected(item);
     }
-
 }

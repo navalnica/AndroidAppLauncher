@@ -26,6 +26,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.trafimau_app.MyApplication;
 import com.example.trafimau_app.R;
@@ -53,7 +54,9 @@ public class ActivityLauncher extends AppCompatActivity
     private boolean isSettingsFragmentVisible;
     private final String isSettingsFragmentVisibleKey = "is_settings_fragment_visible";
 
-    private MyAppInfo selectedItemAppInfo;
+    private MyAppInfo launcherSelectedAppInfo;
+    private int desktopSelectedSiteItemIndex;
+    private FragmentDesktop fragmentDesktop;
 
     private final List<LauncherAppAdapter> recyclerViewAdapters = new LinkedList<>();
 
@@ -144,8 +147,7 @@ public class ActivityLauncher extends AppCompatActivity
         if (isSettingsFragmentVisible) {
             isSettingsFragmentVisible = false;
             super.onBackPressed();
-        }
-        else if(!app.isDefaultSystemLauncher()){
+        } else if (!app.isDefaultSystemLauncher()) {
             super.onBackPressed();
         }
     }
@@ -253,44 +255,69 @@ public class ActivityLauncher extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenuForApp(
+            ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
         super.onCreateContextMenu(menu, v, menuInfo);
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.launcher_context_menu, menu);
 
         int tag = (int) v.getTag();
-        selectedItemAppInfo = app.getAppInfo(tag);
-        menu.setHeaderTitle(selectedItemAppInfo.label);
-        menu.findItem(R.id.menu_launches).setTitle(
-                getString(R.string.launches) + selectedItemAppInfo.launchedCount);
-        if (selectedItemAppInfo.isSystemApp) {
-            menu.findItem(R.id.menu_delete).setVisible(false);
+        launcherSelectedAppInfo = app.getAppInfo(tag);
+        menu.setHeaderTitle(launcherSelectedAppInfo.label);
+        menu.findItem(R.id.menu_launcher_launches).setTitle(
+                getString(R.string.launches) + launcherSelectedAppInfo.launchedCount);
+        if (launcherSelectedAppInfo.isSystemApp) {
+            menu.findItem(R.id.menu_launcher_delete).setVisible(false);
         }
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onAppContextItemSelected(MenuItem item) {
 
-        if (selectedItemAppInfo == null) {
+        if (launcherSelectedAppInfo == null) {
             throw new NullPointerException(
-                    "AppsContainerBaseFragment.onContextItemSelected: selectedItemAppInfo is null");
+                    "AppsContainerBaseFragment.onAppContextItemSelected: launcherSelectedAppInfo is null");
         }
 
-        Uri packageUri = Uri.parse("package:" + selectedItemAppInfo.packageName);
+        Uri packageUri = Uri.parse("package:" + launcherSelectedAppInfo.packageName);
         switch (item.getItemId()) {
-            case R.id.menu_about:
+            case R.id.menu_launcher_about:
                 Intent infoIntent = new Intent(
                         android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageUri);
                 startActivity(infoIntent);
                 return true;
-            case R.id.menu_delete:
-                Log.d(MyApplication.LOG_TAG, "AppsContainerBaseFragment.onContextItemSelected:" +
-                        " deleting app: " + selectedItemAppInfo.label);
+            case R.id.menu_launcher_delete:
+                Log.d(MyApplication.LOG_TAG, "AppsContainerBaseFragment.onAppContextItemSelected:" +
+                        " deleting app: " + launcherSelectedAppInfo.label);
                 Intent deleteIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
                 startActivity(deleteIntent);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public void onCreateContextMenuForSite(
+            ContextMenu menu, View v,
+            ContextMenu.ContextMenuInfo menuInfo, FragmentDesktop fragmentDesktop) {
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        this.fragmentDesktop = fragmentDesktop;
+        desktopSelectedSiteItemIndex = (int) v.getTag();
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.desktop_site_context_menu, menu);
+        TextView tv = v.findViewById(R.id.desktopItemTextView);
+        menu.setHeaderTitle(tv.getText());
+    }
+
+    public boolean onSiteContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_desktop_delete:
+                Log.d(MyApplication.LOG_TAG, "AppsContainerBaseFragment.onSiteContextItemSelected:" +
+                        " deleting site item with index: " + desktopSelectedSiteItemIndex);
+                fragmentDesktop.deleteSiteItemByIndex(desktopSelectedSiteItemIndex);
                 return true;
             default:
                 return super.onContextItemSelected(item);

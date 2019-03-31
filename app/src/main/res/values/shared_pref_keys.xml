@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sharedPrefDesktopIconDimensionInPxKey" translatable="false">DESKTOP_ICON_DIM_IN_PX</string>
+
     <string name="sharedPrefLanguageKey" translatable="false">LANGUAGE</string>
     <string name="sharedPrefLanguageEnglish" translatable="false">en</string>
     <string name="sharedPrefLanguageBelarusian" translatable="false">be</string>

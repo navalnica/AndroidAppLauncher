@@ -19,16 +19,11 @@ import com.example.trafimau_app.R;
 public class FragmentLauncher extends Fragment {
 
     private ViewPager viewPager;
-    private AppsViewPagerAdapter pagerAdapter;
     private PageChangedListener listener;
-    private ActivityLauncher activity;
-    private MyApplication app;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (ActivityLauncher) context;
-        app = (MyApplication) activity.getApplication();
         try {
             listener = (PageChangedListener) context;
         } catch (ClassCastException e) {
@@ -40,18 +35,6 @@ public class FragmentLauncher extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(MyApplication.LOG_TAG, "FragmentLauncher.onCreate");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(MyApplication.LOG_TAG, "FragmentLauncher.onDestroy");
     }
 
     @Nullable
@@ -67,7 +50,7 @@ public class FragmentLauncher extends Fragment {
 
         // it is very important to use getChildFragmentManager()
         // instead getActivity().getSupportFragmentManager()
-        pagerAdapter = new AppsViewPagerAdapter(getChildFragmentManager());
+        AppsViewPagerAdapter pagerAdapter = new AppsViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

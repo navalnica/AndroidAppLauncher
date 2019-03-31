@@ -1,6 +1,7 @@
 package com.example.trafimau_app.activity.launcher;
 
-import android.app.Activity;
+import android.app.LauncherActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,7 +36,7 @@ public class FragmentDesktop extends Fragment implements
         EnterSiteLinkDialog.EnterSiteLinkDialogListener {
 
     private MyApplication app;
-    private Activity activity;
+    private ActivityLauncher activity;
     private LinearLayout table;
 
     private int rowsCount;
@@ -43,9 +46,9 @@ public class FragmentDesktop extends Fragment implements
     private final String clickedItemIxKey = "clicked_item_ix";
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity = getActivity();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (ActivityLauncher) context;
         if (activity != null) {
             app = (MyApplication) activity.getApplication();
         }
@@ -66,7 +69,6 @@ public class FragmentDesktop extends Fragment implements
         Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onActivityCreated. " +
                 "savedInstanceState is null: " +
                 (savedInstanceState == null));
-
         if (savedInstanceState != null) {
             clickedItemIx = savedInstanceState.getInt(clickedItemIxKey, -1);
         }
@@ -92,19 +94,19 @@ public class FragmentDesktop extends Fragment implements
             }
         }
 
-        if (app.desktopIconDimensionInPx == 0) {
+        if (app.getDesktopIconDimensionInPx() == 0) {
             View view = firstRow.getChildAt(0);
             FrameLayout frameLayout = view.findViewById(R.id.desktopItemFrameLayout);
             ViewTreeObserver vto = frameLayout.getViewTreeObserver();
             vto.addOnGlobalLayoutListener(() -> {
-                if (app.desktopIconDimensionInPx > 0) {
+                if (app.getDesktopIconDimensionInPx() > 0) {
                     return;
                 }
                 int height = view.getHeight();
                 int width = view.getWidth();
                 // getHeight returns max height of FrameLayout
                 // reduce it to free some space
-                app.desktopIconDimensionInPx = Math.min(height, width) * 3 / 7;
+                app.setDesktopIconDimensionInPx(Math.min(height, width) * 3 / 7);
                 // load saved sites after icon dimension measured
                 loadFromMemory();
             });
@@ -152,6 +154,8 @@ public class FragmentDesktop extends Fragment implements
             ImageView iconView = itemView.findViewById(R.id.desktopItemIconView);
             iconView.setImageBitmap(item.icon);
             itemView.setOnClickListener(this::openLinkInBrowser);
+            registerForContextMenu(itemView);
+            itemView.setTag(item.index);
         }
     }
 
@@ -180,9 +184,11 @@ public class FragmentDesktop extends Fragment implements
         View clickedItemView = getItemViewByIndex(clickedItemIx);
 
         final DesktopSiteItemWithIcon newItem = new DesktopSiteItemWithIcon(clickedItemIx, URL);
-        app.siteItemsHelper.addItem(newItem, clickedItemView);
+        app.siteItemsHelper.addItem(newItem);
 
         clickedItemView.setOnClickListener(this::openLinkInBrowser);
+        registerForContextMenu(clickedItemView);
+        clickedItemView.setTag(newItem.index);
 
         TextView tv = clickedItemView.findViewById(R.id.desktopItemTextView);
         AppCompatImageView iconView = clickedItemView.findViewById(R.id.desktopItemIconView);
@@ -202,7 +208,7 @@ public class FragmentDesktop extends Fragment implements
         OkHttpClient client = new OkHttpClient();
         // todo: check internet connection
         client.newCall(request).enqueue(new LoadSiteIconCallback(
-                newItem, app.desktopIconDimensionInPx, app.siteItemsHelper, activity,
+                newItem, app.getDesktopIconDimensionInPx(), app.siteItemsHelper, activity,
                 () -> {
                     iconView.setImageBitmap(newItem.icon);
                     progressBar.setVisibility(View.INVISIBLE);
@@ -222,5 +228,26 @@ public class FragmentDesktop extends Fragment implements
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(item.uri);
         startActivity(i);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        activity.onCreateContextMenuForSite(menu, v, menuInfo, this);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return activity.onSiteContextItemSelected(item);
+    }
+
+    public void deleteSiteItemByIndex(int index){
+        View itemView = getItemViewByIndex(index);
+        TextView tv = itemView.findViewById(R.id.desktopItemTextView);
+        tv.setText("");
+        ImageView iv = itemView.findViewById(R.id.desktopItemIconView);
+        iv.setImageBitmap(null);
+        iv.setOnClickListener(this::querySiteLink);
+        app.siteItemsHelper.deleteItem(index);
     }
 }

@@ -31,9 +31,14 @@ public class DesktopSiteItemsHelper {
         loadDataFromDB();
     }
 
-    public void addItem(DesktopSiteItemWithIcon item, View itemView) {
+    public void addItem(DesktopSiteItemWithIcon item) {
         sites.put(item.index, item);
         desktopSiteItemDao.insert(item);
+    }
+
+    public void deleteItem(int index){
+        sites.remove(index);
+        desktopSiteItemDao.deleteSiteItemByIndex(index);
     }
 
     public DesktopSiteItemWithIcon getItemByIndex(int index) {
@@ -77,7 +82,7 @@ public class DesktopSiteItemsHelper {
         OkHttpClient client = new OkHttpClient();
         // todo: check internet connection
         client.newCall(request).enqueue(new LoadSiteIconCallback(
-                item, app.desktopIconDimensionInPx, this));
+                item, app.getDesktopIconDimensionInPx(), this));
     }
 
     public void storeSiteIconToCache(DesktopSiteItemWithIcon item) {

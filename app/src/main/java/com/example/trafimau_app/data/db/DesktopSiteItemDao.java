@@ -18,15 +18,13 @@ public interface DesktopSiteItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(DesktopSiteItem desktopSiteItem);
 
-    @Update
-    void update(DesktopSiteItem desktopSiteItem);
-
     @Query("UPDATE " + DesktopSiteItem.TABLE_NAME +
-            " SET " + DesktopSiteItem.COLUMN_PATH_TO_ICON_CACHE + " = :absolutePath WHERE "+
+            " SET " + DesktopSiteItem.COLUMN_PATH_TO_ICON_CACHE + " = :absolutePath WHERE " +
             DesktopSiteItem.COLUMN_INDEX + " = :index")
     void updatePathToIconCacheFile(int index, String absolutePath);
 
-    @Delete
-    void delete(DesktopSiteItem desktopSiteItem);
+    @Query("DELETE FROM " + DesktopSiteItem.TABLE_NAME + " WHERE " + DesktopSiteItem.COLUMN_INDEX
+            + " == :index")
+    void deleteSiteItemByIndex(int index);
 
 }

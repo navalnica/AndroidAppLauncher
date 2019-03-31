@@ -51,7 +51,6 @@ public class MyApplication extends Application {
             "com.example.trafimau_app.karma_updated_from_silent_push_action";
 
     public DesktopSiteItemsHelper siteItemsHelper;
-    public int desktopIconDimensionInPx;
 
     private ActivityLauncher activityLauncher;
     private SharedPreferences sharedPreferences;
@@ -79,6 +78,9 @@ public class MyApplication extends Application {
 
     private String isSortAscendingKey;
     private boolean isSortAscending;
+
+    private String desktopIconDimensionInPxKey;
+    private int desktopIconDimensionInPx;
 
     private String sortModeKey;
     private String sortMode;
@@ -338,6 +340,9 @@ public class MyApplication extends Application {
         isSortAscendingKey = getString(R.string.sharedPrefIsSortAscendingKey);
         isSortAscending = sharedPreferences.getBoolean(isSortAscendingKey, false);
 
+        desktopIconDimensionInPxKey = getString(R.string.sharedPrefDesktopIconDimensionInPxKey);
+        desktopIconDimensionInPx = sharedPreferences.getInt(desktopIconDimensionInPxKey, 0);
+
         SORT_MODE_NAME = getString(R.string.sharedPrefSortModeName);
         SORT_MODE_FREQUENCY = getString(R.string.sharedPrefSortModeFrequency);
         SORT_MODE_INSTALLATION_DATE = getString(R.string.sharedPrefSortModeInstallationDate);
@@ -473,6 +478,20 @@ public class MyApplication extends Application {
                 .putBoolean(isSortAscendingKey, isSortAscending)
                 .apply();
         Log.d(MyApplication.LOG_TAG, "setting sort ascending to: " + isSortAscending);
+    }
+
+    public int getDesktopIconDimensionInPx() {
+        return desktopIconDimensionInPx;
+    }
+
+    public void setDesktopIconDimensionInPx(int desktopIconDimensionInPx) {
+        this.desktopIconDimensionInPx = desktopIconDimensionInPx;
+        sharedPreferences.
+                edit()
+                .putInt(desktopIconDimensionInPxKey, desktopIconDimensionInPx)
+                .apply();
+        Log.d(MyApplication.LOG_TAG, "setting desktop icon dimension to: "
+                + desktopIconDimensionInPx);
     }
 
     public String getLanguage() {
