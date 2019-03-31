@@ -39,7 +39,7 @@
     <string name="inspiringPlace">Вдохновляющее место</string>
     <string name="inspiringPlaceLocation">Древний театр, Дельфы, Греция</string>
     <string name="karma_title">Улучшите мою карму :)</string>
-    <string name="karma_description">Вы можете сказать \"Отличная работа\" и добавить +5 к моей карме. Однако помните, что неподконтрольные силы природы (например, <b>Silen Pushes</b>) могут изменить карму в любой момент</string>
+    <string name="karma_description">Вы можете сказать \"Отличная работа\" и добавить +5 к моей карме. Однако помните, что неподконтрольные силы природы (например, <b>Silent Pushes</b>) могут изменить карму в любой момент</string>
     <string name="currentKarmaLabel">Текущая карма</string>
     <string name="never">Никогда</string>
     <string name="last_change_by_nature">Последнее изменение природой:</string>

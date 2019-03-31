@@ -3,14 +3,14 @@
 
     <PreferenceCategory android:title="@string/view">
 
-        <ListPreference
-            android:dialogTitle="@string/choose_the_language"
-            android:entries="@array/entries_language"
-            android:entryValues="@array/entry_values_language"
-            android:key="@string/prefKeyLanguageListPreference"
-            android:negativeButtonText="@string/cancel"
-            android:summary="@string/system_language"
-            android:title="@string/language" />
+        <!--<ListPreference-->
+            <!--android:dialogTitle="@string/choose_the_language"-->
+            <!--android:entries="@array/entries_language"-->
+            <!--android:entryValues="@array/entry_values_language"-->
+            <!--android:key="@string/prefKeyLanguageListPreference"-->
+            <!--android:negativeButtonText="@string/cancel"-->
+            <!--android:summary="@string/system_language"-->
+            <!--android:title="@string/language" />-->
 
         <SwitchPreference
             android:defaultValue="false"

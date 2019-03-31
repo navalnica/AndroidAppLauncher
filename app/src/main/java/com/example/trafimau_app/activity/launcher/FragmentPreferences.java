@@ -63,7 +63,7 @@ public class FragmentPreferences
         keySortAscendingSwitch = getString(R.string.prefKeySortAscendingSwitch);
         keySortModeList = getString(R.string.prefKeySortModeListPreference);
 
-        languageListPreference = (ListPreference) findPreference(keyLanguageList);
+//        languageListPreference = (ListPreference) findPreference(keyLanguageList);
         darkThemeSwitch = (SwitchPreference) findPreference(keyDarkThemeSwitch);
         layoutListPreference = (ListPreference) findPreference(keyLayoutList);
         showWelcomePageCheckbox = (CheckBoxPreference) findPreference(keyShowWelcomePageCheckbox);
@@ -74,8 +74,8 @@ public class FragmentPreferences
     }
 
     private void initializeViews() {
-        languageListPreference.setValue(app.getLanguage());
-        setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+//        languageListPreference.setValue(app.getLanguage());
+//        setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
 
         darkThemeSwitch.setChecked(app.isNighModeEnabled());
         showWelcomePageCheckbox.setChecked(app.isShowWelcomePage());
@@ -104,8 +104,8 @@ public class FragmentPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(keyLanguageList)){
-            app.setLanguage(languageListPreference.getValue());
-            setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
+//            app.setLanguage(languageListPreference.getValue());
+//            setListPreferenceSummaryFromArray(languageListPreference, languageSummary);
         } else if (key.equals(keyLayoutList)) {
             final String value = layoutListPreference.getValue();
             boolean compactModeEnabled = Boolean.valueOf(value);
