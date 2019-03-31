@@ -21,11 +21,13 @@ public class EnterSiteLinkDialog extends DialogFragment {
         void onLinkSetFromDialog(String URL);
     }
 
+    Context context;
     private EnterSiteLinkDialogListener listener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
         try {
             Fragment targetFragment = getTargetFragment();
             listener = (EnterSiteLinkDialogListener) targetFragment;
@@ -33,7 +35,6 @@ public class EnterSiteLinkDialog extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement EnterSiteLinkDialogListener");
         }
-
     }
 
     @Override
@@ -45,12 +46,11 @@ public class EnterSiteLinkDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-
         // Pass null as the parent view because its going in the dialog layout
         final View layout = inflater.inflate(R.layout.dialog_enter_site_link, null);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.enter_the_site_link)
                 .setView(layout)
                 .setPositiveButton(R.string.add, (dialog, id) -> {
@@ -64,6 +64,4 @@ public class EnterSiteLinkDialog extends DialogFragment {
                 });
         return builder.create();
     }
-
-
 }

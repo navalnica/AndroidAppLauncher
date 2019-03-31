@@ -10,14 +10,15 @@
     android:padding="@dimen/smallOffset">
 
     <FrameLayout
+        android:id="@+id/desktopItemFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
         <ProgressBar
             android:id="@+id/desktopItemProgressBar"
-            android:layout_width="@dimen/desktopItemProgressBar"
-            android:layout_height="@dimen/desktopItemProgressBar"
+            android:layout_width="@dimen/desktopItemIconHeight"
+            android:layout_height="@dimen/desktopItemIconHeight"
             android:layout_gravity="center"
             android:visibility="invisible" />
 

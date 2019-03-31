@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.trafimau_app.activity.launcher.ActivityLauncher;
