@@ -243,11 +243,14 @@ public class FragmentDesktop extends Fragment implements
 
     public void deleteSiteItemByIndex(int index){
         View itemView = getItemViewByIndex(index);
+        itemView.setOnClickListener(this::querySiteLink);
+        unregisterForContextMenu(itemView);
+
         TextView tv = itemView.findViewById(R.id.desktopItemTextView);
-        tv.setText("");
         ImageView iv = itemView.findViewById(R.id.desktopItemIconView);
+        tv.setText("");
         iv.setImageBitmap(null);
-        iv.setOnClickListener(this::querySiteLink);
+
         app.siteItemsHelper.deleteItem(index);
     }
 }
