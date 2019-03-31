@@ -18,7 +18,7 @@ import com.example.trafimau_app.R;
 public class EnterSiteLinkDialog extends DialogFragment {
 
     public interface EnterSiteLinkDialogListener {
-        void onLinkSetFromDialog(String URL);
+        void onSiteLinkReceived(String URL);
     }
 
     Context context;
@@ -56,7 +56,7 @@ public class EnterSiteLinkDialog extends DialogFragment {
                 .setPositiveButton(R.string.add, (dialog, id) -> {
                     EditText et = layout.findViewById(R.id.addSiteDialogEditText);
                     String URL = et.getText().toString();
-                    listener.onLinkSetFromDialog(URL);
+                    listener.onSiteLinkReceived(URL);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {
                     Log.d(MyApplication.LOG_TAG, "EnterSiteLinkDialog cancelled");

@@ -19,6 +19,7 @@ public class SquareBasedOnHeightImageView extends android.support.v7.widget.AppC
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(heightMeasureSpec, heightMeasureSpec);
+        int min = Math.min(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(min, min);
     }
 }

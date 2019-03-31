@@ -1,7 +1,6 @@
 package com.example.trafimau_app.activity.launcher;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,9 +21,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.trafimau_app.MyApplication;
@@ -47,13 +45,13 @@ public class FragmentDesktop extends Fragment implements
 
     private MyApplication app;
     private Activity activity;
-    private TableLayout tableLayout;
+    private LinearLayout table;
 
-    // correspond to TableLayout in fragment_desktop.xml
     private int rowsCount;
     private int columnsCount;
-    private int itemWidth;
-    private int itemHeight;
+
+    private int itemDimensionInPx;
+    private final String itemDimensionInPxKey = "itemDimensionInPx_count";
 
     private int clickedItemIx;
     private final String clickedItemIxKey = "clicked_item_ix";
@@ -77,7 +75,7 @@ public class FragmentDesktop extends Fragment implements
         Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onCreateView");
 
         View rootView = inflater.inflate(R.layout.fragment_desktop, container, false);
-        tableLayout = rootView.findViewById(R.id.desktopTable);
+        table = rootView.findViewById(R.id.desktopTable);
         return rootView;
     }
 
@@ -90,14 +88,9 @@ public class FragmentDesktop extends Fragment implements
 
         if(savedInstanceState != null){
             clickedItemIx = savedInstanceState.getInt(clickedItemIxKey, -1);
+            itemDimensionInPx = savedInstanceState.getInt(itemDimensionInPxKey, 0);
         }
-//        initDesktopItems(tableLayout);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initDesktopItems(tableLayout);
+        initDesktopItems();
     }
 
     @Override
@@ -105,37 +98,48 @@ public class FragmentDesktop extends Fragment implements
         super.onSaveInstanceState(outState);
         Log.d(MyApplication.LOG_TAG, "FragmentDesktop.onSaveInstanceState");
         outState.putInt(clickedItemIxKey, clickedItemIx);
+        outState.putInt(itemDimensionInPxKey, itemDimensionInPx);
     }
 
-    private void initDesktopItems(TableLayout tableLayout) {
-        rowsCount = tableLayout.getChildCount();
-        TableRow firstRow = (TableRow) tableLayout.getChildAt(0);
+    private void initDesktopItems() {
+        rowsCount = table.getChildCount();
+        LinearLayout firstRow = (LinearLayout) table.getChildAt(0);
         columnsCount = firstRow.getChildCount();
 
         for (int i = 0; i < rowsCount; ++i) {
-            TableRow row = (TableRow) tableLayout.getChildAt(i);
+            LinearLayout row = (LinearLayout) table.getChildAt(i);
             for (int j = 0; j < columnsCount; ++j) {
-                row.getChildAt(j).setOnClickListener(this::setSiteInfoForDesktopItem);
+                row.getChildAt(j).setOnClickListener(this::querySiteLink);
             }
         }
 
-        View view = firstRow.getChildAt(0);
-        FrameLayout frameLayout = view.findViewById(R.id.desktopItemFrameLayout);
-        ViewTreeObserver vto = frameLayout.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(() -> {
-            itemHeight = view.getHeight();
-            itemWidth = view.getWidth();
-            Log.d(MyApplication.LOG_TAG,
-                    "desktop item width: " + itemWidth + " height: " + itemHeight);
-        });
-
-        loadSavedSites();
+        Log.d(MyApplication.LOG_TAG, "desktop item dimension in px: " + itemDimensionInPx);
+        if(itemDimensionInPx == 0){
+            View view = firstRow.getChildAt(0);
+            FrameLayout frameLayout = view.findViewById(R.id.desktopItemFrameLayout);
+            ViewTreeObserver vto = frameLayout.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(() -> {
+                if(itemDimensionInPx > 0) {
+                    return;
+                }
+                int height = view.getHeight();
+                int width = view.getWidth();
+                // getHeight returns max height of FrameLayout
+                // reduce it to free some space
+                itemDimensionInPx = Math.min(height, width) * 5 / 9;
+                // load saved sites after icon dimension measured
+                loadSavedSites();
+            });
+        }
+        else{
+            loadSavedSites();
+        }
     }
 
     private View getItemViewByIndex(int ix){
         int rowIx = ix / columnsCount;
         int colIx = ix % columnsCount;
-        TableRow row = (TableRow) tableLayout.getChildAt(rowIx);
+        LinearLayout row = (LinearLayout) table.getChildAt(rowIx);
         final String msg = "passed invalid item ix: " + ix +
                 "; rowsCount: " + rowsCount + "; columnsCount: " + columnsCount;
         if(row == null){
@@ -149,9 +153,8 @@ public class FragmentDesktop extends Fragment implements
     }
 
     int getItemIndexByView(View v) {
-        TableRow parentRow = (TableRow) v.getParent();
-        TableLayout parentTable = (TableLayout) parentRow.getParent();
-        int rowIx = parentTable.indexOfChild(parentRow);
+        LinearLayout parentRow = (LinearLayout) v.getParent();
+        int rowIx = table.indexOfChild(parentRow);
         int colIx = parentRow.indexOfChild(v);
         return rowIx * columnsCount + colIx;
     }
@@ -178,7 +181,7 @@ public class FragmentDesktop extends Fragment implements
         }
     }
 
-    private void setSiteInfoForDesktopItem(View v) {
+    private void querySiteLink(View v) {
         clickedItemIx = getItemIndexByView(v);
         Log.d(MyApplication.LOG_TAG, "Desktop item clicked! ix: " + clickedItemIx);
 
@@ -198,7 +201,7 @@ public class FragmentDesktop extends Fragment implements
     }
 
     @Override
-    public void onLinkSetFromDialog(String URL) {
+    public void onSiteLinkReceived(String URL) {
         View clickedItemView = getItemViewByIndex(clickedItemIx);
 
         // todo: add to db
@@ -219,20 +222,19 @@ public class FragmentDesktop extends Fragment implements
                 .url(requestUrl)
                 .build();
 
+        Log.d(MyApplication.LOG_TAG, "fetching site icon for " + URL);
         OkHttpClient client = new OkHttpClient();
         client.newCall(request).enqueue(
                 new Callback() {
 
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        final String msg = "site icon request for " + URL
-                                + " failed with exception: " + e.getMessage();
-                        Log.d(MyApplication.LOG_TAG, msg);
-                        YandexMetrica.reportEvent(msg);
-                        activity.runOnUiThread(() -> {
-                            iconView.setBackground(getResources().getDrawable(R.drawable.ic_warning_black_80dp));
-                        });
+                        final String msg = "exception while icon fetching: " + e.getMessage();
+                        Log.e(MyApplication.LOG_TAG, msg);
                         e.printStackTrace();
+                        activity.runOnUiThread(() ->
+                                iconView.setBackground(getResources().getDrawable(
+                                        R.drawable.ic_warning_black_80dp)));
                     }
 
                     @Override
@@ -241,7 +243,6 @@ public class FragmentDesktop extends Fragment implements
                         if (!response.isSuccessful()) {
                             final String msg = "site icon request for " + URL
                                     + " resulted in unexpected code: " + response;
-                            YandexMetrica.reportEvent(msg);
                             throw new IOException(msg);
                         }
 
@@ -253,22 +254,20 @@ public class FragmentDesktop extends Fragment implements
                             byte[] bitmapBytes = responseBody.bytes();
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,
                                     0, bitmapBytes.length);
-                            int iconHeight =
-                                    getResources().getDimensionPixelSize(R.dimen.desktopItemIconHeight);
                             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
-                                    iconHeight, iconHeight, false);
+                                    itemDimensionInPx, itemDimensionInPx, false);
+                            Drawable drawable = new BitmapDrawable(getResources(), scaledBitmap);
 
                             activity.runOnUiThread(() -> {
-                                Drawable drawable = new BitmapDrawable(getResources(), scaledBitmap);
                                 iconView.setBackground(drawable);
                                 progressBar.setVisibility(View.INVISIBLE);
                                 iconView.setVisibility(View.VISIBLE);
+                                Log.d(MyApplication.LOG_TAG, "Successfully set site icon");
                             });
 
                         } else {
                             final String msg = "response for " + URL + " has null body";
-                            Log.d(MyApplication.LOG_TAG, msg);
-                            YandexMetrica.reportEvent(msg);
+                            throw new NullPointerException(msg);
                         }
                     }
                 });
